@@ -3,3 +3,6 @@ Logs/
 Packages/
 Temp/
 UserSettings/
+.vscode/
+Vanderbilt Game.slnx
+Assembly-CSharp.csproj
