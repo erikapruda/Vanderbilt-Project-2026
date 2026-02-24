@@ -4,7 +4,7 @@ using UnityEngine;
 public class Car : MonoBehaviour
 {
     [SerializeField]
-    private Transform WorldTransform;
+    private Transform worldTransform;
 
     [SerializeField]
     private float maxLinearVelocity = 100f; // ~224 mph
@@ -29,41 +29,62 @@ public class Car : MonoBehaviour
 
     Rigidbody2D rb;
 
+    public static Car Singleton { get; private set; }
+
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
+        Singleton = this;
     }
 
-    void Start()
+    void FixedUpdate()
     {
-        
-    }
+        float deltaTime = Time.fixedDeltaTime;
 
-    void Update()
-    {
+        // Adjust angular velocity based on steering
         if (InputManager.SteeringInput == 0f)
         {
-            rb.angularVelocity = Mathf.MoveTowards(rb.angularVelocity, 0f, steeringCenterPower * Time.deltaTime);
+            rb.angularVelocity = Mathf.MoveTowards(rb.angularVelocity, 0f, steeringCenterPower * deltaTime);
         }
         else
         {
-            rb.angularVelocity = Mathf.Clamp(rb.angularVelocity + (steeringPower * InputManager.SteeringInput * Time.deltaTime), -maxAngularVelocity, maxAngularVelocity);
+            rb.angularVelocity = Mathf.Clamp(rb.angularVelocity + (steeringPower * InputManager.SteeringInput * deltaTime), -maxAngularVelocity, maxAngularVelocity);
         }
 
-        if (InputManager.AccelerateInputHeld)
+        // Get current velocity direction and speed
+        Vector2 velNorm = transform.up;
+        float velMag = rb.linearVelocity.magnitude;
+
+        // Accelerate/decelerate based on input
+        float targetSpeed = InputManager.AccelerateInputHeld ? maxLinearVelocity : autoLinearVelocitySpeed;
+        float celeration = InputManager.DecelerateInputHeld ? decelerationPower * deltaTime : accelerationPower * deltaTime;
+        velMag = Mathf.MoveTowards(velMag, targetSpeed, celeration);
+        rb.linearVelocity = velNorm * velMag;
+
+        MoveWorld();
+    }
+
+    void MoveWorld()
+    {
+        // Move world instead of car
+        if (worldTransform != null)
         {
+            for (int i = 0; i < worldTransform.childCount; i++)
+            {
+                Transform childTrans = worldTransform.GetChild(i);
 
+                // Check if object is a world object and move it if so
+                if (childTrans.TryGetComponent<WorldObject>(out _) && childTrans.TryGetComponent(out Rigidbody2D childRb))
+                {
+                    childRb.MovePosition(childRb.position - rb.position);
+                }
+            }
+            rb.position = Vector2.zero;
         }
-        else
-        {
-            Vector2 velNorm = rb.linearVelocity.normalized;
-            float velMag = rb.linearVelocity.magnitude;
-            //Vector2 
-        }
+    }
 
-        //if (InputManager.AccelerateInputHeld)
-        //{
-        //    rb.AddForce
-        //}
+    void LateUpdate()
+    {
+        transform.position = Vector3.zero;
     }
 }
