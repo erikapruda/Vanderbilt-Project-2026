@@ -1,3 +1,4 @@
 Packages/
 .vscode/
-Vanderbilt Game.slnx/
+Vanderbilt Game.slnx
+Assembly-CSharp.csproj
