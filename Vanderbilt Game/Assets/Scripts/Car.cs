@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Events;
 
 [RequireComponent(typeof(Rigidbody2D))]
 public class Car : MonoBehaviour
@@ -7,25 +8,39 @@ public class Car : MonoBehaviour
     private Transform worldTransform;
 
     [SerializeField]
+    [Tooltip("The maximum speed the car can go")]
     private float maxLinearVelocity = 100f; // ~224 mph
 
     [SerializeField]
+    [Tooltip("The car's target speed when the accelerator and decelerator are idle")]
     private float autoLinearVelocitySpeed = 50f;
 
     [SerializeField]
+    [Tooltip("How fast the car accelerates towards the target speed")]
     private float accelerationPower = 100f;
 
     [SerializeField]
+    [Tooltip("How fast the car decelerates towards the target speed")]
     private float decelerationPower = 100f;
 
     [SerializeField]
+    [Tooltip("The maximum rotational speed the car can turn")]
     private float maxAngularVelocity = 100f;
 
     [SerializeField]
+    [Tooltip("The car's steering acceleration when steering input is in use")]
     private float steeringPower = 100f;
 
     [SerializeField]
+    [Tooltip("The car's steering acceleration when steering input is released")]
     private float steeringCenterPower = 100f;
+
+    [SerializeField]
+    [Tooltip("The time it takes in seconds for the car to correct from a crash")]
+    private float recoveryTime = 1f;
+
+    [Tooltip("Events to fire when crashing against an obstacle")]
+    public UnityEvent OnHitObstacle;
 
     Rigidbody2D rb;
 
@@ -64,9 +79,9 @@ public class Car : MonoBehaviour
         MoveWorld();
     }
 
+    // Move the world instead of the car for proper floating point world origin
     void MoveWorld()
     {
-        // Move world instead of car
         if (worldTransform != null)
         {
             for (int i = 0; i < worldTransform.childCount; i++)
@@ -86,5 +101,14 @@ public class Car : MonoBehaviour
     void LateUpdate()
     {
         transform.position = Vector3.zero;
+    }
+
+    void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.TryGetComponent(out WorldObject worldObject))
+        {
+            OnHitObstacle?.Invoke();
+            worldObject.OnHitCar?.Invoke();
+        }
     }
 }
