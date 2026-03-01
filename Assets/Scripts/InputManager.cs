@@ -13,10 +13,12 @@ public class InputManager : MonoBehaviour
 
     public static bool DecelerateInputHeld { get; private set; } = false;
 
+    public static bool PauseInputPressed { get; private set; } = false;
     void LateUpdate()
     {
         AccelerateInputPressed = false;
         DecelerateInputPressed = false;
+        PauseInputPressed = false;
     }
 
     public void OnSteeringInput(InputAction.CallbackContext context)
@@ -34,5 +36,14 @@ public class InputManager : MonoBehaviour
     {
         DecelerateInputPressed = context.started || DecelerateInputPressed;
         DecelerateInputHeld = context.performed;
+    }
+
+    public void OnPauseInput(InputAction.CallbackContext context)
+    {
+        if (context.started)
+        {
+            PauseInputPressed = true;
+            Debug.Log("ESC HIT");
+        }
     }
 }
