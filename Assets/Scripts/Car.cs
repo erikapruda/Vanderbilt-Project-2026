@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -6,6 +7,12 @@ public class Car : MonoBehaviour
 {
     [SerializeField]
     private Transform worldTransform;
+
+    [SerializeField]
+    private Animation animator;
+
+    [SerializeField]
+    private string invincibilityAnimName;
 
     [SerializeField]
     [Tooltip("The maximum speed the car can go")]
@@ -44,7 +51,11 @@ public class Car : MonoBehaviour
 
     Rigidbody2D rb;
 
+    WaitForSeconds recoveryWait;
+
     public static Car Singleton { get; private set; }
+
+    public bool IsInvincible { get; private set; }
 
     private void Awake()
     {
@@ -101,14 +112,67 @@ public class Car : MonoBehaviour
     void LateUpdate()
     {
         transform.position = Vector3.zero;
+
+        if (IsInvincible && animator != null && !animator.IsPlaying(invincibilityAnimName))
+        {
+            OnInvincibilityFinished();
+        }
     }
 
     void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.TryGetComponent(out WorldObject worldObject))
+        if (collision.gameObject.TryGetComponent(out WorldObstacle worldObstacle))
         {
             OnHitObstacle?.Invoke();
-            worldObject.OnHitCar?.Invoke();
+
+            // Recover car after recovery time
+            recoveryWait = new WaitForSeconds(recoveryTime);
+            StartCoroutine(RecoverCar());
         }
+    }
+
+    IEnumerator RecoverCar()
+    {
+        yield return recoveryWait;
+
+        // Reset orientation
+        rb.rotation = 0f;
+
+        // Reset velocities
+        rb.linearVelocity = Vector2.zero;
+        rb.angularVelocity = 0f;
+
+        // Play invincibility animation and disable colliders if animation exists
+        if (animator != null)
+        {
+            animator.Play(invincibilityAnimName);
+
+            // Disable colliders to make invulnerable
+            Collider2D[] colliders = new Collider2D[rb.attachedColliderCount];
+            if (rb.GetAttachedColliders(colliders) > 0)
+            {
+                foreach (var collider in colliders)
+                {
+                    collider.isTrigger = true;
+                }
+            }
+
+            IsInvincible = true;
+        }
+    }
+
+    void OnInvincibilityFinished()
+    {
+        // Restore colliders
+        Collider2D[] colliders = new Collider2D[rb.attachedColliderCount];
+        if (rb.GetAttachedColliders(colliders) > 0)
+        {
+            foreach (var collider in colliders)
+            {
+                collider.isTrigger = false;
+            }
+        }
+
+        IsInvincible = false;
     }
 }

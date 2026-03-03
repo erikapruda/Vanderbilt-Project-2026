@@ -50,7 +50,17 @@ public class ListRandomizer<T>
 
         for (int i = 0; i < Items.Count; i++)
         {
-            float rng = Random.Range(0f, 1f);
+            // Get random value between 0 and 1
+            float rng;
+            if (RandomManager.Singleton.IsUsingSeed)
+            {
+                rng = RandomManager.Singleton.SeededRandom.NextFloat();
+            }
+            else
+            {
+                rng = Random.Range(0f, 1f);
+            }
+
             float chosenProbability = (ElementProbabilities[i] / TotaledProbability) + stackedPastProbabilities;
             stackedPastProbabilities += chosenProbability;
 

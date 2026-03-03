@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 8552696093529491015}
   - component: {fileID: 516677870947600117}
   - component: {fileID: 4418178698951028621}
+  - component: {fileID: 1062035649265575407}
   - component: {fileID: 1874132630976325801}
   - component: {fileID: -5523414209471738526}
   m_Layer: 0
@@ -107,6 +108,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::WorldObject
   despawnDistance: 20
+--- !u!114 &1062035649265575407
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5942324852987958170}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 366fe6e20123cf54ea5909fa39acfda0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::WorldObstacle
+  OnHitCar:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!60 &1874132630976325801
 PolygonCollider2D:
   m_ObjectHideFlags: 0

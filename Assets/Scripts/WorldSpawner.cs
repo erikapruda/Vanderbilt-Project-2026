@@ -70,9 +70,9 @@ public class WorldSpawner : MonoBehaviour
 
                 // Update obstacle counter
                 NumObstaclesSpawned++;
-                if (newObstacle.TryGetComponent(out WorldObject worldObject))
+                if (newObstacle.TryGetComponent(out WorldObstacle worldObstacle))
                 {
-                    worldObject.WorldSpawner = this;
+                    worldObstacle.WorldSpawner = this;
                 }
             }
         }
