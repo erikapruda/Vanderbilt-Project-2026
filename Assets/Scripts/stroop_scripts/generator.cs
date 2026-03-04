@@ -6,6 +6,7 @@ public class generator : MonoBehaviour
 
     public const float TIME_INTERVAL = 1.5f;
     public TextMeshProUGUI stroopText;
+    public stroopVerification stroopVerifier;
 
     private string[] color_words = {"RED", "BLUE", "GREEN", "YELLOW", "PURPLE", "ORANGE"};
 
@@ -35,6 +36,10 @@ public class generator : MonoBehaviour
 
     void Change_Stroop()
     {
+        if (currentTargetColor != null){ // Calls verification command when a target color exists before changing to next stroop test.
+            stroopVerifier.CompareWords();
+        }
+
         int wordIndex = Random.Range(0, color_words.Length);
         int colorIndex = Random.Range(0, colors.Length);
 

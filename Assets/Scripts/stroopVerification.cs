@@ -3,7 +3,7 @@ using UnityEngine.Windows.Speech;
 
 public class stroopVerification : MonoBehaviour
 {
-    public generator stroopTest;
+    //public generator stroopTest;
     KeywordRecognizer speechRecognizer;
     private string[] validColors = {"red", "blue", "yellow", "orange", "green", "purple"};
     private string lastSpokenWord = null;
@@ -15,9 +15,6 @@ public class stroopVerification : MonoBehaviour
         speechRecognizer = new KeywordRecognizer(validColors); // Recognition class that only listens for words specified in validColors list.
         speechRecognizer.OnPhraseRecognized += OnPhraseRecognized;
         speechRecognizer.Start();
-
-        InvokeRepeating("CompareWords", generator.TIME_INTERVAL, generator.TIME_INTERVAL); // Compares words on same interval as stroop changes.
-
     }
 
     // Update is called once per frame
