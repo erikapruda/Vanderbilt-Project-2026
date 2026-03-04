@@ -31,6 +31,8 @@ public class generator : MonoBehaviour
         
     }
 
+    public static string currentTargetColor; // Added to determine correct color to expect in speech recognition.
+
     void Change_Stroop()
     {
         int wordIndex = Random.Range(0, color_words.Length);
@@ -43,6 +45,7 @@ public class generator : MonoBehaviour
         }
         stroopText.text = color_words[wordIndex];
         stroopText.color = colors[colorIndex];
+        currentTargetColor = color_words[colorIndex]; // Set public color variable for use in speech recognition.
         return;
     }
 }
