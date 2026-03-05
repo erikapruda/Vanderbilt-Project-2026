@@ -9,7 +9,16 @@ public class Car : MonoBehaviour
     private Transform worldTransform;
 
     [SerializeField]
-    private Animation animator;
+    private Animator animator;
+
+    [SerializeField]
+    private string drivingAnimName;
+
+    [SerializeField]
+    private string drivingLeftAnimName;
+
+    [SerializeField]
+    private string drivingRightAnimName;
 
     [SerializeField]
     private string invincibilityAnimName;
@@ -74,7 +83,7 @@ public class Car : MonoBehaviour
         }
         else
         {
-            rb.angularVelocity = Mathf.Clamp(rb.angularVelocity + (steeringPower * InputManager.SteeringInput * deltaTime), -maxAngularVelocity, maxAngularVelocity);
+            rb.angularVelocity = Mathf.Clamp(rb.angularVelocity + (steeringPower * -InputManager.SteeringInput * deltaTime), -maxAngularVelocity, maxAngularVelocity);
         }
 
         // Get current velocity direction and speed
@@ -113,9 +122,30 @@ public class Car : MonoBehaviour
     {
         transform.position = Vector3.zero;
 
-        if (IsInvincible && animator != null && !animator.IsPlaying(invincibilityAnimName))
+        AnimationClip currentClip = null;
+        if (animator != null && animator.GetCurrentAnimatorClipInfo(0).Length > 0)
+          currentClip = animator.GetCurrentAnimatorClipInfo(0)[0].clip;
+        
+        if (currentClip != null && currentClip.name != invincibilityAnimName)
         {
-            OnInvincibilityFinished();
+            // Remove invincibility
+            if (IsInvincible)
+            {
+                OnInvincibilityFinished();            
+            }
+
+            if (InputManager.SteeringInput < -0.1f && currentClip.name != drivingLeftAnimName)
+            {
+                animator.Play(drivingLeftAnimName);
+            }
+            else if (InputManager.SteeringInput > 0.1f && currentClip.name != drivingRightAnimName)
+            {
+                animator.Play(drivingRightAnimName);
+            }
+            else if (Mathf.Abs(InputManager.SteeringInput) <= 0.1f && currentClip.name != drivingAnimName)
+            {
+                animator.Play(drivingAnimName);
+            }
         }
     }
 
@@ -174,5 +204,6 @@ public class Car : MonoBehaviour
         }
 
         IsInvincible = false;
+        animator.Play(drivingAnimName);
     }
 }

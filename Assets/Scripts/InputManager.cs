@@ -23,7 +23,7 @@ public class InputManager : MonoBehaviour
 
     public void OnSteeringInput(InputAction.CallbackContext context)
     {
-        SteeringInput = -context.ReadValue<float>();
+        SteeringInput = context.ReadValue<float>();
     }
 
     public void OnAccelerateInput(InputAction.CallbackContext context)
