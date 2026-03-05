@@ -4,7 +4,7 @@ using TMPro;
 public class generator : MonoBehaviour
 {
 
-    public const float TIME_INTERVAL = 1.5f;
+    public const float TIME_INTERVAL = 5.0f;
     public TextMeshProUGUI stroopText;
     public stroopVerification stroopVerifier;
 
