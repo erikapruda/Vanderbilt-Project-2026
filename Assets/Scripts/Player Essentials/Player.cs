@@ -82,16 +82,16 @@ public class Player : MonoBehaviour
 
     [SerializeField]
     [Tooltip("The time it takes in seconds for the car to correct from a crash")]
-    private float recoveryTime = 1f;
+    private float recoveryTime = 3f;
 
     [SerializeField]
-    private AudioSource crashSoundSource;
+    [Tooltip("Extra knockback force to apply when hitting an obstacle")]
+    [Range(0f, 1f)]
+    private float crashKnockbackForce = 0.25f;
 
     Rigidbody2D rb;
 
     WaitForSeconds recoveryWait;
-
-    List<GameObject> hitObstacles = new();
 
     public static Player Singleton { get; private set; }
 
@@ -107,27 +107,30 @@ public class Player : MonoBehaviour
 
     void FixedUpdate()
     {
-        float deltaTime = Time.fixedDeltaTime;
-
-        // Adjust angular velocity based on steering
-        if (InputManager.SteeringInput == 0f)
+        if (InputManager.IsGameplayInputEnabled)
         {
-            rb.angularVelocity = Mathf.MoveTowards(rb.angularVelocity, 0f, steeringCenterPower * deltaTime);
-        }
-        else
-        {
-            rb.angularVelocity = Mathf.Clamp(rb.angularVelocity + (steeringPower * -InputManager.SteeringInput * deltaTime), -maxAngularVelocity, maxAngularVelocity);
-        }
+            float deltaTime = Time.fixedDeltaTime;
 
-        // Get current velocity direction and speed
-        Vector2 velNorm = transform.up;
-        float velMag = rb.linearVelocity.magnitude;
+            // Adjust angular velocity based on steering
+            if (InputManager.SteeringInput == 0f)
+            {
+                rb.angularVelocity = Mathf.MoveTowards(rb.angularVelocity, 0f, steeringCenterPower * deltaTime);
+            }
+            else
+            {
+                rb.angularVelocity = Mathf.Clamp(rb.angularVelocity + (steeringPower * -InputManager.SteeringInput * deltaTime), -maxAngularVelocity, maxAngularVelocity);
+            }
 
-        // Accelerate/decelerate based on input
-        float targetSpeed = InputManager.AccelerateInputHeld ? maxLinearVelocity : autoLinearVelocitySpeed;
-        float celeration = InputManager.DecelerateInputHeld ? decelerationPower * deltaTime : accelerationPower * deltaTime;
-        velMag = Mathf.MoveTowards(velMag, targetSpeed, celeration);
-        rb.linearVelocity = velNorm * velMag;
+            // Get current velocity direction and speed
+            Vector2 velNorm = transform.up;
+            float velMag = rb.linearVelocity.magnitude;
+
+            // Accelerate/decelerate based on input
+            float targetSpeed = InputManager.AccelerateInputHeld ? maxLinearVelocity : autoLinearVelocitySpeed;
+            float celeration = InputManager.DecelerateInputHeld ? decelerationPower * deltaTime : accelerationPower * deltaTime;
+            velMag = Mathf.MoveTowards(velMag, targetSpeed, celeration);            
+            rb.linearVelocity = velNorm * velMag;
+        }
 
         MoveWorld();
     }
@@ -141,19 +144,19 @@ public class Player : MonoBehaviour
             {
                 Transform childTrans = worldTransform.GetChild(i);
 
-                // Check if object is a world object and move it if so
+                // Check if object is a world object and move it on the y if so
                 if (childTrans.TryGetComponent<WorldObject>(out _) && childTrans.TryGetComponent(out Rigidbody2D childRb))
                 {
-                    childRb.MovePosition(childRb.position - rb.position);
+                    childRb.MovePosition(childRb.position + (childRb.linearVelocity * Time.fixedDeltaTime) - new Vector2(0f, rb.position.y));
                 }
             }
-            rb.position = Vector2.zero;
+            rb.position = new Vector2(rb.position.x, 0f);
         }
     }
 
     void LateUpdate()
     {
-        transform.position = Vector3.zero;
+        transform.position = new Vector3(transform.position.x, 0f, transform.position.z);
 
         AnimationClip currentClip = null;
         if (animator != null && animator.GetCurrentAnimatorClipInfo(0).Length > 0)
@@ -184,12 +187,27 @@ public class Player : MonoBehaviour
 
     void OnCollisionEnter2D(Collision2D collision)
     {
-        if (!hitObstacles.Contains(collision.gameObject) && collision.gameObject.TryGetComponent(out WorldObstacle worldObstacle))
+        if (collision.gameObject.TryGetComponent(out WorldObstacle worldObstacle) && !worldObstacle.HasHitPlayer)
         {
             OnHitObstacle?.Invoke();
+            worldObstacle.OnHitCar?.Invoke();
+            worldObstacle.HasHitPlayer = true;
 
-            hitObstacles.Add(collision.gameObject);
+            InputManager.IsGameplayInputEnabled = false;
             AddDebt(worldObstacle.HitCost);
+
+            // Add knockback forces away from each other
+            for (byte i = 0; i < collision.contactCount; i++)
+            {
+                // Calculate knockback
+                Vector2 hitNormal = collision.contacts[i].normal;
+                float hitStrength = collision.contacts[i].normalImpulse;
+                Vector2 knockbackForce = hitStrength * crashKnockbackForce * hitNormal;
+
+                // Apply knockback
+                collision.rigidbody.AddForce(-knockbackForce, ForceMode2D.Impulse);
+                rb.AddForce(knockbackForce, ForceMode2D.Impulse);
+            }
 
             // Recover car after recovery time
             recoveryWait = new WaitForSeconds(recoveryTime);
@@ -197,7 +215,7 @@ public class Player : MonoBehaviour
         }
     }
 
-    void AddDebt(uint value)
+    public void AddDebt(uint value)
     {
         Debt += value;
 
@@ -262,6 +280,9 @@ public class Player : MonoBehaviour
     {
         yield return recoveryWait;
 
+        // Reenable inputs
+        InputManager.IsGameplayInputEnabled = true;
+
         // Reset orientation
         rb.rotation = 0f;
 
@@ -301,7 +322,6 @@ public class Player : MonoBehaviour
         }
 
         IsInvincible = false;
-        hitObstacles.Clear();
         animator.Play(drivingAnimName);
     }
 }

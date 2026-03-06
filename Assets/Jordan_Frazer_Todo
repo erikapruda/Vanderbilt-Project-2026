@@ -1,0 +1,7 @@
+Make debt text spawn at collision points
+
+Add particles at collision points
+
+Add particles behind player car when driving and veering left/right
+
+Change car invincibility to not be an animation and instead be driven with code so that other animations can play properly after a collision

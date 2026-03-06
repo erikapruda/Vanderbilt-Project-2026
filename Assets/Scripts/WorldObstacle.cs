@@ -14,6 +14,8 @@ public class WorldObstacle : MonoBehaviour
 
     public uint HitCost { get; private set; }
 
+    public bool HasHitPlayer { get; set; }
+
     void Awake()
     {
         HitCost = _hitCost;
@@ -21,9 +23,11 @@ public class WorldObstacle : MonoBehaviour
 
     void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.TryGetComponent(out Player playerCar))
+        // If you caused a wreck with this obstacle and this obstacle hits another obstacle you are liable
+        if (HasHitPlayer && collision.gameObject.TryGetComponent(out WorldObstacle obstacle))
         {
-            OnHitCar?.Invoke();
+            Player.Singleton.AddDebt(obstacle.HitCost);
+            obstacle.HasHitPlayer = true;
         }
     }
 

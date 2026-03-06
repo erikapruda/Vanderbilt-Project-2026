@@ -2,7 +2,9 @@ using UnityEngine;
 
 public class CameraController : MonoBehaviour
 {
-    [SerializeField] private float shakeSpeed = 30;
+    [SerializeField] private float shakeSpeed = 50f;
+
+    [SerializeField] private float maxShakeMagnitude = 5f;
 
     private Vector3 startPosition;
 
@@ -35,6 +37,7 @@ public class CameraController : MonoBehaviour
         {
             targetShakePosition = startPosition;
             currentShakeMagnitude = 0f;
+            currentShakeDivisor = 1f;
         }
 
         transform.position = Vector3.MoveTowards(transform.position, targetShakePosition, Mathf.Max(distFromTarget, 1f) * shakeSpeed * Time.deltaTime);
@@ -48,6 +51,6 @@ public class CameraController : MonoBehaviour
 
     public void SetShakeMagnitude(float mag)
     {
-        currentShakeMagnitude = mag;
+        currentShakeMagnitude = Mathf.Min(currentShakeMagnitude + mag, maxShakeMagnitude);
     }
 }

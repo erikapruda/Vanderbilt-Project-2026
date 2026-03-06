@@ -14,6 +14,11 @@ public class InputManager : MonoBehaviour
     public static bool DecelerateInputHeld { get; private set; } = false;
 
     public static bool PauseInputPressed { get; private set; } = false;
+
+    public static bool PauseInputHeld { get; private set; } = false;
+
+    public static bool IsGameplayInputEnabled { get; set; } = true;
+
     void LateUpdate()
     {
         AccelerateInputPressed = false;
@@ -23,27 +28,24 @@ public class InputManager : MonoBehaviour
 
     public void OnSteeringInput(InputAction.CallbackContext context)
     {
-        SteeringInput = context.ReadValue<float>();
+        SteeringInput = IsGameplayInputEnabled ? context.ReadValue<float>() : 0f;
     }
 
     public void OnAccelerateInput(InputAction.CallbackContext context)
     {
-        AccelerateInputPressed = context.started || AccelerateInputPressed;
-        AccelerateInputHeld = context.performed;
+        AccelerateInputPressed = IsGameplayInputEnabled && (context.started || AccelerateInputPressed);
+        AccelerateInputHeld = IsGameplayInputEnabled && context.performed;
     }
 
     public void OnDecelerateInput(InputAction.CallbackContext context)
     {
-        DecelerateInputPressed = context.started || DecelerateInputPressed;
-        DecelerateInputHeld = context.performed;
+        DecelerateInputPressed = IsGameplayInputEnabled && (context.started || DecelerateInputPressed);
+        DecelerateInputHeld = IsGameplayInputEnabled && context.performed;
     }
 
     public void OnPauseInput(InputAction.CallbackContext context)
     {
-        if (context.started)
-        {
-            PauseInputPressed = true;
-            Debug.Log("ESC HIT");
-        }
+        DecelerateInputPressed = context.started || PauseInputPressed;
+        DecelerateInputHeld = context.performed;
     }
 }
