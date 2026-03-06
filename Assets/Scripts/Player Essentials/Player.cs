@@ -1,6 +1,8 @@
 using System.Collections;
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Audio;
 using UnityEngine.Events;
 
 [RequireComponent(typeof(Rigidbody2D))]
@@ -82,9 +84,14 @@ public class Player : MonoBehaviour
     [Tooltip("The time it takes in seconds for the car to correct from a crash")]
     private float recoveryTime = 1f;
 
+    [SerializeField]
+    private AudioSource crashSoundSource;
+
     Rigidbody2D rb;
 
     WaitForSeconds recoveryWait;
+
+    List<GameObject> hitObstacles = new();
 
     public static Player Singleton { get; private set; }
 
@@ -177,10 +184,11 @@ public class Player : MonoBehaviour
 
     void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.TryGetComponent(out WorldObstacle worldObstacle))
+        if (!hitObstacles.Contains(collision.gameObject) && collision.gameObject.TryGetComponent(out WorldObstacle worldObstacle))
         {
             OnHitObstacle?.Invoke();
 
+            hitObstacles.Add(collision.gameObject);
             AddDebt(worldObstacle.HitCost);
 
             // Recover car after recovery time
@@ -242,6 +250,12 @@ public class Player : MonoBehaviour
 
             debtText.text = leftOverDebtString.Length == 0 || leftOverDebt == 0 || numZerosBefore >= debtLabelDecimalPlaces ? $"Debt ${scaledDebt}{debtLabel}" : $"Debt ${scaledDebt}.{leftOverDebtString}{debtLabel}";
         }
+
+        // Play debt add animation
+        if (debtText.gameObject.TryGetComponent(out Animation animation))
+        {
+            animation.Play();
+        }
     }
 
     IEnumerator RecoverCar()
@@ -287,6 +301,7 @@ public class Player : MonoBehaviour
         }
 
         IsInvincible = false;
+        hitObstacles.Clear();
         animator.Play(drivingAnimName);
     }
 }
