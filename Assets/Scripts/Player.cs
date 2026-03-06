@@ -1,12 +1,25 @@
 using System.Collections;
+using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
 
 [RequireComponent(typeof(Rigidbody2D))]
-public class Car : MonoBehaviour
+public class Player : MonoBehaviour
 {
+    [Header("Debt")]
+
     [SerializeField]
-    private Transform worldTransform;
+    private TextMeshProUGUI debtText;
+
+    [SerializeField]
+    private uint debtLabelMult = 1;
+
+    [SerializeField]
+    private byte debtLabelDecimalPlaces = 2;
+
+    [Space]
+
+    [Header("Animation")]
 
     [SerializeField]
     private Animator animator;
@@ -22,6 +35,10 @@ public class Car : MonoBehaviour
 
     [SerializeField]
     private string invincibilityAnimName;
+
+    [Space]
+
+    [Header("Controls")]
 
     [SerializeField]
     [Tooltip("The maximum speed the car can go")]
@@ -51,20 +68,29 @@ public class Car : MonoBehaviour
     [Tooltip("The car's steering acceleration when steering input is released")]
     private float steeringCenterPower = 100f;
 
+    [Space]
+
+    [Header("Interactions")]
+
     [SerializeField]
-    [Tooltip("The time it takes in seconds for the car to correct from a crash")]
-    private float recoveryTime = 1f;
+    private Transform worldTransform;
 
     [Tooltip("Events to fire when crashing against an obstacle")]
     public UnityEvent OnHitObstacle;
+
+    [SerializeField]
+    [Tooltip("The time it takes in seconds for the car to correct from a crash")]
+    private float recoveryTime = 1f;
 
     Rigidbody2D rb;
 
     WaitForSeconds recoveryWait;
 
-    public static Car Singleton { get; private set; }
+    public static Player Singleton { get; private set; }
 
     public bool IsInvincible { get; private set; }
+
+    public System.Numerics.BigInteger Debt { get; private set; }
 
     private void Awake()
     {
@@ -125,13 +151,13 @@ public class Car : MonoBehaviour
         AnimationClip currentClip = null;
         if (animator != null && animator.GetCurrentAnimatorClipInfo(0).Length > 0)
           currentClip = animator.GetCurrentAnimatorClipInfo(0)[0].clip;
-        
+
         if (currentClip != null && currentClip.name != invincibilityAnimName)
         {
             // Remove invincibility
             if (IsInvincible)
             {
-                OnInvincibilityFinished();            
+                OnInvincibilityFinished();
             }
 
             if (InputManager.SteeringInput < -0.1f && currentClip.name != drivingLeftAnimName)
@@ -155,9 +181,66 @@ public class Car : MonoBehaviour
         {
             OnHitObstacle?.Invoke();
 
+            AddDebt(worldObstacle.HitCost);
+
             // Recover car after recovery time
             recoveryWait = new WaitForSeconds(recoveryTime);
             StartCoroutine(RecoverCar());
+        }
+    }
+
+    void AddDebt(uint value)
+    {
+        Debt += value;
+
+        uint THRESHOLD_K = 1000 * debtLabelMult;
+        uint THRESHOLD_M = 1000000 * debtLabelMult;
+        ulong THRESHOLD_B = 1000000000ul * debtLabelMult;
+
+        // Rack up debt
+        if (debtText != null)
+        {
+            uint chosenLabelUnitPlace;
+            if (Debt < THRESHOLD_K)
+            {
+                chosenLabelUnitPlace = 1;
+            }
+            else if (Debt < THRESHOLD_M)
+            {
+                chosenLabelUnitPlace = 1000;
+            }
+            else if (Debt < THRESHOLD_B)
+            {
+                chosenLabelUnitPlace = 1000000;
+            }
+            else
+            {
+                chosenLabelUnitPlace = 1000000000;
+            }
+
+            System.Numerics.BigInteger scaledDebt = Debt / chosenLabelUnitPlace;
+            System.Numerics.BigInteger leftOverDebt = Debt % chosenLabelUnitPlace;
+            byte numZerosBefore = (byte)(Mathf.Floor(Mathf.Log10(chosenLabelUnitPlace)) - Mathf.Floor(Mathf.Log10((float)leftOverDebt)) - 1f);
+
+            char debtLabel = chosenLabelUnitPlace switch
+            {
+                1 => ' ',
+                1000 => 'K',
+                1000000 => 'M',
+                1000000000 => 'B',
+                _ => ' '
+            };
+
+            // Construct decimal place
+            string leftOverDebtString = "";
+            for (byte i = 0; i < numZerosBefore; i++)
+            {
+                leftOverDebtString += "0";
+            }
+            leftOverDebtString += leftOverDebt.ToString();
+            leftOverDebtString = leftOverDebtString[0..Mathf.Min(leftOverDebtString.Length, debtLabelDecimalPlaces)];
+
+            debtText.text = leftOverDebtString.Length == 0 || leftOverDebt == 0 || numZerosBefore >= debtLabelDecimalPlaces ? $"Debt ${scaledDebt}{debtLabel}" : $"Debt ${scaledDebt}.{leftOverDebtString}{debtLabel}";
         }
     }
 

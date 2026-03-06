@@ -120,6 +120,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 366fe6e20123cf54ea5909fa39acfda0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::WorldObstacle
+  _hitCost: 244
   OnHitCar:
     m_PersistentCalls:
       m_Calls: []
