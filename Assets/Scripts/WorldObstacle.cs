@@ -24,9 +24,21 @@ public class WorldObstacle : MonoBehaviour
     void OnCollisionEnter2D(Collision2D collision)
     {
         // If you caused a wreck with this obstacle and this obstacle hits another obstacle you are liable
-        if (HasHitPlayer && collision.gameObject.TryGetComponent(out WorldObstacle obstacle))
+        if (HasHitPlayer && collision.gameObject.TryGetComponent(out WorldObstacle obstacle) && !obstacle.HasHitPlayer)
         {
-            Player.Singleton.AddDebt(obstacle.HitCost);
+            // Find average contact point
+            Vector2 averageContactPoint = Vector2.zero;
+            Vector2 averageKnockback = Vector2.zero;
+            for (byte i = 0; i < collision.contactCount; i++)
+            {
+                averageContactPoint += collision.contacts[i].point;
+                averageKnockback += collision.contacts[i].normal * collision.contacts[i].normalImpulse;
+
+            }
+            averageContactPoint /= collision.contactCount;
+            averageKnockback /= collision.contactCount;
+
+            Player.Singleton.AddDebt(obstacle.HitCost, averageContactPoint, -averageKnockback.normalized);
             obstacle.HasHitPlayer = true;
         }
     }

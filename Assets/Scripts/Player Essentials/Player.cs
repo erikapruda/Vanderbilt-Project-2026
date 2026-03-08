@@ -1,8 +1,6 @@
 using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using UnityEngine.Audio;
 using UnityEngine.Events;
 
 [RequireComponent(typeof(Rigidbody2D))]
@@ -77,6 +75,9 @@ public class Player : MonoBehaviour
     [SerializeField]
     private Transform worldTransform;
 
+    [SerializeField]
+    private GameObject debtTextPrefab;
+
     [Tooltip("Events to fire when crashing against an obstacle")]
     public UnityEvent OnHitObstacle;
 
@@ -128,7 +129,7 @@ public class Player : MonoBehaviour
             // Accelerate/decelerate based on input
             float targetSpeed = InputManager.AccelerateInputHeld ? maxLinearVelocity : autoLinearVelocitySpeed;
             float celeration = InputManager.DecelerateInputHeld ? decelerationPower * deltaTime : accelerationPower * deltaTime;
-            velMag = Mathf.MoveTowards(velMag, targetSpeed, celeration);            
+            velMag = Mathf.MoveTowards(velMag, targetSpeed, celeration);
             rb.linearVelocity = velNorm * velMag;
         }
 
@@ -194,7 +195,8 @@ public class Player : MonoBehaviour
             worldObstacle.HasHitPlayer = true;
 
             InputManager.IsGameplayInputEnabled = false;
-            AddDebt(worldObstacle.HitCost);
+            Vector2 averageContactPoint = Vector2.zero;
+            Vector2 averageKnockback = Vector2.zero;
 
             // Add knockback forces away from each other
             for (byte i = 0; i < collision.contactCount; i++)
@@ -202,71 +204,46 @@ public class Player : MonoBehaviour
                 // Calculate knockback
                 Vector2 hitNormal = collision.contacts[i].normal;
                 float hitStrength = collision.contacts[i].normalImpulse;
-                Vector2 knockbackForce = hitStrength * crashKnockbackForce * hitNormal;
+                averageKnockback += hitStrength * hitNormal;
 
-                // Apply knockback
-                collision.rigidbody.AddForce(-knockbackForce, ForceMode2D.Impulse);
-                rb.AddForce(knockbackForce, ForceMode2D.Impulse);
+                averageContactPoint += collision.contacts[i].point;
             }
 
+            averageContactPoint /= collision.contactCount;
+            averageKnockback /= collision.contactCount;
+            AddDebt(worldObstacle.HitCost, averageContactPoint, -averageKnockback.normalized);
+
+            // Apply knockback
+            averageKnockback *= crashKnockbackForce;
+            collision.rigidbody.AddForce(-averageKnockback, ForceMode2D.Impulse);
+            rb.AddForce(averageKnockback, ForceMode2D.Impulse);
+                
             // Recover car after recovery time
             recoveryWait = new WaitForSeconds(recoveryTime);
             StartCoroutine(RecoverCar());
         }
     }
 
-    public void AddDebt(uint value)
+    public void AddDebt(uint value, Vector2 debtTextPosition = default, Vector2 debtTextVelocity = default)
     {
         Debt += value;
+        debtText.text = $"Debt ${GetDebtText(Debt)}"; ;
 
-        uint THRESHOLD_K = 1000 * debtLabelMult;
-        uint THRESHOLD_M = 1000000 * debtLabelMult;
-        ulong THRESHOLD_B = 1000000000ul * debtLabelMult;
-
-        // Rack up debt
-        if (debtText != null)
+        // Create debt text at collision point
+        if (debtTextPrefab != null)
         {
-            uint chosenLabelUnitPlace;
-            if (Debt < THRESHOLD_K)
+            GameObject instance = Instantiate(debtTextPrefab, debtTextPosition, Quaternion.identity);
+
+            if (instance.TryGetComponent(out TextMeshPro text))
             {
-                chosenLabelUnitPlace = 1;
-            }
-            else if (Debt < THRESHOLD_M)
-            {
-                chosenLabelUnitPlace = 1000;
-            }
-            else if (Debt < THRESHOLD_B)
-            {
-                chosenLabelUnitPlace = 1000000;
-            }
-            else
-            {
-                chosenLabelUnitPlace = 1000000000;
+                text.text = $"-${GetDebtText(value)}";
             }
 
-            System.Numerics.BigInteger scaledDebt = Debt / chosenLabelUnitPlace;
-            System.Numerics.BigInteger leftOverDebt = Debt % chosenLabelUnitPlace;
-            byte numZerosBefore = (byte)(Mathf.Floor(Mathf.Log10(chosenLabelUnitPlace)) - Mathf.Floor(Mathf.Log10((float)leftOverDebt)) - 1f);
-
-            char debtLabel = chosenLabelUnitPlace switch
+            if (instance.TryGetComponent(out Rigidbody2D textRb))
             {
-                1 => ' ',
-                1000 => 'K',
-                1000000 => 'M',
-                1000000000 => 'B',
-                _ => ' '
-            };
-
-            // Construct decimal place
-            string leftOverDebtString = "";
-            for (byte i = 0; i < numZerosBefore; i++)
-            {
-                leftOverDebtString += "0";
+                textRb.linearVelocity = debtTextVelocity;
+                textRb.angularVelocity = Vector2.SignedAngle(Vector2.up, debtTextVelocity);
             }
-            leftOverDebtString += leftOverDebt.ToString();
-            leftOverDebtString = leftOverDebtString[0..Mathf.Min(leftOverDebtString.Length, debtLabelDecimalPlaces)];
-
-            debtText.text = leftOverDebtString.Length == 0 || leftOverDebt == 0 || numZerosBefore >= debtLabelDecimalPlaces ? $"Debt ${scaledDebt}{debtLabel}" : $"Debt ${scaledDebt}.{leftOverDebtString}{debtLabel}";
         }
 
         // Play debt add animation
@@ -274,6 +251,54 @@ public class Player : MonoBehaviour
         {
             animation.Play();
         }
+    }
+
+    string GetDebtText(System.Numerics.BigInteger value)
+    {
+        uint THRESHOLD_K = 1000 * debtLabelMult;
+        uint THRESHOLD_M = 1000000 * debtLabelMult;
+        ulong THRESHOLD_B = 1000000000ul * debtLabelMult;
+
+        uint chosenLabelUnitPlace;
+        if (value < THRESHOLD_K)
+        {
+            chosenLabelUnitPlace = 1;
+        }
+        else if (value < THRESHOLD_M)
+        {
+            chosenLabelUnitPlace = 1000;
+        }
+        else if (value < THRESHOLD_B)
+        {
+            chosenLabelUnitPlace = 1000000;
+        }
+        else
+        {
+            chosenLabelUnitPlace = 1000000000;
+        }
+
+        System.Numerics.BigInteger scaledDebt = value / chosenLabelUnitPlace;
+        System.Numerics.BigInteger leftOverDebt = value % chosenLabelUnitPlace;
+        byte numZerosBefore = (byte)(Mathf.Floor(Mathf.Log10(chosenLabelUnitPlace)) - Mathf.Floor(Mathf.Log10((float)leftOverDebt)) - 1f);
+
+        char debtLabel = chosenLabelUnitPlace switch
+        {
+            1 => ' ',
+            1000 => 'K',
+            1000000 => 'M',
+            1000000000 => 'B',
+            _ => ' '
+        };
+
+        // Construct decimal place
+        string leftOverDebtString = "";
+        for (byte i = 0; i < numZerosBefore; i++)
+        {
+            leftOverDebtString += "0";
+        }
+        leftOverDebtString += leftOverDebt.ToString();
+        leftOverDebtString = leftOverDebtString[0..Mathf.Min(leftOverDebtString.Length, debtLabelDecimalPlaces)];
+        return leftOverDebtString.Length == 0 || leftOverDebt == 0 || numZerosBefore >= debtLabelDecimalPlaces ? $"{scaledDebt}{debtLabel}" : $"{scaledDebt}.{leftOverDebtString}{debtLabel}";
     }
 
     IEnumerator RecoverCar()

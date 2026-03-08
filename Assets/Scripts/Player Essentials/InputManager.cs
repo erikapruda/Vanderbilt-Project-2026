@@ -3,21 +3,34 @@ using UnityEngine.InputSystem;
 
 public class InputManager : MonoBehaviour
 {
-    public static float SteeringInput { get; private set; } = 0f;
+    public static float SteeringInput { get; private set; }
 
-    public static bool AccelerateInputPressed { get; private set; } = false;
+    public static bool AccelerateInputPressed { get; private set; }
 
-    public static bool AccelerateInputHeld { get; private set; } = false;
+    public static bool AccelerateInputHeld { get; private set; }
 
-    public static bool DecelerateInputPressed { get; private set; } = false;
+    public static bool DecelerateInputPressed { get; private set; }
 
-    public static bool DecelerateInputHeld { get; private set; } = false;
+    public static bool DecelerateInputHeld { get; private set; }
 
-    public static bool PauseInputPressed { get; private set; } = false;
+    public static bool PauseInputPressed { get; private set; }
 
-    public static bool PauseInputHeld { get; private set; } = false;
+    public static bool PauseInputHeld { get; private set; }
 
-    public static bool IsGameplayInputEnabled { get; set; } = true;
+    public static bool IsGameplayInputEnabled { get; set; }
+
+    // Because domain reload is off, static variables must be initialized in Awake
+    void Awake()
+    {
+        SteeringInput = 0;
+        AccelerateInputPressed = false;
+        AccelerateInputHeld = false;
+        DecelerateInputPressed = false;
+        DecelerateInputHeld = false;
+        PauseInputPressed = false;
+        PauseInputHeld = false;
+        IsGameplayInputEnabled = true;
+    }
 
     void LateUpdate()
     {
