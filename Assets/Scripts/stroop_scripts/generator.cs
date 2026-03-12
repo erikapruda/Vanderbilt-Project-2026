@@ -1,21 +1,24 @@
 using UnityEngine;
 using TMPro;
-
+using UnityEngine.UI;
+using System.Collections;
 public class generator : MonoBehaviour
 {
 
-    public const float TIME_INTERVAL = 1.5f;
-    public TextMeshProUGUI stroopText;
-    public stroopVerification stroopVerifier;
+    public const float TIME_INTERVAL = 3f;    //time interval
+
+    public TextMeshProUGUI stroopText;          //canvas text 
+    public stroopVerification stroopVerifier;   //speech-to-text script
+    public Image backgroundImage;               //canvas image
 
     private string[] color_words = {"RED", "BLUE", "GREEN", "YELLOW", "PURPLE", "ORANGE"};
 
     private Color[] colors = {Color.red, 
-    Color.blue, 
-    Color.green,
-    Color.yellow, 
-    new Color(0.5f, 0f, 0.5f), //purple
-    new Color(1f, 0.5f, 0f)    //Orange
+        Color.blue, 
+        Color.green,
+        Color.yellow, 
+        new Color(0.5f, 0f, 0.5f), //purple
+        new Color(1f, 0.5f, 0f)    //Orange
     };
 
     
@@ -23,7 +26,10 @@ public class generator : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        InvokeRepeating("Change_Stroop", 0f, TIME_INTERVAL);
+        backgroundImage.color = Color.white;
+
+        StartCoroutine(Change_Stroop());
+        
     }
 
     // Update is called once per frame
@@ -34,23 +40,50 @@ public class generator : MonoBehaviour
 
     public static string currentTargetColor; // Added to determine correct color to expect in speech recognition.
 
-    void Change_Stroop()
-    {
-        if (currentTargetColor != null){ // Calls verification command when a target color exists before changing to next stroop test.
-            stroopVerifier.CompareWords();
-        }
+    
 
-        int wordIndex = Random.Range(0, color_words.Length);
-        int colorIndex = Random.Range(0, colors.Length);
+    IEnumerator Change_Stroop(){
 
-        while(wordIndex == colorIndex)
+        while (true)
         {
-            wordIndex = Random.Range(0, color_words.Length);
-            colorIndex = Random.Range(0, colors.Length);        
+
+
+            if (currentTargetColor != null)
+            { // Calls verification command when a target color exists before changing to next stroop test.
+                bool correctness = stroopVerifier.CompareWords();
+
+                if (correctness == true)
+                {
+                    backgroundImage.color = new Color(0.01f, 1f, 0.01f, 0.68f);
+                }
+
+                else
+                {
+                    backgroundImage.color = new Color(1f, 0.01f, 0.01f, 0.68f);
+                }
+
+                yield return new WaitForSeconds(1.0f);
+
+            }
+
+            backgroundImage.color = Color.white;
+
+            int wordIndex = Random.Range(0, color_words.Length);
+            int colorIndex = Random.Range(0, colors.Length);
+
+            while (wordIndex == colorIndex || (currentTargetColor == color_words[colorIndex])) //loop to make sure text does not match color, and color always switches
+            {
+                wordIndex = Random.Range(0, color_words.Length);
+                colorIndex = Random.Range(0, colors.Length);
+            }
+
+
+            stroopText.text = color_words[wordIndex];
+            stroopText.color = colors[colorIndex];
+
+            currentTargetColor = color_words[colorIndex]; // Set public color variable for use in speech recognition.
+
+            yield return new WaitForSeconds(TIME_INTERVAL);
         }
-        stroopText.text = color_words[wordIndex];
-        stroopText.color = colors[colorIndex];
-        currentTargetColor = color_words[colorIndex]; // Set public color variable for use in speech recognition.
-        return;
     }
 }
