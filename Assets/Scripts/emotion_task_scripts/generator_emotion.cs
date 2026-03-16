@@ -2,8 +2,13 @@ using UnityEngine;
 using TMPro;
 using System.Threading.Tasks;
 using System.Collections.Generic;
+using UnityEngine.UI;
+using System.Collections;
+
 public class generator_emotion : MonoBehaviour
 {
+
+    public Image emotion_background;    //emotion canvas image
     private const float TIME_INTERVAL = 3f;
     public TextMeshProUGUI textbox;
     public TextMeshProUGUI good_textbox;
@@ -32,23 +37,10 @@ public class generator_emotion : MonoBehaviour
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
 
-    async void Start()
+    void Start()
     {
-        good_textbox.text = "";
-        bad_textbox.text = "";
-
-
-        textbox.text = "Welcome to Stroop Task!";
-        //wait 5 seconds
-        await Task.Delay(2500);
-
-        textbox.text = "Say if a word is good/bad..";
-        await Task.Delay(2000);
-
-
-        InvokeRepeating("Change_Text", 0f, TIME_INTERVAL);
-        good_textbox.text = "Good";
-        bad_textbox.text = "Bad";
+        emotion_background.color = Color.white;
+        StartCoroutine(Change_Text());
     }
 
     // Update is called once per frame
@@ -59,32 +51,102 @@ public class generator_emotion : MonoBehaviour
 
     public static string wordType = null;
 
-    void Change_Text()
+    IEnumerator Change_Text()
     {
-        if (wordType != null){ // Calls verification command when a target word association exists before changing to next stroop test.
-            emotionVerifier.CompareWords();
-        }
 
-        newWordIndex = Random.Range(0, words.Length);
+        good_textbox.text = "";
+        bad_textbox.text = "";
 
 
-        while (newWordIndex == wordIndex)
-        {
+        textbox.text = "Welcome to Stroop Task";
+        //wait 5 seconds
+        yield return new WaitForSeconds(2.0f);
+            
+
+        textbox.text = "Please respond with either good/bad";
+        yield return new WaitForSeconds(2.0f);
+
+        good_textbox.text = "Good";
+        bad_textbox.text = "Bad";    
+
+        //algorithm:
+                //loop
+                    //get new word
+                    
+                    //if we have a word, compare it to audio.
+                        //if same word, flash green
+                        //if diff word, flash red
+                    
+
+        while (true)
+        {   
+            emotion_background.color = Color.white;
+
             newWordIndex = Random.Range(0, words.Length);
-        }
 
-        wordIndex = newWordIndex;
 
-        if (wordsDict[words[newWordIndex]] == 0){
-            wordType = "bad";
-        }
-        else{
-            wordType = "good";
-        }
-        
+            while (newWordIndex == wordIndex)
+            {
+                newWordIndex = Random.Range(0, words.Length);
+            }
 
-        textbox.text = words[wordIndex];
-        
-        return;
+            wordIndex = newWordIndex;
+
+            if (wordsDict[words[newWordIndex]] == 0){
+                wordType = "bad";
+            }
+            else{
+                wordType = "good";
+            }
+            
+
+            textbox.text = words[wordIndex];
+            yield return new WaitForSeconds(2.5f);
+            emotion_background.color = Color.white;
+            
+            
+            if (wordType != null){ // Calls verification command when a target word association exists before changing to next stroop test.
+                bool emotion_correctness = emotionVerifier.CompareWords();
+
+                if(emotion_correctness == true)
+                {
+                    //change background
+                    emotion_background.color = new Color(0.01f, 1f, 0.01f, 0.68f);
+
+                }
+
+                else if(emotion_correctness == false)
+                {
+                    //change background
+                    emotion_background.color = new Color(1f, 0.01f, 0.01f, 0.68f);
+                }
+
+                yield return new WaitForSeconds(1.0f);
+            }
+
+            // emotion_background.color = Color.white;
+
+            // newWordIndex = Random.Range(0, words.Length);
+
+
+            // while (newWordIndex == wordIndex)
+            // {
+            //     newWordIndex = Random.Range(0, words.Length);
+            // }
+
+            // wordIndex = newWordIndex;
+
+            // if (wordsDict[words[newWordIndex]] == 0){
+            //     wordType = "bad";
+            // }
+            // else{
+            //     wordType = "good";
+            // }
+            
+
+            // textbox.text = words[wordIndex];
+            // yield return new WaitForSeconds(2.5f);
+            
+        }
     }
 }

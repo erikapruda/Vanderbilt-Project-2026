@@ -41,30 +41,21 @@ public class generator : MonoBehaviour
     public static string currentTargetColor; // Added to determine correct color to expect in speech recognition.
 
     
+    //algorithm:
+        //loop
+            //get a random color word
+            //get a random color
+            //make sure the color word and color do not match
+            //make sure the color word was not the same as before
 
+            //if we have word, compare it to audio
+                //if audio same as color, flash green
+                //if audio not as same as color, or absent, flash red
+    
     IEnumerator Change_Stroop(){
 
         while (true)
         {
-
-
-            if (currentTargetColor != null)
-            { // Calls verification command when a target color exists before changing to next stroop test.
-                bool correctness = stroopVerifier.CompareWords();
-
-                if (correctness == true)
-                {
-                    backgroundImage.color = new Color(0.01f, 1f, 0.01f, 0.68f);
-                }
-
-                else
-                {
-                    backgroundImage.color = new Color(1f, 0.01f, 0.01f, 0.68f);
-                }
-
-                yield return new WaitForSeconds(1.0f);
-
-            }
 
             backgroundImage.color = Color.white;
 
@@ -84,6 +75,24 @@ public class generator : MonoBehaviour
             currentTargetColor = color_words[colorIndex]; // Set public color variable for use in speech recognition.
 
             yield return new WaitForSeconds(TIME_INTERVAL);
+
+            if (currentTargetColor != null)
+            { // Calls verification command when a target color exists before changing to next stroop test.
+                bool correctness = stroopVerifier.CompareWords();
+
+                if (correctness == true)
+                {
+                    backgroundImage.color = new Color(0.01f, 1f, 0.01f, 0.68f);
+                }
+
+                else
+                {
+                    backgroundImage.color = new Color(1f, 0.01f, 0.01f, 0.68f);
+                }
+
+                yield return new WaitForSeconds(1.0f);
+
+            }
         }
     }
 }
