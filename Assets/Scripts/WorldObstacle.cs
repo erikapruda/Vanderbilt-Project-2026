@@ -1,11 +1,16 @@
+using System.Runtime.Serialization.Formatters;
 using UnityEngine;
 using UnityEngine.Events;
 
 [RequireComponent(typeof(WorldObject))]
+[RequireComponent(typeof(Rigidbody2D))]
 public class WorldObstacle : MonoBehaviour
 {
     [SerializeField]
     private uint _hitCost;
+
+    [SerializeField]
+    private GameObject SparkParticleSystemPrefab;
 
     [Tooltip("Events to fire when obstacle collides with a car")]
     public UnityEvent OnHitCar;
@@ -16,9 +21,12 @@ public class WorldObstacle : MonoBehaviour
 
     public bool HasHitPlayer { get; set; }
 
+    private Rigidbody2D rb;
+
     void Awake()
     {
         HitCost = _hitCost;
+        rb = GetComponent<Rigidbody2D>();
     }
 
     void OnCollisionEnter2D(Collision2D collision)
@@ -33,13 +41,25 @@ public class WorldObstacle : MonoBehaviour
             {
                 averageContactPoint += collision.contacts[i].point;
                 averageKnockback += collision.contacts[i].normal * collision.contacts[i].normalImpulse;
-
             }
             averageContactPoint /= collision.contactCount;
             averageKnockback /= collision.contactCount;
 
             Player.Singleton.AddDebt(obstacle.HitCost, averageContactPoint, -averageKnockback.normalized);
             obstacle.HasHitPlayer = true;
+        }
+        
+        // Spawn particles
+        if (SparkParticleSystemPrefab != null)
+        {
+            for (byte i = 0; i < collision.contactCount; i++)
+            {
+                GameObject particleSystemInstance = Instantiate(SparkParticleSystemPrefab, new Vector3(collision.contacts[i].point.x, collision.contacts[i].point.y, 0f), Quaternion.identity);
+                if (particleSystemInstance.TryGetComponent(out Rigidbody2D rbInstance))
+                {
+                    rbInstance.linearVelocity = rb.linearVelocity + collision.contacts[i].normal;
+                }
+            }
         }
     }
 
