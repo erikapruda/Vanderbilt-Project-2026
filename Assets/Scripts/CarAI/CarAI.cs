@@ -8,6 +8,7 @@ enum States
 }
 
 [RequireComponent(typeof(Animator))]
+[RequireComponent(typeof(BoxCollider2D))]
 public class CarAI : MonoBehaviour
 {
     [Range(0, 1)]
@@ -38,11 +39,26 @@ public class CarAI : MonoBehaviour
     [Header("The number of people in the car. The number adds to\nthe death toll score")]
     public int passengers = 2;
 
+    public Transform TopLeft;
+    public Transform TopRight;
+    public Transform BottomLeft;
+    public Transform BottomRight;
+    public Transform Left;
+    public Transform Right;
+    public Transform TopLeftEnd;
+    public Transform TopRightEnd;
+    public Transform BottomLeftEnd;
+    public Transform BottomRightEnd;
+    public Transform LeftEnd;
+    public Transform RightEnd;
+
+
     private Animator animator;
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    private BoxCollider2D collider;
     void Start()
     {
         animator = GetComponent<Animator>();
+        collider = GetComponent<BoxCollider2D>();
         animator.Play("Left Turn Signal");
     }
 
@@ -50,5 +66,21 @@ public class CarAI : MonoBehaviour
     void Update()
     {
         bool changeLane = laneChangeProbability <= Random.Range(0, 1);
+    }
+
+    void OnDrawGizmos()
+    {
+        // Draw top left line
+        Gizmos.DrawLine(TopLeft.position, TopLeftEnd.position);
+        // Draw top right line
+        Gizmos.DrawLine(TopRight.position, TopRightEnd.position);
+        // Draw bottom left line
+        Gizmos.DrawLine(BottomLeft.position, BottomLeftEnd.position);
+        // Draw bottom right
+        Gizmos.DrawLine(BottomRight.position, BottomRightEnd.position);
+        // Draw left line
+        Gizmos.DrawLine(Left.position, LeftEnd.position);
+        // Draw right line
+        Gizmos.DrawLine(Right.position, RightEnd.position);
     }
 }
