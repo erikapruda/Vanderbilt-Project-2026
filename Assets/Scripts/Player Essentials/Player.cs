@@ -90,9 +90,15 @@ public class Player : MonoBehaviour
     [Range(0f, 1f)]
     private float crashKnockbackForce = 0.25f;
 
+    [SerializeField]
+    [Tooltip("How long it takes before the player can collide against the same obstacle")]
+    private float hitCooldown = 0.1f;
+
     Rigidbody2D rb;
 
     WaitForSeconds recoveryWait;
+
+    Coroutine recoverCarRoutine;
 
     public static Player Singleton { get; private set; }
 
@@ -151,13 +157,13 @@ public class Player : MonoBehaviour
                     childRb.MovePosition(childRb.position + (childRb.linearVelocity * Time.fixedDeltaTime) - new Vector2(0f, rb.position.y));
                 }
             }
-            rb.position = new Vector2(rb.position.x, 0f);
+            rb.position = new Vector2(Mathf.Clamp(rb.position.x, WorldBounds.Singleton.LeftX, WorldBounds.Singleton.RightX), 0f);
         }
     }
 
     void LateUpdate()
     {
-        transform.position = new Vector3(transform.position.x, 0f, transform.position.z);
+        transform.position = new Vector3(Mathf.Clamp(transform.position.x, WorldBounds.Singleton.LeftX, WorldBounds.Singleton.RightX), 0f, transform.position.z);
 
         AnimationClip currentClip = null;
         if (animator != null && animator.GetCurrentAnimatorClipInfo(0).Length > 0)
@@ -188,13 +194,20 @@ public class Player : MonoBehaviour
 
     void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.TryGetComponent(out WorldObstacle worldObstacle) && !worldObstacle.HasHitPlayer)
-        {
-            OnHitObstacle?.Invoke();
-            worldObstacle.OnHitCar?.Invoke();
-            worldObstacle.HasHitPlayer = true;
+        CollisionLogic(collision);
+    }
 
-            InputManager.IsGameplayInputEnabled = false;
+    void OnCollisionStay2D(Collision2D collision)
+    {
+        CollisionLogic(collision);
+    }
+
+    void CollisionLogic(Collision2D collision)
+    {
+        if (collision.gameObject.TryGetComponent(out WorldObstacle worldObstacle) && worldObstacle.CurrentPlayerHitCooldown == 0f)
+        {
+            worldObstacle.CurrentPlayerHitCooldown = hitCooldown;
+
             Vector2 averageContactPoint = Vector2.zero;
             Vector2 averageKnockback = Vector2.zero;
 
@@ -211,16 +224,27 @@ public class Player : MonoBehaviour
 
             averageContactPoint /= collision.contactCount;
             averageKnockback /= collision.contactCount;
-            AddDebt(worldObstacle.HitCost, averageContactPoint, -averageKnockback.normalized);
+
+            // Penalize player if available
+            if (worldObstacle.NumTimesPenaltyHit < worldObstacle.MaxPenalizedHits)
+            {
+                worldObstacle.NumTimesPenaltyHit++;
+                OnHitObstacle?.Invoke();
+                worldObstacle.OnHitCar?.Invoke();
+                worldObstacle.HasHitPlayer = true;
+                InputManager.IsGameplayInputEnabled = false;
+                AddDebt(worldObstacle.HitCost, averageContactPoint, -averageKnockback.normalized);
+            }
 
             // Apply knockback
             averageKnockback *= crashKnockbackForce;
             collision.rigidbody.AddForce(-averageKnockback, ForceMode2D.Impulse);
             rb.AddForce(averageKnockback, ForceMode2D.Impulse);
-                
+
             // Recover car after recovery time
             recoveryWait = new WaitForSeconds(recoveryTime);
-            StartCoroutine(RecoverCar());
+            
+            recoverCarRoutine ??= StartCoroutine(RecoverCar());
         }
     }
 
@@ -332,6 +356,8 @@ public class Player : MonoBehaviour
 
             IsInvincible = true;
         }
+
+        recoverCarRoutine = null;
     }
 
     void OnInvincibilityFinished()

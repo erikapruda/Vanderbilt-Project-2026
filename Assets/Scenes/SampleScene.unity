@@ -1072,7 +1072,7 @@ ParticleSystemRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 03ece5bfe20ca084c8d559ab436fbff2, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1209,7 +1209,7 @@ ParticleSystem:
     startLifetime:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 2
+      scalar: 1
       minScalar: 5
       maxCurve:
         serializedVersion: 2
@@ -1262,7 +1262,7 @@ ParticleSystem:
     startSpeed:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 1
+      scalar: 0.01
       minScalar: 5
       maxCurve:
         serializedVersion: 2
@@ -1316,7 +1316,7 @@ ParticleSystem:
       serializedVersion: 2
       minMaxState: 0
       minColor: {r: 1, g: 1, b: 1, a: 1}
-      maxColor: {r: 1, g: 1, b: 1, a: 1}
+      maxColor: {r: 1, g: 0, b: 0, a: 1}
       maxGradient:
         serializedVersion: 2
         key0: {r: 1, g: 1, b: 1, a: 1}
@@ -1380,7 +1380,7 @@ ParticleSystem:
     startSize:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 0.5
+      scalar: 0.1
       minScalar: 1
       maxCurve:
         serializedVersion: 2
@@ -1844,7 +1844,7 @@ ParticleSystem:
     sphericalDirectionAmount: 0
     randomPositionAmount: 0
     radius:
-      value: 24
+      value: 1
       mode: 0
       spread: 0
       speed:
@@ -1963,7 +1963,7 @@ ParticleSystem:
     rateOverTime:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 1000
+      scalar: 30
       minScalar: 10
       maxCurve:
         serializedVersion: 2
@@ -2528,7 +2528,7 @@ ParticleSystem:
         m_NumAlphaKeys: 2
   UVModule:
     serializedVersion: 2
-    enabled: 1
+    enabled: 0
     mode: 1
     timeMode: 2
     fps: 8
@@ -2654,7 +2654,7 @@ ParticleSystem:
     flipU: 0
     flipV: 0
   VelocityModule:
-    enabled: 1
+    enabled: 0
     x:
       serializedVersion: 2
       minMaxState: 0
@@ -7381,6 +7381,63 @@ Animation:
   m_AnimatePhysics: 0
   m_UpdateMode: 0
   m_CullingType: 0
+--- !u!1001 &7540397556826478814
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 5482424401442616084, guid: addfd3a6123ce444ab6e56c1344d9b52, type: 3}
+      propertyPath: m_Name
+      value: World Bounds
+      objectReference: {fileID: 0}
+    - target: {fileID: 7312772768238690063, guid: addfd3a6123ce444ab6e56c1344d9b52, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7312772768238690063, guid: addfd3a6123ce444ab6e56c1344d9b52, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7312772768238690063, guid: addfd3a6123ce444ab6e56c1344d9b52, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7312772768238690063, guid: addfd3a6123ce444ab6e56c1344d9b52, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7312772768238690063, guid: addfd3a6123ce444ab6e56c1344d9b52, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7312772768238690063, guid: addfd3a6123ce444ab6e56c1344d9b52, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7312772768238690063, guid: addfd3a6123ce444ab6e56c1344d9b52, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7312772768238690063, guid: addfd3a6123ce444ab6e56c1344d9b52, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7312772768238690063, guid: addfd3a6123ce444ab6e56c1344d9b52, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7312772768238690063, guid: addfd3a6123ce444ab6e56c1344d9b52, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: addfd3a6123ce444ab6e56c1344d9b52, type: 3}
 --- !u!1001 &8797472534974213728
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -7438,21 +7495,9 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1943682801}
     - target: {fileID: 8908964563554615608, guid: 97938d39a93cc2c42b6f29624b369a2e, type: 3}
-      propertyPath: debtTextPrefab
-      value: 
-      objectReference: {fileID: 8019341860198137268, guid: 155cef4b5beebc04ba03fe6c683addbb, type: 3}
-    - target: {fileID: 8908964563554615608, guid: 97938d39a93cc2c42b6f29624b369a2e, type: 3}
       propertyPath: worldTransform
       value: 
       objectReference: {fileID: 1346862001}
-    - target: {fileID: 8908964563554615608, guid: 97938d39a93cc2c42b6f29624b369a2e, type: 3}
-      propertyPath: crashKnockbackForce
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8908964563554615608, guid: 97938d39a93cc2c42b6f29624b369a2e, type: 3}
-      propertyPath: autoLinearVelocitySpeed
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 8908964563554615608, guid: 97938d39a93cc2c42b6f29624b369a2e, type: 3}
       propertyPath: OnHitObstacle.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
@@ -7487,3 +7532,4 @@ SceneRoots:
   - {fileID: 1197855937}
   - {fileID: 1228824106}
   - {fileID: 560182148}
+  - {fileID: 7540397556826478814}

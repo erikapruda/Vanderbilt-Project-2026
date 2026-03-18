@@ -1,4 +1,3 @@
-using System.Runtime.Serialization.Formatters;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -12,12 +11,18 @@ public class WorldObstacle : MonoBehaviour
     [SerializeField]
     private GameObject SparkParticleSystemPrefab;
 
+    public uint MaxPenalizedHits = 1;
+
     [Tooltip("Events to fire when obstacle collides with a car")]
     public UnityEvent OnHitCar;
 
     public WorldSpawner WorldSpawner { get; set; }
 
     public uint HitCost { get; private set; }
+
+    public uint NumTimesPenaltyHit { get; set; } = 0u;
+
+    public float CurrentPlayerHitCooldown { get; set; } = 0f;
 
     public bool HasHitPlayer { get; set; }
 
@@ -27,6 +32,11 @@ public class WorldObstacle : MonoBehaviour
     {
         HitCost = _hitCost;
         rb = GetComponent<Rigidbody2D>();
+    }
+
+    void Update()
+    {
+        CurrentPlayerHitCooldown = Mathf.Max(0f, CurrentPlayerHitCooldown - Time.deltaTime);
     }
 
     void OnCollisionEnter2D(Collision2D collision)
@@ -65,6 +75,9 @@ public class WorldObstacle : MonoBehaviour
 
     void OnDestroy()
     {
-        WorldSpawner.NumObstaclesSpawned--;
+        if (WorldSpawner != null)
+        {
+            WorldSpawner.NumObstaclesSpawned--;            
+        }
     }
 }
