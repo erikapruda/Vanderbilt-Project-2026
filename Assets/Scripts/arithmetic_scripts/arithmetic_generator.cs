@@ -7,13 +7,13 @@ using System;
 public class arithmetic_generator : MonoBehaviour
 {
     public const float TIME_INTERVAL = 2.0f;
-    public const float VOICE_INTERVAL = 3.0f;
+    public const float VOICE_INTERVAL = 1.0f;
     public TextMeshProUGUI numberText;
     public arithmeticVerification arithmeticVerifier;
 
     public int[] numbers_array = { 0, 0, 0, 0 };
     public int[] added_num_array = { 0, 0, 0, 0 };
-    public string correctNumber = null;
+    public static string correctNumber = null;
     private string [] validWords = {"zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten", "eleven", "twelve", "thirteen", "fourteen", "fifteen", "sixteen"};
     private string [] correctAnswers = {"zero", "zero", "zero", "zero"};
     private bool [] answerResults = { false, false, false, false };
@@ -75,7 +75,7 @@ public class arithmetic_generator : MonoBehaviour
             }
 
 
-            answerResults = { false, false, false, false }; // Resets results array for each round.
+            Array.Fill(answerResults, false); // Resets results array for each round.
             for (int i = 0; i < correctAnswers.Length; i++)
             {
                 correctNumber = correctAnswers[i];
