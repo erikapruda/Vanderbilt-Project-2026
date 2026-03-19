@@ -85,14 +85,6 @@ public class arithmetic_generator : MonoBehaviour
             }
 
 
-          //  Array.Fill(answerResults, false); // Resets results array for each round.
-           // for (int i = 0; i < correctAnswers.Length; i++)
-            //{
-             //   correctNumber = correctAnswers[i];
-               // yield return new WaitForSeconds(VOICE_INTERVAL); // Set a time interval for the user to respond with each answer.
-              //  answerResults[i] = arithmeticVerifier.CompareWords(); // Stores whether each number was correct or not in array.
-           // }
-
             numberText.text = "Correct Numbers: " + added_num_array[0] + ", " + added_num_array[1] + ", " + added_num_array[2] + ", " + added_num_array[3];
 
             yield return new WaitForSeconds(TIME_INTERVAL);
