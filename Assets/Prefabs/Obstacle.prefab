@@ -121,6 +121,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::WorldObstacle
   _hitCost: 244
+  SparkParticleSystemPrefab: {fileID: 7284036052413443104, guid: 91087dcd82e942149ba0ce2e84032c0b, type: 3}
   OnHitCar:
     m_PersistentCalls:
       m_Calls: []

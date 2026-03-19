@@ -7,10 +7,16 @@ using System;
 public class arithmetic_generator : MonoBehaviour
 {
     public const float TIME_INTERVAL = 2.0f;
+    public const float VOICE_INTERVAL = 1.0f;
     public TextMeshProUGUI numberText;
+    public arithmeticVerification arithmeticVerifier;
 
     public int[] numbers_array = { 0, 0, 0, 0 };
     public int[] added_num_array = { 0, 0, 0, 0 };
+    public static string correctNumber = null;
+    private string [] validWords = {"zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten", "eleven", "twelve", "thirteen", "fourteen", "fifteen", "sixteen"};
+    private string [] correctAnswers = {"zero", "zero", "zero", "zero"};
+    private bool [] answerResults = { false, false, false, false };
 
     
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -61,6 +67,20 @@ public class arithmetic_generator : MonoBehaviour
             {
                 numberText.text = "" + numbers_array[i];
                 yield return new WaitForSeconds(TIME_INTERVAL);
+            }
+
+            for (int i = 0; i < correctAnswers.Length; i++) // Converts correct answers to string for comparison at end.
+            {
+                correctAnswers[i] = validWords[added_num_array[i]];
+            }
+
+
+            Array.Fill(answerResults, false); // Resets results array for each round.
+            for (int i = 0; i < correctAnswers.Length; i++)
+            {
+                correctNumber = correctAnswers[i];
+                yield return new WaitForSeconds(VOICE_INTERVAL); // Set a time interval for the user to respond with each answer.
+                answerResults[i] = arithmeticVerifier.CompareWords(); // Stores whether each number was correct or not in array.
             }
 
             numberText.text = "Correct Numbers: " + added_num_array[0] + ", " + added_num_array[1] + ", " + added_num_array[2] + ", " + added_num_array[3];
