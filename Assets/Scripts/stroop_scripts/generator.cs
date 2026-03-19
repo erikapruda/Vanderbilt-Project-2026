@@ -6,7 +6,7 @@ public class generator : MonoBehaviour
 {
 
     public const float TIME_INTERVAL = 3f;    //time interval
-
+    public float STROOP_START_TIME = 0f;      //variable for when stroop test displays a word
     public TextMeshProUGUI stroopText;          //canvas text 
     public stroopVerification stroopVerifier;   //speech-to-text script
     public Image backgroundImage;               //canvas image
@@ -71,6 +71,10 @@ public class generator : MonoBehaviour
 
             stroopText.text = color_words[wordIndex];
             stroopText.color = colors[colorIndex];
+
+            STROOP_START_TIME = Time.realtimeSinceStartup;      //storing time of when word appears.
+
+            Debug.Log("" + STROOP_START_TIME);
 
             currentTargetColor = color_words[colorIndex]; // Set public color variable for use in speech recognition.
 
