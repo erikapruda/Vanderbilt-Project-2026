@@ -108,6 +108,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::WorldObject
   despawnDistance: 20
+  isBoundedByWorldBounds: 1
 --- !u!114 &1062035649265575407
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -122,6 +123,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::WorldObstacle
   _hitCost: 244
   SparkParticleSystemPrefab: {fileID: 7284036052413443104, guid: 91087dcd82e942149ba0ce2e84032c0b, type: 3}
+  MaxPenalizedHits: 1
   OnHitCar:
     m_PersistentCalls:
       m_Calls: []
@@ -200,5 +202,5 @@ Rigidbody2D:
     m_Bits: 0
   m_Interpolate: 0
   m_SleepingMode: 1
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
   m_Constraints: 0

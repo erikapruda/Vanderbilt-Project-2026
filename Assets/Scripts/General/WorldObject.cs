@@ -1,4 +1,5 @@
 using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class WorldObject : MonoBehaviour
@@ -12,8 +13,10 @@ public class WorldObject : MonoBehaviour
 
     private WaitForSeconds despawnCheckFrequency = new(0.5f);
 
+    private Camera mainCamera;
     void Awake()
     {
+        mainCamera = Camera.main;
         StartCoroutine(CheckDespawn());
     }
 

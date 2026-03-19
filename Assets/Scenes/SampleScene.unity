@@ -962,7 +962,7 @@ MonoBehaviour:
   m_Intensity: 1
   m_LightVolumeIntensity: 1
   m_LightVolumeEnabled: 0
-  m_ApplyToSortingLayers: 00000000
+  m_ApplyToSortingLayers: 0000000051daef7b
   m_LightCookieSprite: {fileID: 0}
   m_DeprecatedPointLightCookieSprite: {fileID: 0}
   m_LightOrder: 0
@@ -6165,7 +6165,7 @@ Canvas:
   m_VertexColorAlwaysGammaSpace: 1
   m_AdditionalShaderChannelsFlag: 25
   m_UpdateRectTransformForStandalone: 0
-  m_SortingLayerID: 0
+  m_SortingLayerID: 2079316561
   m_SortingOrder: 0
   m_TargetDisplay: 0
 --- !u!224 &1002551909
@@ -6260,6 +6260,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1346862001}
   - component: {fileID: 1346862002}
+  - component: {fileID: 1346862003}
   m_Layer: 0
   m_Name: World
   m_TagString: Untagged
@@ -6310,6 +6311,23 @@ MonoBehaviour:
     - 33
   spawnRate: 1
   maxObstacles: 4
+--- !u!114 &1346862003
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1346862000}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6c2dfba378d649641b48361275308f95, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::RoadSpawner
+  roads:
+    Items:
+    - {fileID: 1073964963766614708, guid: 48de102a41cb08d40a7917ab9b413797, type: 3}
+    ElementProbabilities:
+    - 100
 --- !u!1 &1402695584
 GameObject:
   m_ObjectHideFlags: 0
@@ -7498,6 +7516,14 @@ PrefabInstance:
       propertyPath: worldTransform
       value: 
       objectReference: {fileID: 1346862001}
+    - target: {fileID: 8908964563554615608, guid: 97938d39a93cc2c42b6f29624b369a2e, type: 3}
+      propertyPath: maxLinearVelocity
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 8908964563554615608, guid: 97938d39a93cc2c42b6f29624b369a2e, type: 3}
+      propertyPath: autoLinearVelocitySpeed
+      value: 15
+      objectReference: {fileID: 0}
     - target: {fileID: 8908964563554615608, guid: 97938d39a93cc2c42b6f29624b369a2e, type: 3}
       propertyPath: OnHitObstacle.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 

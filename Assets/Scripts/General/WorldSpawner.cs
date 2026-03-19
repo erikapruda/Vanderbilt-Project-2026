@@ -23,10 +23,15 @@ public class WorldSpawner : MonoBehaviour
 
     public ushort NumObstaclesSpawned { get; set; } = 0;
 
-    void Awake()
+    void OnEnable()
     {
         waitSpawnRate = new(spawnRate);
         spawnRoutine = StartCoroutine(SpawnObstacle());
+    }
+
+    void OnDisable()
+    {
+        StopCoroutine(spawnRoutine);
     }
 
     void Update()
