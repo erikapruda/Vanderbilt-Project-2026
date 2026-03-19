@@ -7,6 +7,16 @@ enum States
     TurnLeft
 }
 
+enum Detection
+{
+    Left,
+    Right,
+    TopLeft,
+    TopRight,
+    BottomLeft,
+    BottomRight
+}
+
 [RequireComponent(typeof(Animator))]
 [RequireComponent(typeof(BoxCollider2D))]
 public class CarAI : MonoBehaviour
@@ -52,20 +62,80 @@ public class CarAI : MonoBehaviour
     public Transform LeftEnd;
     public Transform RightEnd;
 
+    [HideInInspector]
+    private Detection detection;
 
     private Animator animator;
-    private BoxCollider2D collider;
+
     void Start()
     {
         animator = GetComponent<Animator>();
-        collider = GetComponent<BoxCollider2D>();
         animator.Play("Left Turn Signal");
     }
 
     // Update is called once per frame
     void Update()
     {
+        DetectCar();
         bool changeLane = laneChangeProbability <= Random.Range(0, 1);
+    }
+
+
+    void DetectCar()
+    {
+        RaycastHit2D raycastTopLeft = Physics2D.Raycast(TopLeft.position, TopLeftEnd.position - TopLeft.position,
+            Vector2.Distance(TopLeft.position, TopLeftEnd.position));
+        RaycastHit2D raycastTopRight = Physics2D.Raycast(TopRight.position, TopRightEnd.position - TopRight.position,
+            Vector2.Distance(TopRight.position, TopRightEnd.position));
+        RaycastHit2D raycastBottomLeft = Physics2D.Raycast(BottomLeft.position, BottomLeftEnd.position - BottomLeft.position,
+            Vector2.Distance(BottomLeft.position, BottomLeftEnd.position));
+        RaycastHit2D raycastBottomRight = Physics2D.Raycast(BottomRight.position, BottomRightEnd.position - BottomRight.position,
+            Vector2.Distance(BottomRight.position, BottomRightEnd.position));
+        RaycastHit2D raycastLeft = Physics2D.Raycast(Left.position, LeftEnd.position - Left.position,
+            Vector2.Distance(Left.position, LeftEnd.position));
+        RaycastHit2D raycastRight = Physics2D.Raycast(Right.position, RightEnd.position - Right.position,
+            Vector2.Distance(Right.position, RightEnd.position));
+
+        if (raycastTopLeft.collider != null && raycastTopLeft.collider.tag == "CarAI")
+            detection |= Detection.TopLeft;
+        else
+            detection &= ~Detection.TopLeft;
+        if (raycastTopRight.collider != null && raycastTopRight.collider.tag == "CarAI")
+            detection |= Detection.TopRight;
+        else
+            detection &= ~Detection.TopRight;
+        if (raycastBottomLeft.collider != null && raycastBottomLeft.collider.tag == "CarAI")
+        {
+            detection |= Detection.BottomLeft;
+        }
+        else
+        {
+            detection &= ~Detection.BottomLeft;
+        }
+        if (raycastBottomRight.collider != null && raycastBottomRight.collider.tag == "CarAI")
+        {
+            detection |= Detection.BottomRight;
+        }
+        else
+        {
+            detection &= ~Detection.BottomRight;
+        }
+        if (raycastLeft.collider != null && raycastLeft.collider.tag == "CarAI")
+        {
+            detection |= Detection.Left;
+        }
+        else
+        {
+            detection &= ~Detection.Left;
+        }
+        if (raycastRight.collider != null && raycastRight.collider.tag == "CarAI")
+        {
+            detection |= Detection.Right;
+        }
+        else
+        {
+            detection &= ~Detection.Right;
+        }
     }
 
     void OnDrawGizmos()
