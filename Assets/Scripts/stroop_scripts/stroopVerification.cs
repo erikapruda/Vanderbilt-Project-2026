@@ -12,11 +12,17 @@ public class stroopVerification : MonoBehaviour
     KeywordRecognizer speechRecognizer;
     private string[] validColors = {"red", "blue", "yellow", "orange", "green", "purple"};
     private string lastSpokenWord = null;
+    private float reactionTime = 0f;
+    private System.DateTime refDateTime;
+    private float refUnityTime;
 
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        // Created time references to use Unity's time and convert from the sytem time provided by the speech recognition event args.
+        refDateTime = System.DateTime.Now; // Reference point for calculating reaction time.
+        refUnityTime = Time.realtimeSinceStartup; // Reference point for calculating reaction time.
         
         speechRecognizer = new KeywordRecognizer(validColors); // Recognition class that only listens for words specified in validColors list.
         speechRecognizer.OnPhraseRecognized += OnPhraseRecognized;
@@ -32,6 +38,7 @@ public class stroopVerification : MonoBehaviour
     private void OnPhraseRecognized(PhraseRecognizedEventArgs args)
     {
         lastSpokenWord = args.text.ToLower(); // Each time a color is spoken, lastSpokenWord stores that value.
+        reactionTime = (refUnityTime + (float)(args.phraseStartTime - refDateTime).TotalSeconds) - generator.STROOP_START_TIME; // Convert to float to use with Unity's time system.
     }
 
     public bool CompareWords(){
@@ -44,13 +51,13 @@ public class stroopVerification : MonoBehaviour
         if (lastSpokenWord == generator.currentTargetColor.ToLower()){ // Returns true/false based on comparsion to target. Also consumes last word to prevent two
             lastSpokenWord = null;                                      // tests from accidentally reusing the result is nothing is spoken
             Debug.Log("Correct");
-            
+            Debug.Log("Reaction Time: " + reactionTime);
             return true;
         }
         else{
             lastSpokenWord = null;
             Debug.Log("Incorrect");
-            
+            Debug.Log("Reaction Time: " + reactionTime);
             return false;
         }
     }
