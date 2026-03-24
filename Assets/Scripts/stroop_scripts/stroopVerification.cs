@@ -12,7 +12,7 @@ public class stroopVerification : MonoBehaviour
     KeywordRecognizer speechRecognizer;
     private string[] validColors = {"red", "blue", "yellow", "orange", "green", "purple"};
     private string lastSpokenWord = null;
-    private float reactionTime = 0f;
+    public float reactionTime = 0f;
     private System.DateTime refDateTime;
     private float refUnityTime;
 
@@ -39,6 +39,7 @@ public class stroopVerification : MonoBehaviour
     {
         lastSpokenWord = args.text.ToLower(); // Each time a color is spoken, lastSpokenWord stores that value.
         reactionTime = (refUnityTime + (float)(args.phraseStartTime - refDateTime).TotalSeconds) - generator.STROOP_START_TIME; // Convert to float to use with Unity's time system.
+        Debug.Log("Reaction Time: " + reactionTime);
     }
 
     public bool CompareWords(){

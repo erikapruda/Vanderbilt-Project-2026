@@ -2,6 +2,8 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 using System.Collections;
+using System.Collections.Generic;
+
 public class generator : MonoBehaviour
 {
 
@@ -21,7 +23,17 @@ public class generator : MonoBehaviour
         new Color(1f, 0.5f, 0f)    //Orange
     };
 
-    
+    public struct results
+    {
+        public float reaction_time;
+        public bool correctness;
+    };
+
+    //public results[] results_array = new array();
+
+    List<results> results_array = new List<results>();
+
+
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -74,14 +86,16 @@ public class generator : MonoBehaviour
 
             STROOP_START_TIME = Time.realtimeSinceStartup;      //storing time of when word appears.
 
-            Debug.Log("" + STROOP_START_TIME);
+            //Debug.Log("" + STROOP_START_TIME);
 
             currentTargetColor = color_words[colorIndex]; // Set public color variable for use in speech recognition.
 
             yield return new WaitForSeconds(TIME_INTERVAL);
 
+            
             if (currentTargetColor != null)
             { // Calls verification command when a target color exists before changing to next stroop test.
+                results temp_results = new results();
                 bool correctness = stroopVerifier.CompareWords();
 
                 if (correctness == true)
@@ -94,9 +108,19 @@ public class generator : MonoBehaviour
                     backgroundImage.color = new Color(1f, 0.01f, 0.01f, 0.68f);
                 }
 
+
+                temp_results.reaction_time = stroopVerifier.reactionTime;
+                temp_results.correctness = correctness;
+
+                results_array.Add(temp_results);
+
                 yield return new WaitForSeconds(1.0f);
 
             }
+
+            
         }
+
+        
     }
 }
