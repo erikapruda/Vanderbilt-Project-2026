@@ -9,6 +9,7 @@ public class arithmetic_generator : MonoBehaviour
     public const float TIME_INTERVAL = 2.0f;
     public const float VOICE_INTERVAL = 3.0f;
     public TextMeshProUGUI numberText;
+    public Image backgroundImage;               //canvas image
     public arithmeticVerification arithmeticVerifier;
 
     public int[] numbers_array = { 0, 0, 0, 0 };
@@ -38,6 +39,7 @@ public class arithmetic_generator : MonoBehaviour
 
         while (true)
         {
+            backgroundImage.color = Color.white;
             adding_num = UnityEngine.Random.Range(1, 5);
             numberText.text = "Add " + adding_num + " to all numbers.";
             yield return new WaitForSeconds(3.0f);
@@ -78,13 +80,29 @@ public class arithmetic_generator : MonoBehaviour
              Array.Fill(answerResults, false); // Resets results array for each round.
             for (int i = 0; i < correctAnswers.Length; i++)
             {
+                backgroundImage.color = Color.white;
                 correctNumber = correctAnswers[i];
-                numberText.text = "What is the answer to question " + (i + 1) + "?";
+                numberText.text = "What is the answer to number #" + (i + 1) + "?";
                 yield return new WaitForSeconds(VOICE_INTERVAL); // Set a time interval for the user to respond with each question.
                 answerResults[i] = arithmeticVerifier.CompareWords();
+
+                if(answerResults[i] == true)
+                {
+                    backgroundImage.color = new Color(0.01f, 1f, 0.01f, 0.68f);
+                }
+
+                else if(answerResults[i] == false)
+                {
+                    backgroundImage.color = new Color(1f, 0.01f, 0.01f, 0.68f);
+                }
+
+                yield return new WaitForSeconds(1.0f);
+
             }
 
 
+            backgroundImage.color = Color.white;
+            
             numberText.text = "Correct Numbers: " + added_num_array[0] + ", " + added_num_array[1] + ", " + added_num_array[2] + ", " + added_num_array[3];
 
             yield return new WaitForSeconds(TIME_INTERVAL);

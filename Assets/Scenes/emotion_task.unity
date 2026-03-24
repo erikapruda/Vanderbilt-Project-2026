@@ -364,8 +364,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Bad
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: fd9e0e5f89973014bbfe65158856f8ca, type: 2}
+  m_sharedMaterial: {fileID: -28861903369592690, guid: fd9e0e5f89973014bbfe65158856f8ca, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -553,6 +553,10 @@ PrefabInstance:
       value: -41.071045
       objectReference: {fileID: 0}
     - target: {fileID: 7620994045978268552, guid: 31f0172e5540648bf87b8a0681699bce, type: 3}
+      propertyPath: m_fontAsset
+      value: 
+      objectReference: {fileID: 11400000, guid: 52a82de6290eb2d4ab86f2d23bbf06aa, type: 2}
+    - target: {fileID: 7620994045978268552, guid: 31f0172e5540648bf87b8a0681699bce, type: 3}
       propertyPath: m_fontColor.b
       value: 0.12215199
       objectReference: {fileID: 0}
@@ -565,6 +569,10 @@ PrefabInstance:
       value: 0.14150941
       objectReference: {fileID: 0}
     - target: {fileID: 7620994045978268552, guid: 31f0172e5540648bf87b8a0681699bce, type: 3}
+      propertyPath: m_sharedMaterial
+      value: 
+      objectReference: {fileID: 935324899927066414, guid: 52a82de6290eb2d4ab86f2d23bbf06aa, type: 2}
+    - target: {fileID: 7620994045978268552, guid: 31f0172e5540648bf87b8a0681699bce, type: 3}
       propertyPath: m_fontColor32.rgba
       value: 4280229668
       objectReference: {fileID: 0}
@@ -572,9 +580,14 @@ PrefabInstance:
       propertyPath: m_VerticalAlignment
       value: 512
       objectReference: {fileID: 0}
+    - target: {fileID: 7620994045978268552, guid: 31f0172e5540648bf87b8a0681699bce, type: 3}
+      propertyPath: m_hasFontAssetChanged
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 3490228699443783814, guid: 31f0172e5540648bf87b8a0681699bce, type: 3}
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: 2010136248844174160, guid: 31f0172e5540648bf87b8a0681699bce, type: 3}
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: 4811735989765440741, guid: 31f0172e5540648bf87b8a0681699bce, type: 3}
       insertIndex: 0
@@ -735,8 +748,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Good
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: fd9e0e5f89973014bbfe65158856f8ca, type: 2}
+  m_sharedMaterial: {fileID: -28861903369592690, guid: fd9e0e5f89973014bbfe65158856f8ca, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []

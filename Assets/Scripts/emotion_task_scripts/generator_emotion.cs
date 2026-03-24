@@ -9,7 +9,7 @@ public class generator_emotion : MonoBehaviour
 {
 
     public Image emotion_background;    //emotion canvas image
-    private const float TIME_INTERVAL = 3f;
+    private const float TIME_INTERVAL = 2.5f;
     public TextMeshProUGUI textbox;
     public TextMeshProUGUI good_textbox;
     public TextMeshProUGUI bad_textbox;
@@ -66,7 +66,7 @@ public class generator_emotion : MonoBehaviour
         bad_textbox.text = "";
 
 
-        textbox.text = "Welcome to Stroop Task";
+        textbox.text = "Welcome to Emotion Task";
         //wait 5 seconds
         yield return new WaitForSeconds(2.0f);
             
@@ -111,7 +111,7 @@ public class generator_emotion : MonoBehaviour
             textbox.text = words[wordIndex];
             WORD_START_TIME = Time.realtimeSinceStartup;      //storing time of when word appears.
 
-            yield return new WaitForSeconds(2.5f);
+            yield return new WaitForSeconds(TIME_INTERVAL);
             emotion_background.color = Color.white;
             
             
