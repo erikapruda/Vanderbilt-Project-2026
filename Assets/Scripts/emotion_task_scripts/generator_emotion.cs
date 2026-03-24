@@ -16,6 +16,7 @@ public class generator_emotion : MonoBehaviour
     public emotionVerification emotionVerifier;
     private int wordIndex = 0;
     private int newWordIndex = 0;
+    public static float WORD_START_TIME = 0f;
 
     private string[] words = { 
    
@@ -33,6 +34,13 @@ public class generator_emotion : MonoBehaviour
     
     {"Nightmare", 0}, {"Abhorrent", 0}, {"Catastrophe", 0}, {"Despair", 0}, {"Damaged", 0}, {"Hideous", 0}, {"Failure", 0}, {"Deceit", 0}, {"Betrayal", 0}, {"Cruel", 0}, {"Obscure", 0}, {"Rotting", 0}
     };
+
+    public struct results
+    {
+        public float reaction_time;
+        public bool correctness;
+    };
+    List<results> results_array = new List<results>();
 
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -101,11 +109,14 @@ public class generator_emotion : MonoBehaviour
             
 
             textbox.text = words[wordIndex];
+            WORD_START_TIME = Time.realtimeSinceStartup;      //storing time of when word appears.
+
             yield return new WaitForSeconds(2.5f);
             emotion_background.color = Color.white;
             
             
             if (wordType != null){ // Calls verification command when a target word association exists before changing to next stroop test.
+                results temp_results = new results();
                 bool emotion_correctness = emotionVerifier.CompareWords();
 
                 if(emotion_correctness == true)
@@ -120,6 +131,11 @@ public class generator_emotion : MonoBehaviour
                     //change background
                     emotion_background.color = new Color(1f, 0.01f, 0.01f, 0.68f);
                 }
+
+                temp_results.reaction_time = emotionVerifier.reactionTime;
+                temp_results.correctness = emotion_correctness;
+
+                results_array.Add(temp_results);
 
                 yield return new WaitForSeconds(1.0f);
             }
