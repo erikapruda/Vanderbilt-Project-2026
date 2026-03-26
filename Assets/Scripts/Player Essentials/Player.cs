@@ -100,6 +100,8 @@ public class Player : MonoBehaviour
 
     Coroutine recoverCarRoutine;
 
+    private Vector3 startPosition;
+
     public static Player Singleton { get; private set; }
 
     public bool IsInvincible { get; private set; }
@@ -108,6 +110,7 @@ public class Player : MonoBehaviour
 
     private void Awake()
     {
+        startPosition = transform.position;
         rb = GetComponent<Rigidbody2D>();
         Singleton = this;
     }
@@ -154,16 +157,16 @@ public class Player : MonoBehaviour
                 // Check if object is a world object and move it on the y if so
                 if (childTrans.TryGetComponent<WorldObject>(out _) && childTrans.TryGetComponent(out Rigidbody2D childRb))
                 {
-                    childRb.MovePosition(childRb.position + (childRb.linearVelocity * Time.fixedDeltaTime) - new Vector2(0f, rb.position.y));
+                    childRb.MovePosition(childRb.position + (childRb.linearVelocity * Time.fixedDeltaTime) - new Vector2(0f, rb.position.y - startPosition.y));
                 }
             }
-            rb.position = new Vector2(Mathf.Clamp(rb.position.x, WorldBounds.Singleton.LeftX, WorldBounds.Singleton.RightX), 0f);
+            rb.position = new Vector2(Mathf.Clamp(rb.position.x, WorldBounds.Singleton.LeftX, WorldBounds.Singleton.RightX), startPosition.y);
         }
     }
 
     void LateUpdate()
     {
-        transform.position = new Vector3(Mathf.Clamp(transform.position.x, WorldBounds.Singleton.LeftX, WorldBounds.Singleton.RightX), 0f, transform.position.z);
+        transform.position = new Vector3(Mathf.Clamp(transform.position.x, WorldBounds.Singleton.LeftX, WorldBounds.Singleton.RightX), startPosition.y, startPosition.z);
 
         AnimationClip currentClip = null;
         if (animator != null && animator.GetCurrentAnimatorClipInfo(0).Length > 0)
@@ -273,6 +276,7 @@ public class Player : MonoBehaviour
         // Play debt add animation
         if (debtText.gameObject.TryGetComponent(out Animation animation))
         {
+            animation.Stop();
             animation.Play();
         }
     }
