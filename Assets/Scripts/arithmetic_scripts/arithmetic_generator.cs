@@ -8,6 +8,7 @@ public class arithmetic_generator : MonoBehaviour
 {
     public const float TIME_INTERVAL = 2.0f;
     public const float VOICE_INTERVAL = 3.0f;
+    public static float ARITHMETIC_START_TIME = 0f;
     public TextMeshProUGUI numberText;
     public arithmeticVerification arithmeticVerifier;
 
@@ -17,6 +18,15 @@ public class arithmetic_generator : MonoBehaviour
     private string [] validWords = {"zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten", "eleven", "twelve", "thirteen", "fourteen", "fifteen", "sixteen"};
     private string [] correctAnswers = {"zero", "zero", "zero", "zero"};
     private bool [] answerResults = { false, false, false, false };
+
+    public struct results
+    {
+        public float reaction_time;
+        public bool correctness;
+        public int question_number;
+    };
+
+    List<results> results_array = new List<results>();
 
     
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -80,8 +90,15 @@ public class arithmetic_generator : MonoBehaviour
             {
                 correctNumber = correctAnswers[i];
                 numberText.text = "What is the answer to question " + (i + 1) + "?";
+                ARITHMETIC_START_TIME = Time.realtimeSinceStartup; // Set start time for each question to calculate reaction time.
                 yield return new WaitForSeconds(VOICE_INTERVAL); // Set a time interval for the user to respond with each question.
                 answerResults[i] = arithmeticVerifier.CompareWords();
+                
+                results newResult = new results();
+                newResult.question_number = i + 1;
+                newResult.correctness = answerResults[i];
+                newResult.reaction_time = arithmeticVerifier.reactionTime;
+                results_array.Add(newResult);
             }
 
 
