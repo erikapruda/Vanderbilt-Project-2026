@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 2564834308139962806}
   - component: {fileID: 4440909409276644133}
   - component: {fileID: 2498372775016622078}
+  - component: {fileID: -8643665460449690862}
   m_Layer: 0
   m_Name: Road
   m_TagString: Road
@@ -35,7 +36,6 @@ Transform:
   - {fileID: 8257841328666381186}
   - {fileID: 242293674326964258}
   - {fileID: 5854386346984379248}
-  - {fileID: 8804169072433603175}
   - {fileID: 1465309098259579494}
   - {fileID: 1982681842127445548}
   - {fileID: 7987294127282028849}
@@ -91,6 +91,24 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!114 &-8643665460449690862
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1073964963766614708}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: be7eb148511174349826139860d50d25, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: '::'
+  lanePositions:
+  - {fileID: 1130035250182571363}
+  - {fileID: 8257841328666381186}
+  - {fileID: 242293674326964258}
+  - {fileID: 5854386346984379248}
+  numCars: {x: 0, y: 4}
 --- !u!1 &1849848056842646376
 GameObject:
   m_ObjectHideFlags: 0
@@ -577,37 +595,6 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
---- !u!1 &6282974272921413029
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 8804169072433603175}
-  m_Layer: 0
-  m_Name: RightmostLane (1)
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &8804169072433603175
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6282974272921413029}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 4.11, y: 1, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 2564834308139962806}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &6677591517116721947
 GameObject:
   m_ObjectHideFlags: 0

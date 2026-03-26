@@ -1,0 +1,85 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &548516662075864720
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5884109925594308922}
+  - component: {fileID: 3233359448268099316}
+  - component: {fileID: 1506285828265470637}
+  m_Layer: 0
+  m_Name: World
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5884109925594308922
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 548516662075864720}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3233359448268099316
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 548516662075864720}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a7caad85c8c9e14c82d476c694c4ace, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::WorldSpawner
+  spawnableObstaclePrefabs:
+    Items:
+    - {fileID: 5942324852987958170, guid: 36cc6627a0c9b2e4283e1b95605dad49, type: 3}
+    ElementProbabilities:
+    - 100
+  spawnerTransforms:
+    Items:
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    ElementProbabilities:
+    - 33
+    - 33
+    - 33
+  spawnRate: 20
+  maxObstacles: 4
+--- !u!114 &1506285828265470637
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 548516662075864720}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6c2dfba378d649641b48361275308f95, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::RoadSpawner
+  roads:
+    Items:
+    - {fileID: 1073964963766614708, guid: 48de102a41cb08d40a7917ab9b413797, type: 3}
+    ElementProbabilities:
+    - 100
+  cars:
+    Items:
+    - {fileID: 8266942294154701227, guid: 8f3d3d9955756754285861b2abd962e8, type: 3}
+    ElementProbabilities:
+    - 100

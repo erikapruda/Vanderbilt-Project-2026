@@ -62,15 +62,20 @@ public class CarAI : MonoBehaviour
     public Transform LeftEnd;
     public Transform RightEnd;
 
-    [HideInInspector]
     private Detection detection;
 
     private Animator animator;
 
+    private Rigidbody2D rb;
+
+    private float targetSpeed = 0;
     void Start()
     {
+        rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
         animator.Play("Left Turn Signal");
+
+        targetSpeed = 15 + (15 * Random.Range(-speedLimitLeniency, speedLimitLeniency));
     }
 
     // Update is called once per frame
@@ -78,8 +83,12 @@ public class CarAI : MonoBehaviour
     {
         DetectCar();
         bool changeLane = laneChangeProbability <= Random.Range(0, 1);
-    }
 
+        Vector2 velNorm = transform.up;
+        float velMag = rb.linearVelocity.magnitude;
+        velMag = Mathf.MoveTowards(velMag, targetSpeed, 15);
+        rb.linearVelocity = velNorm * velMag;
+    }
 
     void DetectCar()
     {

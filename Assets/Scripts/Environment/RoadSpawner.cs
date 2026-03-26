@@ -1,25 +1,71 @@
+using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class RoadSpawner : MonoBehaviour
 {
     public ListRandomizer<GameObject> roads;
 
+    public ListRandomizer<GameObject> cars;
+
+    private List<GameObject> roadList = new();
+
     void Start()
     {
-        Instantiate(roads.GetRandom(), new Vector3(-3.5f, -4f, 0), Quaternion.identity, transform);
+        roadList.Add(Instantiate(roads.GetRandom(), new Vector3(-3.5f, -4f, 0), Quaternion.identity, transform));
     }
 
     void Update()
     {
-        GameObject[] roadGameObjects = GameObject.FindGameObjectsWithTag("Road");
-        
-        if (roadGameObjects[^1].transform.position.y < 2)
+        roadList.RemoveAll(road => road == null);
+
+        if (roadList[^1].transform.position.y < 2)
         {
             GameObject road = roads.GetRandom();
+            Vector3 spawnPos = roadList[^1].transform.position + new Vector3(0f, 11.5f, 0f);
 
-            Vector3 spawnPos = roadGameObjects[^1].transform.position + new Vector3(0f, 11.5f, 0f);
+            road = Instantiate(road, spawnPos, Quaternion.identity, transform);
+            roadList.Add(road);
 
-            Instantiate(road, spawnPos, Quaternion.identity, transform);
+            SpawnCars(road.GetComponent<Road>());
+        }
+    }
+
+    void SpawnCars(Road road)
+    {
+        int numCars = UnityEngine.Random.Range(road.numCars.x, road.numCars.y);
+
+        List<float> ySpawnPositions = new();
+
+        for (int i = 0; i < numCars; i++)
+        {
+            int laneIndex = UnityEngine.Random.Range(0, road.lanePositions.Length);
+
+            Vector3 lanePosition = road.lanePositions[laneIndex].position;
+
+            float randX = UnityEngine.Random.Range(-0.5f, 0.5f);
+            float randY = UnityEngine.Random.Range(-8f, 8f);
+            
+            ySpawnPositions.Add(randY);
+            
+            foreach (var yPos in ySpawnPositions)
+            {
+                if (randY < yPos + 2f && randY > yPos - 2f)
+                {
+                    if (randY < yPos + 2f)
+                        randY += 3f;
+                    else
+                        randY -= 3f;
+                }
+            }
+
+            Vector3 randPosition = new(randX, randY, 0f);
+            Vector3 spawnPos = lanePosition + randPosition;
+
+            GameObject car = cars.GetRandom();
+            car = Instantiate(car, spawnPos, Quaternion.identity, transform);
+
+            Debug.Log(car.transform.localScale);
         }
     }
 }
