@@ -4,23 +4,22 @@ public class RoadSpawner : MonoBehaviour
 {
     public ListRandomizer<GameObject> roads;
 
+    void Start()
+    {
+        Instantiate(roads.GetRandom(), new Vector3(-3.5f, -4f, 0), Quaternion.identity, transform);
+    }
+
     void Update()
     {
         GameObject[] roadGameObjects = GameObject.FindGameObjectsWithTag("Road");
-
-        if (roadGameObjects.Length < 3)
+        
+        if (roadGameObjects[^1].transform.position.y < 2)
         {
             GameObject road = roads.GetRandom();
-            
-            SpriteRenderer roadSprite = road.GetComponent<SpriteRenderer>();
 
-            Vector3 spawnPos; 
-            if (roadGameObjects.Length > 1)
-                spawnPos = roadGameObjects[roadGameObjects.Length - 1].transform.position + new Vector3(0f, roadSprite.size.y, 0f);
-            else
-                spawnPos = new Vector3(0f, 0f, 0f);
+            Vector3 spawnPos = roadGameObjects[^1].transform.position + new Vector3(0f, 11.5f, 0f);
 
-            Instantiate(road, spawnPos, Quaternion.AngleAxis(90, Vector3.forward), transform);
+            Instantiate(road, spawnPos, Quaternion.identity, transform);
         }
     }
 }
