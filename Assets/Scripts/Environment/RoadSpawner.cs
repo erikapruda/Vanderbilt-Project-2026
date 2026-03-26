@@ -19,7 +19,7 @@ public class RoadSpawner : MonoBehaviour
     {
         roadList.RemoveAll(road => road == null);
 
-        if (roadList[^1].transform.position.y < 2)
+        if (roadList[^1].transform.position.y < -2f)
         {
             GameObject road = roads.GetRandom();
             Vector3 spawnPos = roadList[^1].transform.position + new Vector3(0f, 11.5f, 0f);
@@ -44,7 +44,7 @@ public class RoadSpawner : MonoBehaviour
             Vector3 lanePosition = road.lanePositions[laneIndex].position;
 
             float randX = UnityEngine.Random.Range(-0.5f, 0.5f);
-            float randY = UnityEngine.Random.Range(-8f, 8f);
+            float randY = UnityEngine.Random.Range(-8f, -2f);
             
             ySpawnPositions.Add(randY);
             
@@ -52,10 +52,7 @@ public class RoadSpawner : MonoBehaviour
             {
                 if (randY < yPos + 2f && randY > yPos - 2f)
                 {
-                    if (randY < yPos + 2f)
-                        randY += 3f;
-                    else
-                        randY -= 3f;
+                    randY += 6f;
                 }
             }
 
