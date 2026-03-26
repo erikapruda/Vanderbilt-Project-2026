@@ -831,6 +831,10 @@ PrefabInstance:
       propertyPath: 'cars.Items.Array.data[0]'
       value: 
       objectReference: {fileID: 3841376137598409359, guid: 369b8e2689b6f2e44b56e371d55f3a97, type: 3}
+    - target: {fileID: 1506285828265470637, guid: 0ea7cff2c09e0b841b1fd492c9ac3ec5, type: 3}
+      propertyPath: 'cars.ElementProbabilities.Array.data[0]'
+      value: 150
+      objectReference: {fileID: 0}
     - target: {fileID: 3233359448268099316, guid: 0ea7cff2c09e0b841b1fd492c9ac3ec5, type: 3}
       propertyPath: 'spawnerTransforms.Items.Array.data[0]'
       value: 
@@ -8470,7 +8474,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: -900, y: -200}
+  m_AnchoredPosition: {x: -1100, y: -100}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1943682801
@@ -8603,6 +8607,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1906096562340269148, guid: addfd3a6123ce444ab6e56c1344d9b52, type: 3}
+      propertyPath: m_Material
+      value: 
+      objectReference: {fileID: 6200000, guid: 8478136c9010a8e40aa52e400d717b38, type: 2}
     - target: {fileID: 3665073372302967254, guid: addfd3a6123ce444ab6e56c1344d9b52, type: 3}
       propertyPath: ShouldPropagateDebt
       value: 0
@@ -8611,6 +8619,10 @@ PrefabInstance:
       propertyPath: SparkParticleSystemPrefab
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 4290479738105861715, guid: addfd3a6123ce444ab6e56c1344d9b52, type: 3}
+      propertyPath: m_Material
+      value: 
+      objectReference: {fileID: 6200000, guid: 8478136c9010a8e40aa52e400d717b38, type: 2}
     - target: {fileID: 5482424401442616084, guid: addfd3a6123ce444ab6e56c1344d9b52, type: 3}
       propertyPath: m_Name
       value: World Bounds
@@ -8716,14 +8728,42 @@ PrefabInstance:
       propertyPath: m_Name
       value: PlayerCar
       objectReference: {fileID: 0}
+    - target: {fileID: 6958099837528174848, guid: 97938d39a93cc2c42b6f29624b369a2e, type: 3}
+      propertyPath: m_Material
+      value: 
+      objectReference: {fileID: 6200000, guid: 63b6a8c9742e52e479417b554b0025fb, type: 2}
     - target: {fileID: 8908964563554615608, guid: 97938d39a93cc2c42b6f29624b369a2e, type: 3}
       propertyPath: debtText
       value: 
       objectReference: {fileID: 1943682801}
     - target: {fileID: 8908964563554615608, guid: 97938d39a93cc2c42b6f29624b369a2e, type: 3}
+      propertyPath: steeringPower
+      value: 45
+      objectReference: {fileID: 0}
+    - target: {fileID: 8908964563554615608, guid: 97938d39a93cc2c42b6f29624b369a2e, type: 3}
       propertyPath: worldTransform
       value: 
       objectReference: {fileID: 548868168}
+    - target: {fileID: 8908964563554615608, guid: 97938d39a93cc2c42b6f29624b369a2e, type: 3}
+      propertyPath: accelerationPower
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 8908964563554615608, guid: 97938d39a93cc2c42b6f29624b369a2e, type: 3}
+      propertyPath: decelerationPower
+      value: 45
+      objectReference: {fileID: 0}
+    - target: {fileID: 8908964563554615608, guid: 97938d39a93cc2c42b6f29624b369a2e, type: 3}
+      propertyPath: maxAngularVelocity
+      value: 45
+      objectReference: {fileID: 0}
+    - target: {fileID: 8908964563554615608, guid: 97938d39a93cc2c42b6f29624b369a2e, type: 3}
+      propertyPath: crashKnockbackForce
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8908964563554615608, guid: 97938d39a93cc2c42b6f29624b369a2e, type: 3}
+      propertyPath: steeringCenterPower
+      value: 90
+      objectReference: {fileID: 0}
     - target: {fileID: 8908964563554615608, guid: 97938d39a93cc2c42b6f29624b369a2e, type: 3}
       propertyPath: OnHitObstacle.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 

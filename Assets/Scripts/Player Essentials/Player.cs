@@ -57,8 +57,8 @@ public class Player : MonoBehaviour
     private float decelerationPower = 100f;
 
     [SerializeField]
-    [Tooltip("The maximum rotational speed the car can turn")]
-    private float maxAngularVelocity = 100f;
+    [Tooltip("The maximum angle in degrees that this car can turn")]
+    private float maxRotationAngle = 100f;
 
     [SerializeField]
     [Tooltip("The car's steering acceleration when steering input is in use")]
@@ -84,11 +84,6 @@ public class Player : MonoBehaviour
     [SerializeField]
     [Tooltip("The time it takes in seconds for the car to correct from a crash")]
     private float recoveryTime = 3f;
-
-    [SerializeField]
-    [Tooltip("Extra knockback force to apply when hitting an obstacle")]
-    [Range(0f, 1f)]
-    private float crashKnockbackForce = 0.25f;
 
     [SerializeField]
     [Tooltip("How long it takes before the player can collide against the same obstacle")]
@@ -124,11 +119,11 @@ public class Player : MonoBehaviour
             // Adjust angular velocity based on steering
             if (InputManager.SteeringInput == 0f)
             {
-                rb.angularVelocity = Mathf.MoveTowards(rb.angularVelocity, -rb.rotation, steeringCenterPower * deltaTime);
+                rb.MoveRotation(Mathf.MoveTowards(rb.rotation, 0f, steeringCenterPower * deltaTime));
             }
             else
             {
-                rb.angularVelocity = Mathf.Clamp(rb.angularVelocity + (steeringPower * -InputManager.SteeringInput * deltaTime), -maxAngularVelocity, maxAngularVelocity);
+                rb.MoveRotation(Mathf.Clamp(rb.rotation + (steeringPower * -InputManager.SteeringInput * deltaTime), -maxRotationAngle, maxRotationAngle));
             }
 
             // Get current velocity direction and speed
@@ -139,7 +134,10 @@ public class Player : MonoBehaviour
             float targetSpeed = InputManager.AccelerateInputHeld ? maxLinearVelocity : autoLinearVelocitySpeed;
             float celeration = InputManager.DecelerateInputHeld ? decelerationPower * deltaTime : accelerationPower * deltaTime;
             velMag = Mathf.MoveTowards(velMag, targetSpeed, celeration);
-            rb.linearVelocity = velNorm * velMag;
+            
+            // Update velocity
+            rb.linearVelocityX = velNorm.x * velMag;
+            rb.linearVelocityY = Mathf.MoveTowards(rb.linearVelocityY, targetSpeed, celeration);
         }
 
         MoveWorld();
@@ -220,8 +218,8 @@ public class Player : MonoBehaviour
                 // Calculate knockback
                 Vector2 hitNormal = collision.contacts[i].normal;
                 float hitStrength = collision.contacts[i].normalImpulse;
-                averageKnockback += hitStrength * hitNormal;
 
+                averageKnockback += hitStrength * hitNormal;
                 averageContactPoint += collision.contacts[i].point;
             }
 
@@ -238,11 +236,6 @@ public class Player : MonoBehaviour
                 InputManager.IsGameplayInputEnabled = false;
                 AddDebt(worldObstacle.HitCost, averageContactPoint, -averageKnockback.normalized);
             }
-
-            // Apply knockback
-            averageKnockback *= crashKnockbackForce;
-            collision.rigidbody.AddForce(-averageKnockback, ForceMode2D.Impulse);
-            rb.AddForce(averageKnockback, ForceMode2D.Impulse);
 
             // Recover car after recovery time
             recoveryWait = new WaitForSeconds(recoveryTime);
@@ -340,7 +333,7 @@ public class Player : MonoBehaviour
         rb.rotation = 0f;
 
         // Reset velocities
-        rb.linearVelocity = Vector2.zero;
+        //rb.linearVelocity = Vector2.zero;
         rb.angularVelocity = 0f;
 
         // Play invincibility animation and disable colliders if animation exists

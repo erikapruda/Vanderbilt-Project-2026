@@ -147,6 +147,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::WorldObstacle
   _hitCost: 1800
   SparkParticleSystemPrefab: {fileID: 7284036052413443104, guid: 91087dcd82e942149ba0ce2e84032c0b, type: 3}
+  ShouldPropagateDebt: 1
   MaxPenalizedHits: 2
   OnHitCar:
     m_PersistentCalls:
@@ -235,7 +236,7 @@ Rigidbody2D:
   m_LinearDamping: 0
   m_AngularDamping: 0
   m_GravityScale: 0
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: 8478136c9010a8e40aa52e400d717b38, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
