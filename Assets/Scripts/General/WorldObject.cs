@@ -4,9 +4,8 @@ using UnityEngine;
 
 public class WorldObject : MonoBehaviour
 {
-    [SerializeField]
     [Tooltip("The distance from the world origin at which this object despawns")]
-    private float despawnDistance = 20f;
+    public float despawnDistance = 20f;
 
     [SerializeField]
     private bool isBoundedByWorldBounds = true;

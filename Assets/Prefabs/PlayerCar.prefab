@@ -189,13 +189,13 @@ MonoBehaviour:
   drivingLeftAnimName: Player_Driving_Left
   drivingRightAnimName: Player_Driving_Right
   invincibilityAnimName: Player_Invincibility
-  maxLinearVelocity: 25
-  autoLinearVelocitySpeed: 1
+  maxLinearVelocity: 15
+  autoLinearVelocitySpeed: 15
   accelerationPower: 100
   decelerationPower: 100
   maxAngularVelocity: 100
   steeringPower: 300
-  steeringCenterPower: 300
+  steeringCenterPower: 10000
   worldTransform: {fileID: 0}
   debtTextPrefab: {fileID: 8019341860198137268, guid: 155cef4b5beebc04ba03fe6c683addbb, type: 3}
   OnHitObstacle:

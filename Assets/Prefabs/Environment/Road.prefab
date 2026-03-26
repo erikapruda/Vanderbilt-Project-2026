@@ -9,9 +9,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2564834308139962806}
-  - component: {fileID: 4440909409276644133}
   - component: {fileID: 2498372775016622078}
   - component: {fileID: -8643665460449690862}
+  - component: {fileID: 6663828423364030572}
   m_Layer: 0
   m_Name: Road
   m_TagString: Road
@@ -50,20 +50,6 @@ Transform:
   - {fileID: 6319864006296819831}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &4440909409276644133
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1073964963766614708}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1640e02244b5e084095452b864ea4ed0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::WorldObject
-  despawnDistance: 15
-  isBoundedByWorldBounds: 0
 --- !u!50 &2498372775016622078
 Rigidbody2D:
   serializedVersion: 5
@@ -109,6 +95,20 @@ MonoBehaviour:
   - {fileID: 242293674326964258}
   - {fileID: 5854386346984379248}
   numCars: {x: 0, y: 4}
+--- !u!114 &6663828423364030572
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1073964963766614708}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1640e02244b5e084095452b864ea4ed0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::WorldObject
+  despawnDistance: 100
+  isBoundedByWorldBounds: 0
 --- !u!1 &1849848056842646376
 GameObject:
   m_ObjectHideFlags: 0

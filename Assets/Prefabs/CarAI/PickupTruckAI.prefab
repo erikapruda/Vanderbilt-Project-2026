@@ -275,7 +275,6 @@ MonoBehaviour:
   speedLimitLeniency: 0.2
   carHitPenalty: 20000
   passengers: 2
-  spawnScale: {x: 4.36, y: 4.36, z: 4.36}
   TopLeft: {fileID: 5528238854208791777}
   TopRight: {fileID: 388749506806744168}
   BottomLeft: {fileID: 1899448676198982100}
@@ -328,7 +327,7 @@ Animator:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3841376137598409359}
-  m_Enabled: 1
+  m_Enabled: 0
   m_Avatar: {fileID: 0}
   m_Controller: {fileID: -3855222751188212774, guid: 342c0893251e4d24ab83249709549ccf, type: 3}
   m_CullingMode: 0

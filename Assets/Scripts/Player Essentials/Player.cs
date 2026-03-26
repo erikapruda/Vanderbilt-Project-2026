@@ -121,7 +121,7 @@ public class Player : MonoBehaviour
             // Adjust angular velocity based on steering
             if (InputManager.SteeringInput == 0f)
             {
-                rb.angularVelocity = Mathf.MoveTowards(rb.angularVelocity, 0f, steeringCenterPower * deltaTime);
+                rb.angularVelocity = Mathf.MoveTowards(rb.angularVelocity, -rb.rotation, steeringCenterPower * deltaTime);
             }
             else
             {
