@@ -276,6 +276,7 @@ public class Player : MonoBehaviour
         // Play debt add animation
         if (debtText.gameObject.TryGetComponent(out Animation animation))
         {
+            animation.Stop();
             animation.Play();
         }
     }
