@@ -64,10 +64,10 @@ public class WorldObstacle : MonoBehaviour
         {
             for (byte i = 0; i < collision.contactCount; i++)
             {
-                GameObject particleSystemInstance = Instantiate(SparkParticleSystemPrefab, new Vector3(collision.contacts[i].point.x, collision.contacts[i].point.y, 0f), Quaternion.identity);
+                GameObject particleSystemInstance = Instantiate(SparkParticleSystemPrefab, new Vector3(collision.contacts[i].point.x, collision.contacts[i].point.y, -2f), Quaternion.identity);
                 if (particleSystemInstance.TryGetComponent(out Rigidbody2D rbInstance))
                 {
-                    rbInstance.linearVelocity = rb.linearVelocity + collision.contacts[i].normal;
+                    rbInstance.linearVelocity = Vector2.ClampMagnitude(rb.linearVelocity + collision.contacts[i].normal, 5.0f);
                 }
             }
         }
