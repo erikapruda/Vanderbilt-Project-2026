@@ -1,21 +1,6 @@
+using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
-
-enum States
-{
-    Passive,
-    TurnRight,
-    TurnLeft
-}
-
-enum Detection
-{
-    Left,
-    Right,
-    TopLeft,
-    TopRight,
-    BottomLeft,
-    BottomRight
-}
 
 [RequireComponent(typeof(Animator))]
 [RequireComponent(typeof(BoxCollider2D))]
@@ -49,30 +34,27 @@ public class CarAI : MonoBehaviour
     [Header("The number of people in the car. The number adds to\nthe death toll score")]
     public int passengers = 2;
 
-    public Transform TopLeft;
-    public Transform TopRight;
-    public Transform BottomLeft;
-    public Transform BottomRight;
-    public Transform Left;
-    public Transform Right;
-    public Transform TopLeftEnd;
-    public Transform TopRightEnd;
-    public Transform BottomLeftEnd;
-    public Transform BottomRightEnd;
-    public Transform LeftEnd;
-    public Transform RightEnd;
+    public float detectionDistance = 2.0f;
 
-    private Detection detection;
+    private List<float> directionsToCar = new();
 
     private Animator animator;
 
     private Rigidbody2D rb;
 
     private float targetSpeed = 0;
+
+    private Player player;
+    private List<GameObject> cars = new();
+
+    [HideInInspector]
+    public Transform targetLane;
+
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
+        player = FindObjectsByType<Player>(FindObjectsSortMode.None)[0];
         animator.Play("Left Turn Signal");
 
         targetSpeed = 15 + (15 * Random.Range(-speedLimitLeniency, speedLimitLeniency));
@@ -82,7 +64,8 @@ public class CarAI : MonoBehaviour
     void Update()
     {
         DetectCar();
-        bool changeLane = laneChangeProbability <= Random.Range(0, 1);
+        ChooseLane();
+        AvoidCar();
 
         Vector2 velNorm = transform.up;
         float velMag = rb.linearVelocity.magnitude;
@@ -92,74 +75,68 @@ public class CarAI : MonoBehaviour
 
     void DetectCar()
     {
-        RaycastHit2D raycastTopLeft = Physics2D.Raycast(TopLeft.position, TopLeftEnd.position - TopLeft.position,
-            Vector2.Distance(TopLeft.position, TopLeftEnd.position));
-        RaycastHit2D raycastTopRight = Physics2D.Raycast(TopRight.position, TopRightEnd.position - TopRight.position,
-            Vector2.Distance(TopRight.position, TopRightEnd.position));
-        RaycastHit2D raycastBottomLeft = Physics2D.Raycast(BottomLeft.position, BottomLeftEnd.position - BottomLeft.position,
-            Vector2.Distance(BottomLeft.position, BottomLeftEnd.position));
-        RaycastHit2D raycastBottomRight = Physics2D.Raycast(BottomRight.position, BottomRightEnd.position - BottomRight.position,
-            Vector2.Distance(BottomRight.position, BottomRightEnd.position));
-        RaycastHit2D raycastLeft = Physics2D.Raycast(Left.position, LeftEnd.position - Left.position,
-            Vector2.Distance(Left.position, LeftEnd.position));
-        RaycastHit2D raycastRight = Physics2D.Raycast(Right.position, RightEnd.position - Right.position,
-            Vector2.Distance(Right.position, RightEnd.position));
+        cars.Clear();
+        
+        var carList = FindObjectsByType<CarAI>(FindObjectsSortMode.None);
 
-        if (raycastTopLeft.collider != null && raycastTopLeft.collider.tag == "CarAI")
-            detection |= Detection.TopLeft;
-        else
-            detection &= ~Detection.TopLeft;
-        if (raycastTopRight.collider != null && raycastTopRight.collider.tag == "CarAI")
-            detection |= Detection.TopRight;
-        else
-            detection &= ~Detection.TopRight;
-        if (raycastBottomLeft.collider != null && raycastBottomLeft.collider.tag == "CarAI")
+        cars.Add(player.gameObject);
+
+        foreach (CarAI car in carList)
+            cars.Add(car.gameObject);
+
+        directionsToCar.Clear();
+
+        List<GameObject> farCars = new();
+
+        foreach (var car in cars)
         {
-            detection |= Detection.BottomLeft;
+            if (Vector2.Distance(transform.position, car.transform.position) > detectionDistance + 0.5f)
+                farCars.Add(car);
         }
-        else
+
+        cars.RemoveAll(car => farCars.Contains(car));
+    }
+
+    void ChooseLane()
+    {
+        bool changeLane = laneChangeProbability <= Random.Range(0, 1);
+
+        var roads = FindObjectsByType<Road>(FindObjectsSortMode.None);
+
+        Road closestRoad = null;
+        float closestDistance = Mathf.Infinity;
+
+        foreach (var road in roads)
         {
-            detection &= ~Detection.BottomLeft;
+            float distance = Vector2.Distance(transform.position, road.gameObject.transform.position);
+
+            if (distance < closestDistance)
+            {
+                closestDistance = distance;
+                closestRoad = road;
+            }
         }
-        if (raycastBottomRight.collider != null && raycastBottomRight.collider.tag == "CarAI")
-        {
-            detection |= Detection.BottomRight;
-        }
-        else
-        {
-            detection &= ~Detection.BottomRight;
-        }
-        if (raycastLeft.collider != null && raycastLeft.collider.tag == "CarAI")
-        {
-            detection |= Detection.Left;
-        }
-        else
-        {
-            detection &= ~Detection.Left;
-        }
-        if (raycastRight.collider != null && raycastRight.collider.tag == "CarAI")
-        {
-            detection |= Detection.Right;
-        }
-        else
-        {
-            detection &= ~Detection.Right;
-        }
+    }
+
+    void AvoidCar()
+    {
+        
     }
 
     void OnDrawGizmos()
     {
         // Draw top left line
-        Gizmos.DrawLine(TopLeft.position, TopLeftEnd.position);
-        // Draw top right line
-        Gizmos.DrawLine(TopRight.position, TopRightEnd.position);
-        // Draw bottom left line
-        Gizmos.DrawLine(BottomLeft.position, BottomLeftEnd.position);
-        // Draw bottom right
-        Gizmos.DrawLine(BottomRight.position, BottomRightEnd.position);
-        // Draw left line
-        Gizmos.DrawLine(Left.position, LeftEnd.position);
-        // Draw right line
-        Gizmos.DrawLine(Right.position, RightEnd.position);
+        Handles.DrawWireDisc(transform.position, Vector3.forward, detectionDistance);
+
+        if (cars.Count > 0)
+        {
+            Gizmos.color = Color.blue;
+            
+            foreach (var car in cars)
+            {
+                if (car != null)
+                    Gizmos.DrawLine(transform.position, car.transform.position);
+            }
+        }
     }
 }
