@@ -23,7 +23,7 @@ public class arithmeticVerification : MonoBehaviour
     private void OnPhraseRecognized(PhraseRecognizedEventArgs args)
     {
         lastSpokenWord = args.text.ToLower(); // Each time a word is spoken, lastSpokenWord stores that value.
-        reactionTime = (refUnityTime + (float)(args.phraseStartTime - refDateTime).TotalSeconds) - generator.ARITHMETIC_START_TIME; // Convert to float to use with Unity's time system.
+        reactionTime = (refUnityTime + (float)(args.phraseStartTime - refDateTime).TotalSeconds) - arithmetic_generator.ARITHMETIC_START_TIME; // Convert to float to use with Unity's time system.
     }
 
      public bool CompareWords(){
