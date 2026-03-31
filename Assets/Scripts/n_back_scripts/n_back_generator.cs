@@ -1,0 +1,106 @@
+using UnityEngine;
+using TMPro;
+using UnityEngine.UI;
+using System.Collections;
+using System.Collections.Generic;
+
+public class n_back_generator : MonoBehaviour
+{
+
+    public const float TIME_INTERVAL = 3f;    //time interval
+    public TextMeshProUGUI number_text;          //canvas text 
+    public Image backgroundImage;               //canvas image
+
+    //char array length 26 to store all letters in alphabet.
+    char[] all_letters = {
+    'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M',
+    'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'
+    };
+
+    public List<char> letters_list = new List<char>();
+    public char correct_letter;
+
+    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    void Start()
+    {
+        backgroundImage.color = Color.white;
+
+        StartCoroutine(Change_n_back());
+
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+
+    }
+
+   
+
+
+    IEnumerator Change_n_back()
+    {
+
+        while (true)
+        {
+
+            backgroundImage.color = Color.white;
+
+           
+
+            char nextLetter;
+            int letterIndex;
+
+
+            if (letters_list.Count >= 2 && Random.value < 0.3f)
+            {
+                
+                nextLetter = letters_list[letters_list.Count - 2];
+                //Debug.Log("Forced a match!");
+
+            }
+
+
+            else
+            {
+                letterIndex = Random.Range(0, 26);
+                nextLetter = all_letters[letterIndex];
+            }
+
+            number_text.text = nextLetter.ToString();
+            letters_list.Add(nextLetter);
+
+            /*
+            
+            for(int i = 0; i < letters_list.Count; i++)
+            {
+                Debug.Log(letters_list[i] + ", ");
+            }
+
+            */
+
+            if(letters_list.Count >= 3)
+            {
+                correct_letter = letters_list[(letters_list.Count - 1) - 2]; //second to last from the most recent character
+                //Debug.Log("" + correct_letter);
+                if(correct_letter == letters_list[letters_list.Count - 1])
+                {
+                    //Debug.Log("Same");
+                }
+
+                else
+                {
+                    //Debug.Log("Different");
+                }
+
+            }
+            yield return new WaitForSeconds(TIME_INTERVAL);
+
+
+ 
+
+        }
+
+
+    }
+}
