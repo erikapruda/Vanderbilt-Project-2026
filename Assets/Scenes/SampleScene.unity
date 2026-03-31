@@ -251,6 +251,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: -220
       objectReference: {fileID: 0}
+    - target: {fileID: 7786816821241075366, guid: 9546a94bf6a81254a905cf44d2e7d5ba, type: 3}
+      propertyPath: emotionVerifier
+      value: 
+      objectReference: {fileID: 1357160280}
     - target: {fileID: 8198631807383904726, guid: 9546a94bf6a81254a905cf44d2e7d5ba, type: 3}
       propertyPath: m_SizeDelta.x
       value: 509.19
