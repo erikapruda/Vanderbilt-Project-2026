@@ -75,6 +75,7 @@ public class CarAI : MonoBehaviour
         currentSpeed = targetSpeed;
         startingLane = targetLane;
         rb.angularVelocity = 0f;
+        rb.rotation = 0f;
         
         isChangingLanes = false;
         lostControl = false;
