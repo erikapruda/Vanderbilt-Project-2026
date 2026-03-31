@@ -37,7 +37,7 @@ public class MenuManager : MonoBehaviour
 
         modifierButtons[0].onClick.AddListener(() => SelectModifier("Stroop", modifierButtons[0]));
         modifierButtons[1].onClick.AddListener(() => SelectModifier("Emotion", modifierButtons[1]));
-        modifierButtons[2].onClick.AddListener(() => SelectModifier("Stroop", modifierButtons[2]));
+        modifierButtons[2].onClick.AddListener(() => SelectModifier("Arithmetic", modifierButtons[2]));
         
         startButton.onClick.AddListener(StartGame);
 
