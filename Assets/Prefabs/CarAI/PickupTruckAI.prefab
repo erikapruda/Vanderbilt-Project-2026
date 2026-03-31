@@ -109,16 +109,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 996c20490f19d5148b62f0eb41aae8b1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CarAI
-  laneChangeProbability: 0.01
+  laneChangeProbability: 0.05
   hostility: 0
   reactionTime: 1.5
-  turnSpeed: 1
+  turnSpeed: 0.25
   turnDelay: 0.8
   speedLimitLeniency: 0.2
   carHitPenalty: 20000
   passengers: 2
-  detectionDistance: 2
-  targetLane: {fileID: 0}
+  detectionDistance: 2.5
+  targetLane: {x: 0, y: 0, z: 0}
 --- !u!114 &7122390724337055971
 MonoBehaviour:
   m_ObjectHideFlags: 0

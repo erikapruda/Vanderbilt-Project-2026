@@ -16,7 +16,7 @@ public class CarAI : MonoBehaviour
 
     [Range(0, 3)]
     [Header("Seconds it takes to react to traffic conditions")]
-    public float reactionTime = 1.5f;
+    public float reactionTime = 1f;
 
     [Header("How aggressive a lane change or turn is")]
     public float turnSpeed = 1.0f;
@@ -36,19 +36,29 @@ public class CarAI : MonoBehaviour
 
     public float detectionDistance = 2.0f;
 
-    private List<float> directionsToCar = new();
-
     private Animator animator;
 
     private Rigidbody2D rb;
 
     private float targetSpeed = 0;
+    
+    private float currentSpeed;
+
+    private float turnTimer = 0f;
+
+    private bool isChangingLanes = false;
+
+    private bool lostControl = false;
+
+    private float currentTurnSpeed;
 
     private Player player;
-    private List<GameObject> cars = new();
+    readonly private List<GameObject> cars = new();
 
     [HideInInspector]
-    public Transform targetLane;
+    public Vector3 targetLane;
+
+    private Vector3 startingLane;
 
     void Start()
     {
@@ -57,20 +67,65 @@ public class CarAI : MonoBehaviour
         player = FindObjectsByType<Player>(FindObjectsSortMode.None)[0];
         animator.Play("Left Turn Signal");
 
-        targetSpeed = 15 + (15 * Random.Range(-speedLimitLeniency, speedLimitLeniency));
+        targetSpeed = 12 + (15 * Random.Range(-speedLimitLeniency, speedLimitLeniency));
+        currentSpeed = targetSpeed;
+        startingLane = targetLane;
     }
 
     // Update is called once per frame
     void Update()
     {
-        DetectCar();
-        ChooseLane();
-        AvoidCar();
+        // If the car is no longer straight and at a steep angle, start crashing state
+        if (Mathf.Abs(Vector2.Angle(transform.up, Vector3.up)) > 60f)
+            lostControl = true;
 
-        Vector2 velNorm = transform.up;
-        float velMag = rb.linearVelocity.magnitude;
-        velMag = Mathf.MoveTowards(velMag, targetSpeed, 15);
-        rb.linearVelocity = velNorm * velMag;
+        DetectCar();
+
+        if (!lostControl)
+        {
+            ChooseLane();
+            AvoidCar();
+            RotateCar();
+        }
+        else
+            currentSpeed = Mathf.Lerp(currentSpeed, 0f, Time.deltaTime * 2);
+        
+        rb.linearVelocity = currentSpeed * transform.up;
+    }
+
+    void RotateCar()
+    {
+        Vector3 targetDirection;
+
+        if (isChangingLanes && turnTimer > turnDelay + 1f)
+        {
+            targetDirection = (targetLane - transform.position).normalized;
+        }
+        else
+        {
+            targetDirection = (startingLane - transform.position).normalized;
+        }
+
+        if (transform.position.x < targetLane.x + 0.05f && transform.position.x > targetLane.x - 0.05f)
+        {
+            if (isChangingLanes)
+            {
+                isChangingLanes = false;
+                startingLane = targetLane;
+                turnTimer = 0f;
+            }
+            else
+            {
+                // if we are close enough to the target lane, align with it and stop turning
+                transform.rotation = Quaternion.FromToRotation(transform.up, Vector3.up) * transform.rotation;
+                targetDirection = transform.up;
+            }
+
+            currentTurnSpeed = turnSpeed;
+        }
+
+        float angle = Vector2.SignedAngle(transform.up, targetDirection.x * Vector2.right);
+        transform.Rotate(0, 0, angle * currentTurnSpeed * Time.deltaTime);
     }
 
     void DetectCar()
@@ -79,12 +134,11 @@ public class CarAI : MonoBehaviour
         
         var carList = FindObjectsByType<CarAI>(FindObjectsSortMode.None);
 
-        cars.Add(player.gameObject);
+        if (Vector2.Distance(transform.position, player.gameObject.transform.position) <= detectionDistance + 0.5f)
+            cars.Add(player.gameObject);
 
         foreach (CarAI car in carList)
             cars.Add(car.gameObject);
-
-        directionsToCar.Clear();
 
         List<GameObject> farCars = new();
 
@@ -99,8 +153,27 @@ public class CarAI : MonoBehaviour
 
     void ChooseLane()
     {
-        bool changeLane = laneChangeProbability <= Random.Range(0, 1);
+        // Probability per second to change lanes
+        turnTimer += Time.deltaTime;
+        
+        if (turnTimer < 1f && !isChangingLanes)
+            return;
 
+        float changeLaneProbability = laneChangeProbability + (hostility * cars.Count);
+        isChangingLanes = changeLaneProbability <= Random.Range(0f, 1f);
+
+        if (isChangingLanes)
+        {
+            while (targetLane == startingLane)
+            {
+                var nextLaneIndex = Random.Range(0, ClosestRoad().lanePositions.Length);
+                targetLane = ClosestRoad().lanePositions[nextLaneIndex].position;
+            }
+        }
+    }
+
+    Road ClosestRoad()
+    {
         var roads = FindObjectsByType<Road>(FindObjectsSortMode.None);
 
         Road closestRoad = null;
@@ -116,11 +189,33 @@ public class CarAI : MonoBehaviour
                 closestRoad = road;
             }
         }
+
+        return closestRoad;
     }
 
     void AvoidCar()
     {
-        
+        foreach (var car in cars)
+        {
+            Vector2 directionToCar = (car.transform.position - transform.position).normalized;
+
+            // if the car is in front of us, slow down, otherwise speed up to target speed
+            if (Vector2.Dot(transform.up, directionToCar) > 0.5f)
+                currentSpeed = Mathf.Lerp(currentSpeed, 0, Time.deltaTime / reactionTime);
+            else
+                currentSpeed = Mathf.Lerp(currentSpeed, targetSpeed, Time.deltaTime / reactionTime);
+
+            if (isChangingLanes)
+            {
+                // If the car is moving to an occupied lane, return to the starting lane
+                if ((transform.position.x < targetLane.x && Vector2.Dot(transform.right, directionToCar) > 0.5f) ||
+                (transform.position.x > targetLane.x && Vector2.Dot(transform.right, directionToCar) < -0.5f))
+                {
+                    targetLane = startingLane;
+                    currentTurnSpeed = turnSpeed * 2;
+                }
+            }
+        }
     }
 
     void OnDrawGizmos()

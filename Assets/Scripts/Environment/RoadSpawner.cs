@@ -61,7 +61,7 @@ public class RoadSpawner : MonoBehaviour
 
             GameObject car = cars.GetRandom();
             car = Instantiate(car, spawnPos, Quaternion.identity, transform);
-            car.GetComponent<CarAI>().targetLane = road.lanePositions[laneIndex];
+            car.GetComponent<CarAI>().targetLane = road.lanePositions[laneIndex].position;
         }
     }
 }
