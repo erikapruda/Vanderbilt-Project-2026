@@ -47,7 +47,7 @@ public class RoadSpawner : MonoBehaviour
 
         for (int i = 0; i < numCars; i++)
         {
-            int laneIndex = UnityEngine.Random.Range(0, road.lanePositions.Length);
+            int laneIndex = UnityEngine.Random.Range(0, road.lanePositions.Count);
 
             Vector3 lanePosition = road.lanePositions[laneIndex].position;
 
@@ -71,6 +71,9 @@ public class RoadSpawner : MonoBehaviour
             GameObject car = carPool.CreateObject(spawnPos, Quaternion.identity);
             car.transform.parent = transform;
             car.GetComponent<CarAI>().targetLane = road.lanePositions[laneIndex].position;
+
+            if (car.name.Contains("Semi"))
+                road.lanePositions.RemoveAt(laneIndex);
         }
     }
 }

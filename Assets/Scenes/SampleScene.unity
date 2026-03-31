@@ -1033,42 +1033,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: World
       objectReference: {fileID: 0}
-    - target: {fileID: 1506285828265470637, guid: 0ea7cff2c09e0b841b1fd492c9ac3ec5, type: 3}
-      propertyPath: 'cars.Items.Array.data[0]'
-      value: 
-      objectReference: {fileID: 3841376137598409359, guid: 369b8e2689b6f2e44b56e371d55f3a97, type: 3}
-    - target: {fileID: 1506285828265470637, guid: 0ea7cff2c09e0b841b1fd492c9ac3ec5, type: 3}
-      propertyPath: carPools.Items.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1506285828265470637, guid: 0ea7cff2c09e0b841b1fd492c9ac3ec5, type: 3}
-      propertyPath: carPools.Items.Array.data[0].Max
-      value: 20
-      objectReference: {fileID: 0}
-    - target: {fileID: 1506285828265470637, guid: 0ea7cff2c09e0b841b1fd492c9ac3ec5, type: 3}
-      propertyPath: carPools.Items.Array.data[0].Prefab
-      value: 
-      objectReference: {fileID: 3841376137598409359, guid: 369b8e2689b6f2e44b56e371d55f3a97, type: 3}
-    - target: {fileID: 1506285828265470637, guid: 0ea7cff2c09e0b841b1fd492c9ac3ec5, type: 3}
-      propertyPath: 'cars.ElementProbabilities.Array.data[0]'
-      value: 150
-      objectReference: {fileID: 0}
-    - target: {fileID: 1506285828265470637, guid: 0ea7cff2c09e0b841b1fd492c9ac3ec5, type: 3}
-      propertyPath: carPools.ElementProbabilities.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1506285828265470637, guid: 0ea7cff2c09e0b841b1fd492c9ac3ec5, type: 3}
-      propertyPath: 'carPools.ElementProbabilities.Array.data[0]'
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3233359448268099316, guid: 0ea7cff2c09e0b841b1fd492c9ac3ec5, type: 3}
-      propertyPath: spawnRate
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3233359448268099316, guid: 0ea7cff2c09e0b841b1fd492c9ac3ec5, type: 3}
-      propertyPath: maxObstacles
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 3233359448268099316, guid: 0ea7cff2c09e0b841b1fd492c9ac3ec5, type: 3}
       propertyPath: 'spawnerTransforms.Items.Array.data[0]'
       value: 
