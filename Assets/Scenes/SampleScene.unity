@@ -1083,8 +1083,36 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 3841376137598409359, guid: 369b8e2689b6f2e44b56e371d55f3a97, type: 3}
     - target: {fileID: 1506285828265470637, guid: 0ea7cff2c09e0b841b1fd492c9ac3ec5, type: 3}
+      propertyPath: carPools.Items.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1506285828265470637, guid: 0ea7cff2c09e0b841b1fd492c9ac3ec5, type: 3}
+      propertyPath: carPools.Items.Array.data[0].Max
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 1506285828265470637, guid: 0ea7cff2c09e0b841b1fd492c9ac3ec5, type: 3}
+      propertyPath: carPools.Items.Array.data[0].Prefab
+      value: 
+      objectReference: {fileID: 3841376137598409359, guid: 369b8e2689b6f2e44b56e371d55f3a97, type: 3}
+    - target: {fileID: 1506285828265470637, guid: 0ea7cff2c09e0b841b1fd492c9ac3ec5, type: 3}
       propertyPath: 'cars.ElementProbabilities.Array.data[0]'
       value: 150
+      objectReference: {fileID: 0}
+    - target: {fileID: 1506285828265470637, guid: 0ea7cff2c09e0b841b1fd492c9ac3ec5, type: 3}
+      propertyPath: carPools.ElementProbabilities.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1506285828265470637, guid: 0ea7cff2c09e0b841b1fd492c9ac3ec5, type: 3}
+      propertyPath: 'carPools.ElementProbabilities.Array.data[0]'
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3233359448268099316, guid: 0ea7cff2c09e0b841b1fd492c9ac3ec5, type: 3}
+      propertyPath: spawnRate
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3233359448268099316, guid: 0ea7cff2c09e0b841b1fd492c9ac3ec5, type: 3}
+      propertyPath: maxObstacles
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3233359448268099316, guid: 0ea7cff2c09e0b841b1fd492c9ac3ec5, type: 3}
       propertyPath: 'spawnerTransforms.Items.Array.data[0]'
@@ -7332,7 +7360,7 @@ MonoBehaviour:
   m_lineSpacingMax: 0
   m_paragraphSpacing: 0
   m_charWidthMaxAdj: 0
-  m_TextWrappingMode: 1
+  m_TextWrappingMode: 0
   m_wordWrappingRatios: 0.4
   m_overflowMode: 0
   m_linkedTextComponent: {fileID: 0}
@@ -9129,6 +9157,14 @@ PrefabInstance:
       propertyPath: SparkParticleSystemPrefab
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 3665073372302967254, guid: addfd3a6123ce444ab6e56c1344d9b52, type: 3}
+      propertyPath: SparkParticleSystemPrefabPool.Max
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 3665073372302967254, guid: addfd3a6123ce444ab6e56c1344d9b52, type: 3}
+      propertyPath: SparkParticleSystemPrefabPool.Prefab
+      value: 
+      objectReference: {fileID: 7284036052413443104, guid: 91087dcd82e942149ba0ce2e84032c0b, type: 3}
     - target: {fileID: 4290479738105861715, guid: addfd3a6123ce444ab6e56c1344d9b52, type: 3}
       propertyPath: m_Material
       value: 
@@ -9141,6 +9177,14 @@ PrefabInstance:
       propertyPath: ShouldPropagateDebt
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6624546028416854734, guid: addfd3a6123ce444ab6e56c1344d9b52, type: 3}
+      propertyPath: SparkParticleSystemPrefabPool.Max
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 6624546028416854734, guid: addfd3a6123ce444ab6e56c1344d9b52, type: 3}
+      propertyPath: SparkParticleSystemPrefabPool.Prefab
+      value: 
+      objectReference: {fileID: 7284036052413443104, guid: 91087dcd82e942149ba0ce2e84032c0b, type: 3}
     - target: {fileID: 7312772768238690063, guid: addfd3a6123ce444ab6e56c1344d9b52, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0

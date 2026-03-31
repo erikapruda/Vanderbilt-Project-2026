@@ -9,7 +9,7 @@ public class WorldObstacle : MonoBehaviour
     private uint _hitCost;
 
     [SerializeField]
-    private GameObject SparkParticleSystemPrefab;
+    private ObjectPool SparkParticleSystemPrefabPool;
 
     [SerializeField]
     [Tooltip("Whether the player hitting this obstacle will make subsequent obstacle crashes blamed on the player")]
@@ -32,10 +32,21 @@ public class WorldObstacle : MonoBehaviour
 
     private Rigidbody2D rb;
 
+    private Camera cam;
+
     void Awake()
     {
+        cam = Camera.main;
+        SparkParticleSystemPrefabPool.Setup();
         HitCost = _hitCost;
         rb = GetComponent<Rigidbody2D>();
+    }
+
+    void OnEnable()
+    {
+        CurrentPlayerHitCooldown = 0f;
+        NumTimesPenaltyHit = 0;
+        HasHitPlayer = false;
     }
 
     void Update()
@@ -46,7 +57,7 @@ public class WorldObstacle : MonoBehaviour
     void OnCollisionEnter2D(Collision2D collision)
     {
         // If you caused a wreck with this obstacle and this obstacle hits another obstacle you are liable
-        if (ShouldPropagateDebt && HasHitPlayer && collision.gameObject.TryGetComponent(out WorldObstacle obstacle) && !obstacle.HasHitPlayer)
+        if (ShouldPropagateDebt && HasHitPlayer && collision.gameObject.TryGetComponent(out WorldObstacle obstacle) && !obstacle.HasHitPlayer && obstacle.IsOnScreen())
         {
             // Find average contact point
             Vector2 averageContactPoint = Vector2.zero;
@@ -64,24 +75,35 @@ public class WorldObstacle : MonoBehaviour
         }
         
         // Spawn particles
-        if (SparkParticleSystemPrefab != null)
+        if (SparkParticleSystemPrefabPool != null)
         {
             for (byte i = 0; i < collision.contactCount; i++)
             {
-                GameObject particleSystemInstance = Instantiate(SparkParticleSystemPrefab, new Vector3(collision.contacts[i].point.x, collision.contacts[i].point.y, -2f), Quaternion.identity);
+                GameObject particleSystemInstance = SparkParticleSystemPrefabPool.CreateObject(new Vector3(collision.contacts[i].point.x, collision.contacts[i].point.y, -2f), Quaternion.identity);
                 if (particleSystemInstance.TryGetComponent(out Rigidbody2D rbInstance))
                 {
                     rbInstance.linearVelocity = Vector2.ClampMagnitude(rb.linearVelocity + collision.contacts[i].normal, 1.0f);
+                }
+                if (particleSystemInstance.TryGetComponent(out ParticleSystem particleSystem))
+                {
+                    particleSystem.Play();
                 }
             }
         }
     }
 
-    void OnDestroy()
+    void OnDisable()
     {
         if (WorldSpawner != null)
         {
-            WorldSpawner.NumObstaclesSpawned--;            
+            WorldSpawner.NumObstaclesSpawned--;
         }
+    }
+
+    public bool IsOnScreen()
+    {
+        // Check if the transform is within the viewport bounds
+        Vector3 viewPos = cam.WorldToViewportPoint(transform.position);
+        return viewPos.x >= 0 && viewPos.x <= 1 && viewPos.y >= 0 && viewPos.y <= 1;
     }
 }

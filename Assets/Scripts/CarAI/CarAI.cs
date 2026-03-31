@@ -4,6 +4,7 @@ using UnityEngine;
 
 [RequireComponent(typeof(Animator))]
 [RequireComponent(typeof(BoxCollider2D))]
+[RequireComponent(typeof(Rigidbody2D))]
 public class CarAI : MonoBehaviour
 {
     [Range(0, 1)]
@@ -60,16 +61,26 @@ public class CarAI : MonoBehaviour
 
     private Vector3 startingLane;
 
-    void Start()
+    void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
         player = FindObjectsByType<Player>(FindObjectsSortMode.None)[0];
-        animator.Play("Left Turn Signal");
+    }
 
+    void OnEnable()
+    {
+        animator.Play("Left Turn Signal");
         targetSpeed = 12 + (15 * Random.Range(-speedLimitLeniency, speedLimitLeniency));
         currentSpeed = targetSpeed;
         startingLane = targetLane;
+        rb.angularVelocity = 0f;
+        
+        isChangingLanes = false;
+        lostControl = false;
+        turnTimer = 0f;
+        currentSpeed = 0f;
+        currentSpeed = 0f;
     }
 
     // Update is called once per frame
