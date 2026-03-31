@@ -4124,9 +4124,9 @@ MonoBehaviour:
             m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
             m_IntArgument: 0
             m_FloatArgument: 0
-            m_StringArgument: You are shown a number you need to add to four other
-              numbers that are shown consecutively. Say the number added to each
-              other number shown.
+            m_StringArgument: You are shown a number for adding to four following
+              numbers. After the four numbers are shown, you then need to aswer what
+              the sum of the first and each of the four numbers are.
             m_BoolArgument: 0
           m_CallState: 2
   - eventID: 1
