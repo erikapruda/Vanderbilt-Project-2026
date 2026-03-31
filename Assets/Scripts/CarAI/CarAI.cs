@@ -29,9 +29,6 @@ public class CarAI : MonoBehaviour
     [Header("A weight for factoring in random speed variability")]
     public float speedLimitLeniency = 1.0f;
 
-    [Header("The value of a car is USD. The amount is the maximum\npoints a player can lose")]
-    public int carHitPenalty = 20000;
-
     [Header("The number of people in the car. The number adds to\nthe death toll score")]
     public int passengers = 2;
 
@@ -178,7 +175,7 @@ public class CarAI : MonoBehaviour
         {
             while (targetLane == startingLane)
             {
-                var nextLaneIndex = Random.Range(0, ClosestRoad().lanePositions.Length);
+                var nextLaneIndex = Random.Range(0, ClosestRoad().lanePositions.Count);
                 targetLane = ClosestRoad().lanePositions[nextLaneIndex].position;
             }
         }
