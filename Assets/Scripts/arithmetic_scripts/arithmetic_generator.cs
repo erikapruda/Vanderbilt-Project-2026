@@ -11,8 +11,10 @@ public class arithmetic_generator : MonoBehaviour
     public const float VOICE_INTERVAL = 3.0f;
     public static float ARITHMETIC_START_TIME = 0f;
     public TextMeshProUGUI numberText;
-    public arithmeticVerification arithmeticVerifier;
 
+    public Image arithmetic_background;
+    public arithmeticVerification arithmeticVerifier;
+    
     public int[] numbers_array = { 0, 0, 0, 0 };
     public int[] added_num_array = { 0, 0, 0, 0 };
     public static string correctNumber = null;
@@ -95,6 +97,22 @@ public class arithmetic_generator : MonoBehaviour
                 yield return new WaitForSeconds(VOICE_INTERVAL); // Set a time interval for the user to respond with each question.
                 answerResults[i] = arithmeticVerifier.CompareWords();
                 
+                if(answerResults[i] == true)
+                {
+                    //change background
+                    arithmetic_background.color = new Color(0.01f, 1f, 0.01f, 0.68f);
+
+                }
+
+                else if(answerResults[i] == false)
+                {
+                    //change background
+                    arithmetic_background.color = new Color(1f, 0.01f, 0.01f, 0.68f);
+                }
+
+                yield return new WaitForSeconds(1.0f);
+                arithmetic_background.color = Color.white;
+
                 results newResult = new results();
                 newResult.question_number = i + 1;
                 newResult.correctness = answerResults[i];

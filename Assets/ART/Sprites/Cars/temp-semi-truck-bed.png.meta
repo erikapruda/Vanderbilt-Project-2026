@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 7f966d80321bbbc49a8bcf502825c253
+guid: 15a2be4a398889642ae1157fa708c41b
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 3248573785269636290
-    second: grass tile right_0
+      213: 3371728742304119448
+    second: temp-semi-truck-bed_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -109,30 +109,17 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 4
-    buildTarget: WindowsStoreApps
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 1
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 0
-    ignorePlatformSupport: 0
-    androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: grass tile right_0
+      name: temp-semi-truck-bed_0
       rect:
         serializedVersion: 2
-        x: 0
-        y: 0
-        width: 64
-        height: 64
+        x: 19
+        y: 1
+        width: 30
+        height: 70
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -141,8 +128,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 2cc84a165a0451d20800000000000000
-      internalID: 3248573785269636290
+      spriteID: 89af20c4d69cace20800000000000000
+      internalID: 3371728742304119448
       vertices: []
       indices: 
       edges: []
@@ -161,7 +148,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      grass tile right_0: 3248573785269636290
+      temp-semi-truck-bed_0: 3371728742304119448
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
