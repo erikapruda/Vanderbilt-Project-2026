@@ -140,6 +140,9 @@ public class Player : MonoBehaviour
             rb.linearVelocityY = Mathf.MoveTowards(rb.linearVelocityY, targetSpeed, celeration);
         }
 
+        // Limit backwards velocity
+        rb.linearVelocityY = Mathf.Max(-5f, rb.linearVelocityY);
+
         MoveWorld();
     }
 

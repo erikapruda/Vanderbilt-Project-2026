@@ -6,9 +6,17 @@ public class RoadSpawner : MonoBehaviour
 {
     public ListRandomizer<GameObject> roads;
 
-    public ListRandomizer<GameObject> cars;
+    public ListRandomizer<ObjectPool> carPools;
 
     private List<GameObject> roadList = new();
+
+    void Awake()
+    {
+        foreach (var carPool in carPools.Items)
+        {
+            carPool.Setup();
+        }
+    }
 
     void Start()
     {
@@ -59,8 +67,9 @@ public class RoadSpawner : MonoBehaviour
             Vector3 randPosition = new(randX, randY, 0f);
             Vector3 spawnPos = lanePosition + randPosition;
 
-            GameObject car = cars.GetRandom();
-            car = Instantiate(car, spawnPos, Quaternion.identity, transform);
+            ObjectPool carPool = carPools.GetRandom();
+            GameObject car = carPool.CreateObject(spawnPos, Quaternion.identity);
+            car.transform.parent = transform;
             car.GetComponent<CarAI>().targetLane = road.lanePositions[laneIndex].position;
         }
     }
