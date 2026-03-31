@@ -92,7 +92,7 @@ public class arithmetic_generator : MonoBehaviour
             for (int i = 0; i < correctAnswers.Length; i++)
             {
                 correctNumber = correctAnswers[i];
-                numberText.text = "What is the answer to question " + (i + 1) + "?";
+                numberText.text = "What is the answer to number " + (i + 1) + "?";
                 ARITHMETIC_START_TIME = Time.realtimeSinceStartup; // Set start time for each question to calculate reaction time.
                 yield return new WaitForSeconds(VOICE_INTERVAL); // Set a time interval for the user to respond with each question.
                 answerResults[i] = arithmeticVerifier.CompareWords();
