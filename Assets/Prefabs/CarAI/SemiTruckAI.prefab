@@ -192,6 +192,8 @@ GameObject:
   m_Component:
   - component: {fileID: 6034147384775072826}
   - component: {fileID: 3897637994052102390}
+  - component: {fileID: 183002212755704909}
+  - component: {fileID: 5614531405394577368}
   - component: {fileID: 6755611326094436411}
   - component: {fileID: 6622152164885938908}
   - component: {fileID: 4000026131500036969}
@@ -231,16 +233,50 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 996c20490f19d5148b62f0eb41aae8b1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CarAI
-  laneChangeProbability: 0.01
+  laneChangeProbability: 0.05
   hostility: 0
-  reactionTime: 1
-  turnSpeed: 1
+  reactionTime: 1.5
+  turnSpeed: 0.05
   turnDelay: 0.8
-  speedLimitLeniency: 1
-  carHitPenalty: 20000
-  passengers: 2
-  detectionDistance: 2.98
+  speedLimitLeniency: 0.05
+  passengers: 1
+  detectionDistance: 3
   targetLane: {x: 0, y: 0, z: 0}
+--- !u!114 &183002212755704909
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4634531918073431656}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1640e02244b5e084095452b864ea4ed0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::WorldObject
+  despawnDistance: 20
+  isBoundedByWorldBounds: 1
+--- !u!114 &5614531405394577368
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4634531918073431656}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 366fe6e20123cf54ea5909fa39acfda0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::WorldObstacle
+  _hitCost: 4000
+  SparkParticleSystemPrefabPool:
+    Prefab: {fileID: 7284036052413443104, guid: 91087dcd82e942149ba0ce2e84032c0b, type: 3}
+    Max: 4
+  ShouldPropagateDebt: 1
+  MaxPenalizedHits: 2
+  OnHitCar:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!95 &6755611326094436411
 Animator:
   serializedVersion: 7
@@ -321,9 +357,9 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 3
+  m_Mass: 25
   m_LinearDamping: 0
-  m_AngularDamping: 0
+  m_AngularDamping: 8
   m_GravityScale: 0
   m_Material: {fileID: 6200000, guid: 8478136c9010a8e40aa52e400d717b38, type: 2}
   m_IncludeLayers:

@@ -59,8 +59,8 @@ MonoBehaviour:
     - 33
     - 33
     - 33
-  spawnRate: 20
-  maxObstacles: 4
+  spawnRate: 0
+  maxObstacles: 0
 --- !u!114 &1506285828265470637
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -78,8 +78,12 @@ MonoBehaviour:
     - {fileID: 1073964963766614708, guid: 48de102a41cb08d40a7917ab9b413797, type: 3}
     ElementProbabilities:
     - 100
-  cars:
+  carPools:
     Items:
-    - {fileID: 8266942294154701227, guid: 8f3d3d9955756754285861b2abd962e8, type: 3}
+    - Prefab: {fileID: 3841376137598409359, guid: 369b8e2689b6f2e44b56e371d55f3a97, type: 3}
+      Max: 20
+    - Prefab: {fileID: 4634531918073431656, guid: ff0cc78046ed2a64ca9140364aacd746, type: 3}
+      Max: 3
     ElementProbabilities:
-    - 100
+    - 5
+    - 1
