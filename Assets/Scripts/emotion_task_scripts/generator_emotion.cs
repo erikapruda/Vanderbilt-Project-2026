@@ -62,17 +62,17 @@ public class generator_emotion : MonoBehaviour
     IEnumerator Change_Text()
     {
 
-        good_textbox.text = "";
-        bad_textbox.text = "";
+        // good_textbox.text = "";
+        // bad_textbox.text = "";
 
 
-        textbox.text = "Welcome to Stroop Task";
-        //wait 5 seconds
-        yield return new WaitForSeconds(2.0f);
+        // textbox.text = "Welcome to Stroop Task";
+        // //wait 5 seconds
+        // yield return new WaitForSeconds(2.0f);
             
 
-        textbox.text = "Please respond with either good/bad";
-        yield return new WaitForSeconds(2.0f);
+        // textbox.text = "Please respond with either good/bad";
+        // yield return new WaitForSeconds(2.0f);
 
         good_textbox.text = "Good";
         bad_textbox.text = "Bad";    
