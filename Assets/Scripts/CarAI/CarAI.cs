@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.XR;
 
 [RequireComponent(typeof(Animator))]
 [RequireComponent(typeof(BoxCollider2D))]
@@ -34,6 +35,7 @@ public class CarAI : MonoBehaviour
 
     public float detectionDistance = 2.0f;
 
+    public float semiDetectionDistance = 4.0f;
     private Animator animator;
 
     private Rigidbody2D rb;
@@ -155,6 +157,9 @@ public class CarAI : MonoBehaviour
         {
             if (Vector2.Distance(transform.position, car.transform.position) > detectionDistance + 0.5f)
                 farCars.Add(car);
+            
+            if (Vector2.Distance(transform.position, car.transform.position) <= semiDetectionDistance + 0.5f)
+                farCars.Remove(car);
         }
 
         cars.RemoveAll(car => farCars.Contains(car));
@@ -230,8 +235,11 @@ public class CarAI : MonoBehaviour
     void OnDrawGizmos()
     {
         // Draw top left line
+        Handles.color = Color.blue;
         Handles.DrawWireDisc(transform.position, Vector3.forward, detectionDistance);
-
+        Handles.color = Color.yellow;
+        Handles.DrawWireDisc(transform.position, Vector3.forward, semiDetectionDistance);
+        
         if (cars.Count > 0)
         {
             Gizmos.color = Color.blue;

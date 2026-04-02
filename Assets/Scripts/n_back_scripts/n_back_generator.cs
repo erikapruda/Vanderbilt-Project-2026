@@ -8,8 +8,12 @@ public class n_back_generator : MonoBehaviour
 {
 
     public const float TIME_INTERVAL = 3f;    //time interval
+
+    public int AMOUNT_BACK = 2;
     public TextMeshProUGUI number_text;          //canvas text 
     public Image backgroundImage;               //canvas image
+    public nBackVerification nBackVerifier;   //speech-to-text script
+    public static float N_BACK_START_TIME = 0f;
 
     //char array length 26 to store all letters in alphabet.
     char[] all_letters = {
@@ -18,7 +22,7 @@ public class n_back_generator : MonoBehaviour
     };
 
     public List<char> letters_list = new List<char>();
-    public char correct_letter;
+    public static char correct_letter;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -55,7 +59,7 @@ public class n_back_generator : MonoBehaviour
             if (letters_list.Count >= 2 && Random.value < 0.3f)
             {
                 
-                nextLetter = letters_list[letters_list.Count - 2];
+                nextLetter = letters_list[letters_list.Count - AMOUNT_BACK];
                 //Debug.Log("Forced a match!");
 
             }
@@ -67,6 +71,7 @@ public class n_back_generator : MonoBehaviour
                 nextLetter = all_letters[letterIndex];
             }
 
+            N_BACK_START_TIME = Time.realtimeSinceStartup; // Start reaction timer when new letter is displayed.
             number_text.text = nextLetter.ToString();
             letters_list.Add(nextLetter);
 
@@ -81,11 +86,12 @@ public class n_back_generator : MonoBehaviour
 
             if(letters_list.Count >= 3)
             {
-                correct_letter = letters_list[(letters_list.Count - 1) - 2]; //second to last from the most recent character
+                correct_letter = letters_list[(letters_list.Count - 1) - AMOUNT_BACK]; //second to last from the most recent character
                 //Debug.Log("" + correct_letter);
+                bool correctness = nBackVerifier.CompareWords();
                 if(correct_letter == letters_list[letters_list.Count - 1])
                 {
-                    //Debug.Log("Same");
+                    Debug.Log("Same");
                 }
 
                 else

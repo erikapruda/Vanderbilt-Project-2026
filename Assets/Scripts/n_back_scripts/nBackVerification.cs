@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.Windows.Speech;
 using UnityEngine.UI;
 
-public class stroopVerification : MonoBehaviour
+public class nBackVerification : MonoBehaviour
 {
 
     
@@ -10,8 +10,9 @@ public class stroopVerification : MonoBehaviour
 
     //public generator stroopTest;
     KeywordRecognizer speechRecognizer;
-    private string[] validColors = {"red", "blue", "yellow", "orange", "green", "purple"};
+    private string[] validWords = {"a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"};
     private string lastSpokenWord = null;
+    private char lastSpokenChar;
     public float reactionTime = 0f;
     private System.DateTime refDateTime;
     private float refUnityTime;
@@ -24,7 +25,7 @@ public class stroopVerification : MonoBehaviour
         refDateTime = System.DateTime.Now; // Reference point for calculating reaction time.
         refUnityTime = Time.realtimeSinceStartup; // Reference point for calculating reaction time.
         
-        speechRecognizer = new KeywordRecognizer(validColors, ConfidenceLevel.Low); // Recognition class that only listens for words specified in validColors list.
+        speechRecognizer = new KeywordRecognizer(validWords, ConfidenceLevel.Low); // Recognition class that only listens for words specified in validColors list.
         speechRecognizer.OnPhraseRecognized += OnPhraseRecognized;
         speechRecognizer.Start();
     }
@@ -37,8 +38,9 @@ public class stroopVerification : MonoBehaviour
 
     private void OnPhraseRecognized(PhraseRecognizedEventArgs args)
     {
-        lastSpokenWord = args.text.ToLower(); // Each time a color is spoken, lastSpokenWord stores that value.
-        reactionTime = (refUnityTime + (float)(args.phraseStartTime - refDateTime).TotalSeconds) - generator.STROOP_START_TIME; // Convert to float to use with Unity's time system.
+        lastSpokenWord = args.text.ToUpper(); // Each time a letter is spoken, lastSpokenWord stores that value in uppercase.
+        lastSpokenChar = lastSpokenWord[0]; // Convert the recognized word to a char for comparison.
+        reactionTime = (refUnityTime + (float)(args.phraseStartTime - refDateTime).TotalSeconds) - n_back_generator.N_BACK_START_TIME; // Convert to float to use with Unity's time system.
         Debug.Log("Reaction Time: " + reactionTime);
     }
 
@@ -49,14 +51,16 @@ public class stroopVerification : MonoBehaviour
             return false; 
         }
 
-        if (lastSpokenWord == generator.currentTargetColor.ToLower()){ // Returns true/false based on comparsion to target. Also consumes last word to prevent two
-            lastSpokenWord = null;                                      // tests from accidentally reusing the result is nothing is spoken
+        if (lastSpokenChar == n_back_generator.correct_letter){ // Returns true/false based on comparsion to target. Also consumes last word to prevent two
+            lastSpokenWord = null;  
+            lastSpokenChar = '\0'; // Clear the character
             Debug.Log("Correct");
             Debug.Log("Reaction Time: " + reactionTime);
             return true;
         }
         else{
             lastSpokenWord = null;
+            lastSpokenChar = '\0'; // Clear the character
             Debug.Log("Incorrect");
             Debug.Log("Reaction Time: " + reactionTime);
             return false;

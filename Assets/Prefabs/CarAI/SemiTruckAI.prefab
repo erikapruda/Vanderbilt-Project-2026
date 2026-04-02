@@ -241,6 +241,7 @@ MonoBehaviour:
   speedLimitLeniency: 0.05
   passengers: 1
   detectionDistance: 3
+  semiDetectionDistance: 6
   targetLane: {x: 0, y: 0, z: 0}
 --- !u!114 &183002212755704909
 MonoBehaviour:

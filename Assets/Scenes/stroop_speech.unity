@@ -346,6 +346,18 @@ PrefabInstance:
       propertyPath: m_Name
       value: stroop_prefab
       objectReference: {fileID: 0}
+    - target: {fileID: 5688703724272795299, guid: 31f0172e5540648bf87b8a0681699bce, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 1.6313019
+      objectReference: {fileID: 0}
+    - target: {fileID: 5688703724272795299, guid: 31f0172e5540648bf87b8a0681699bce, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 23.941
+      objectReference: {fileID: 0}
+    - target: {fileID: 7620994045978268552, guid: 31f0172e5540648bf87b8a0681699bce, type: 3}
+      propertyPath: m_VerticalAlignment
+      value: 512
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -380,6 +392,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 877115b317fac8f4a975c99e4cbfdee4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::stroopVerification
+  reactionTime: 0
 --- !u!4 &1395375715
 Transform:
   m_ObjectHideFlags: 0
