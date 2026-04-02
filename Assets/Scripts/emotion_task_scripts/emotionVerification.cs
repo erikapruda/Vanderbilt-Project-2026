@@ -17,7 +17,7 @@ public class emotionVerification : MonoBehaviour
         refDateTime = System.DateTime.Now; // Reference point for calculating reaction time.
         refUnityTime = Time.realtimeSinceStartup; // Reference point for calculating reaction time.
 
-        speechRecognizer = new KeywordRecognizer(validWords); // Recognition class that only listens for words specified in validWords list.
+        speechRecognizer = new KeywordRecognizer(validWords, ConfidenceLevel.Low); // Recognition class that only listens for words specified in validWords list.
         speechRecognizer.OnPhraseRecognized += OnPhraseRecognized;
         speechRecognizer.Start();
     }

@@ -24,7 +24,7 @@ public class stroopVerification : MonoBehaviour
         refDateTime = System.DateTime.Now; // Reference point for calculating reaction time.
         refUnityTime = Time.realtimeSinceStartup; // Reference point for calculating reaction time.
         
-        speechRecognizer = new KeywordRecognizer(validColors); // Recognition class that only listens for words specified in validColors list.
+        speechRecognizer = new KeywordRecognizer(validColors, ConfidenceLevel.Low); // Recognition class that only listens for words specified in validColors list.
         speechRecognizer.OnPhraseRecognized += OnPhraseRecognized;
         speechRecognizer.Start();
     }
