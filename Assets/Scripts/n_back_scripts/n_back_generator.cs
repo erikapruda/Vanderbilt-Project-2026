@@ -8,6 +8,8 @@ public class n_back_generator : MonoBehaviour
 {
 
     public const float TIME_INTERVAL = 3f;    //time interval
+
+    public int AMOUNT_BACK = 2;
     public TextMeshProUGUI number_text;          //canvas text 
     public Image backgroundImage;               //canvas image
 
@@ -55,7 +57,7 @@ public class n_back_generator : MonoBehaviour
             if (letters_list.Count >= 2 && Random.value < 0.3f)
             {
                 
-                nextLetter = letters_list[letters_list.Count - 2];
+                nextLetter = letters_list[letters_list.Count - AMOUNT_BACK];
                 //Debug.Log("Forced a match!");
 
             }
@@ -81,11 +83,11 @@ public class n_back_generator : MonoBehaviour
 
             if(letters_list.Count >= 3)
             {
-                correct_letter = letters_list[(letters_list.Count - 1) - 2]; //second to last from the most recent character
+                correct_letter = letters_list[(letters_list.Count - 1) - AMOUNT_BACK]; //second to last from the most recent character
                 //Debug.Log("" + correct_letter);
                 if(correct_letter == letters_list[letters_list.Count - 1])
                 {
-                    //Debug.Log("Same");
+                    Debug.Log("Same");
                 }
 
                 else
