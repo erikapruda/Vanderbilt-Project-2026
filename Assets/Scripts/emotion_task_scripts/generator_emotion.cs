@@ -8,15 +8,19 @@ using System.Collections;
 public class generator_emotion : MonoBehaviour
 {
 
-    public Image emotion_background;    //emotion canvas image
+    
     private const float TIME_INTERVAL = 3f;
+    public static bool SHOW_COLOR_RESPONSE = true;
+    private int wordIndex = 0;
+    private int newWordIndex = 0;
+    public static float WORD_START_TIME = 0f;
+
+    public Image emotion_background;    //emotion canvas image
     public TextMeshProUGUI textbox;
     public TextMeshProUGUI good_textbox;
     public TextMeshProUGUI bad_textbox;
     public emotionVerification emotionVerifier;
-    private int wordIndex = 0;
-    private int newWordIndex = 0;
-    public static float WORD_START_TIME = 0f;
+    
 
     private string[] words = { 
    
@@ -119,25 +123,30 @@ public class generator_emotion : MonoBehaviour
                 results temp_results = new results();
                 bool emotion_correctness = emotionVerifier.CompareWords();
 
-                if(emotion_correctness == true)
+                if(SHOW_COLOR_RESPONSE == true)
                 {
-                    //change background
-                    emotion_background.color = new Color(0.01f, 1f, 0.01f, 0.68f);
+                    
+                
+                    if(emotion_correctness == true)
+                    {
+                        //change background
+                        emotion_background.color = new Color(0.01f, 1f, 0.01f, 0.68f);
 
-                }
+                    }
 
-                else if(emotion_correctness == false)
-                {
-                    //change background
-                    emotion_background.color = new Color(1f, 0.01f, 0.01f, 0.68f);
+                    else if(emotion_correctness == false)
+                    {
+                        //change background
+                        emotion_background.color = new Color(1f, 0.01f, 0.01f, 0.68f);
+                    }
+
+                    yield return new WaitForSeconds(1.0f);
                 }
 
                 temp_results.reaction_time = emotionVerifier.reactionTime;
                 temp_results.correctness = emotion_correctness;
 
-                results_array.Add(temp_results);
-
-                yield return new WaitForSeconds(1.0f);
+                results_array.Add(temp_results);       
             }
 
             // emotion_background.color = Color.white;
