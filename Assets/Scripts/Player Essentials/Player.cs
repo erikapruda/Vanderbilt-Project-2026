@@ -44,9 +44,8 @@ public class Player : MonoBehaviour
     [Tooltip("The maximum speed the car can go")]
     private float maxLinearVelocity = 100f; // ~224 mph
 
-    [SerializeField]
     [Tooltip("The car's target speed when the accelerator and decelerator are idle")]
-    private float autoLinearVelocitySpeed = 50f;
+    public float autoLinearVelocitySpeed = 50f;
 
     [SerializeField]
     [Tooltip("How fast the car accelerates towards the target speed")]

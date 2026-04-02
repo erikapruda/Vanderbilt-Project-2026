@@ -1,7 +1,7 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEditor;
 using UnityEngine;
-using UnityEngine.XR;
 
 [RequireComponent(typeof(Animator))]
 [RequireComponent(typeof(BoxCollider2D))]
@@ -20,7 +20,7 @@ public class CarAI : MonoBehaviour
     [Header("Seconds it takes to react to traffic conditions")]
     public float reactionTime = 1f;
 
-    [Header("How aggressive a lane change or turn is")]
+    [Header("How aggressive a car swerves away from another car when changing lanes")]
     public float turnSpeed = 1.0f;
 
     [Range(0, 6)]
@@ -41,7 +41,7 @@ public class CarAI : MonoBehaviour
     private Rigidbody2D rb;
 
     private float targetSpeed = 0;
-    
+
     private float currentSpeed;
 
     private float turnTimer = 0f;
@@ -70,12 +70,12 @@ public class CarAI : MonoBehaviour
     void OnEnable()
     {
         animator.Play("Left Turn Signal");
-        targetSpeed = 12 + (15 * Random.Range(-speedLimitLeniency, speedLimitLeniency));
+        targetSpeed = player.autoLinearVelocitySpeed - (player.autoLinearVelocitySpeed * Random.Range(0f, speedLimitLeniency));
         currentSpeed = targetSpeed;
         startingLane = targetLane;
         rb.angularVelocity = 0f;
         rb.rotation = 0f;
-        
+
         isChangingLanes = false;
         lostControl = false;
         turnTimer = 0f;
@@ -100,7 +100,7 @@ public class CarAI : MonoBehaviour
         }
         else
             currentSpeed = Mathf.Lerp(currentSpeed, 0f, Time.deltaTime * 2);
-        
+
         rb.linearVelocity = currentSpeed * transform.up;
     }
 
@@ -132,7 +132,8 @@ public class CarAI : MonoBehaviour
                 targetDirection = transform.up;
             }
 
-            currentTurnSpeed = turnSpeed;
+            // Reduce turn speed when not swerving
+            currentTurnSpeed = turnSpeed / 2;
         }
 
         float angle = Vector2.SignedAngle(transform.up, targetDirection.x * Vector2.right);
@@ -142,7 +143,7 @@ public class CarAI : MonoBehaviour
     void DetectCar()
     {
         cars.Clear();
-        
+
         var carList = FindObjectsByType<CarAI>(FindObjectsSortMode.None);
 
         if (Vector2.Distance(transform.position, player.gameObject.transform.position) <= detectionDistance + 0.5f)
@@ -157,7 +158,7 @@ public class CarAI : MonoBehaviour
         {
             if (Vector2.Distance(transform.position, car.transform.position) > detectionDistance + 0.5f)
                 farCars.Add(car);
-            
+
             if (Vector2.Distance(transform.position, car.transform.position) <= semiDetectionDistance + 0.5f)
                 farCars.Remove(car);
         }
@@ -169,20 +170,42 @@ public class CarAI : MonoBehaviour
     {
         // Probability per second to change lanes
         turnTimer += Time.deltaTime;
-        
+
         if (turnTimer < 1f && !isChangingLanes)
             return;
 
         float changeLaneProbability = laneChangeProbability + (hostility * cars.Count);
+
+
         isChangingLanes = changeLaneProbability <= Random.Range(0f, 1f);
+
+        List<Transform> lanePositions = ClosestRoad().lanePositions.ToList();
+
+        List<Transform> rightLanes = ClosestRoad().lanePositions.Where(lane => lane.position.x > transform.position.x).ToList();
+        List<Transform> leftLanes = ClosestRoad().lanePositions.Where(lane => lane.position.x < transform.position.x).ToList();
 
         if (isChangingLanes)
         {
-            while (targetLane == startingLane)
+            foreach (var car in cars)
             {
-                var nextLaneIndex = Random.Range(0, ClosestRoad().lanePositions.Count);
-                targetLane = ClosestRoad().lanePositions[nextLaneIndex].position;
+                if (car != null)
+                {
+                    if (car.GetComponent<Rigidbody2D>().linearVelocity.y > rb.linearVelocity.y)
+                    {
+                        lanePositions.AddRange(rightLanes);
+                    }
+                    else
+                    {
+                        lanePositions.AddRange(leftLanes);
+                    }
+                }
             }
+
+            // Remove the starting lane from the lane positions to choose from
+            lanePositions.RemoveAll(lane => lane.position == startingLane);
+
+            var nextLaneIndex = Random.Range(0, lanePositions.Count);
+            targetLane = lanePositions[nextLaneIndex].position;
         }
     }
 
@@ -214,7 +237,7 @@ public class CarAI : MonoBehaviour
             Vector2 directionToCar = (car.transform.position - transform.position).normalized;
 
             // if the car is in front of us, slow down, otherwise speed up to target speed
-            if (Vector2.Dot(transform.up, directionToCar) > 0.5f)
+            if (Vector2.Dot(transform.up, directionToCar) > 0.8f)
                 currentSpeed = Mathf.Lerp(currentSpeed, 0, Time.deltaTime / reactionTime);
             else
                 currentSpeed = Mathf.Lerp(currentSpeed, targetSpeed, Time.deltaTime / reactionTime);
@@ -222,11 +245,10 @@ public class CarAI : MonoBehaviour
             if (isChangingLanes)
             {
                 // If the car is moving to an occupied lane, return to the starting lane
-                if ((transform.position.x < targetLane.x && Vector2.Dot(transform.right, directionToCar) > 0.5f) ||
-                (transform.position.x > targetLane.x && Vector2.Dot(transform.right, directionToCar) < -0.5f))
+                if ((transform.position.x < targetLane.x && Vector2.Dot(transform.right, directionToCar) > 0.8f) ||
+                (transform.position.x > targetLane.x && Vector2.Dot(transform.right, directionToCar) < -0.8f))
                 {
                     targetLane = startingLane;
-                    currentTurnSpeed = turnSpeed * 2;
                 }
             }
         }
@@ -239,16 +261,38 @@ public class CarAI : MonoBehaviour
         Handles.DrawWireDisc(transform.position, Vector3.forward, detectionDistance);
         Handles.color = Color.yellow;
         Handles.DrawWireDisc(transform.position, Vector3.forward, semiDetectionDistance);
-        
+
         if (cars.Count > 0)
         {
             Gizmos.color = Color.blue;
-            
+
             foreach (var car in cars)
             {
                 if (car != null)
-                    Gizmos.DrawLine(transform.position, car.transform.position);
+                {
+                    Vector2 directionToCar = (car.transform.position - transform.position).normalized;
+
+
+
+                    if (Vector2.Dot(transform.up, directionToCar) > 0.8f)
+                    {
+                        Gizmos.color = Color.red;
+                        Gizmos.DrawLine(transform.position, car.transform.position);
+                    }
+                    else if ((transform.position.x < targetLane.x && Vector2.Dot(transform.right, directionToCar) > 0.8f) ||
+                            (transform.position.x > targetLane.x && Vector2.Dot(transform.right, directionToCar) < -0.8f))
+                    {
+                        Gizmos.color = Color.green;
+                        Gizmos.DrawLine(transform.position, car.transform.position);
+                    }
+                    else
+                    {
+                        Gizmos.color = Color.blue;
+                        Gizmos.DrawLine(transform.position, car.transform.position);
+                    }
+                }
             }
+
         }
     }
 }

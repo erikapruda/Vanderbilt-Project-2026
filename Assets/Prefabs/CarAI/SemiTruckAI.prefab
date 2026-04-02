@@ -236,7 +236,7 @@ MonoBehaviour:
   laneChangeProbability: 0.05
   hostility: 0
   reactionTime: 1.5
-  turnSpeed: 0.05
+  turnSpeed: 0.1
   turnDelay: 0.8
   speedLimitLeniency: 0.05
   passengers: 1
