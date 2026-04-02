@@ -9,6 +9,8 @@ public class generator : MonoBehaviour
 
     public const float TIME_INTERVAL = 3f;    //time interval
     public static float STROOP_START_TIME = 0f;      //variable for when stroop test displays a word
+
+    public static bool SHOW_COLOR_RESPONSE = true;
     public TextMeshProUGUI stroopText;          //canvas text 
     public stroopVerification stroopVerifier;   //speech-to-text script
     public Image backgroundImage;               //canvas image
@@ -69,7 +71,7 @@ public class generator : MonoBehaviour
         while (true)
         {
 
-            backgroundImage.color = Color.white;
+            
 
             int wordIndex = Random.Range(0, color_words.Length);
             int colorIndex = Random.Range(0, colors.Length);
@@ -98,24 +100,30 @@ public class generator : MonoBehaviour
                 results temp_results = new results();
                 bool correctness = stroopVerifier.CompareWords();
 
-                if (correctness == true)
+                
+                if(SHOW_COLOR_RESPONSE == true)
                 {
-                    backgroundImage.color = new Color(0.01f, 1f, 0.01f, 0.68f);
-                }
+                    
+                
+                    if (correctness == true)
+                    {
+                        backgroundImage.color = new Color(0.01f, 1f, 0.01f, 0.68f);
+                    }
 
-                else
-                {
-                    backgroundImage.color = new Color(1f, 0.01f, 0.01f, 0.68f);
+                    else
+                    {
+                        backgroundImage.color = new Color(1f, 0.01f, 0.01f, 0.68f);
+                    }
+
+                    yield return new WaitForSeconds(1.0f);
                 }
 
 
                 temp_results.reaction_time = stroopVerifier.reactionTime;
                 temp_results.correctness = correctness;
-
                 results_array.Add(temp_results);
-
-                yield return new WaitForSeconds(1.0f);
-
+                
+                backgroundImage.color = Color.white;
             }
 
             

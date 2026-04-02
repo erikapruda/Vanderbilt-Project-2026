@@ -351,6 +351,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: arithmetic_prefab
       objectReference: {fileID: 0}
+    - target: {fileID: 6501769000493507395, guid: d9c83dee3f5cdd046a4e770a59e30b7f, type: 3}
+      propertyPath: m_text
+      value: Arithmetic Task
+      objectReference: {fileID: 0}
     - target: {fileID: 8198944516608923162, guid: d9c83dee3f5cdd046a4e770a59e30b7f, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0.79553
