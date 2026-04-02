@@ -135,7 +135,7 @@ public class Player : MonoBehaviour
             velMag = Mathf.MoveTowards(velMag, targetSpeed, celeration);
             
             // Update velocity
-            rb.linearVelocityX = velNorm.x * velMag;
+            rb.linearVelocityX = Mathf.MoveTowards(rb.linearVelocityX, velNorm.x * velMag, celeration);
             rb.linearVelocityY = Mathf.MoveTowards(rb.linearVelocityY, targetSpeed, celeration);
         }
 

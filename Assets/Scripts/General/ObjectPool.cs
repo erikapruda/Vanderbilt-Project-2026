@@ -30,7 +30,7 @@ public class ObjectPool
         }
     }
 
-    public GameObject CreateObject(Vector3 position, Quaternion rotation)
+    public GameObject CreateObject(Vector3 position, Quaternion rotation, bool setActive = true)
     {
         if (Prefab == null || Max == 0)
         {
@@ -41,11 +41,15 @@ public class ObjectPool
         obj.transform.position = position;
         obj.transform.rotation = rotation;
 
-        if (obj.activeSelf)
+        if (setActive)
         {
-            obj.SetActive(false);
+            if (obj.activeSelf)
+            {
+                obj.SetActive(false);
+            }
+            obj.SetActive(true);
         }
-        obj.SetActive(true);
+
         if (++nextIndex >= Max)
         {
             nextIndex = 0;

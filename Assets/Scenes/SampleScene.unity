@@ -889,6 +889,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: World
       objectReference: {fileID: 0}
+    - target: {fileID: 1506285828265470637, guid: 0ea7cff2c09e0b841b1fd492c9ac3ec5, type: 3}
+      propertyPath: carPools.Items.Array.data[0].Max
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 1506285828265470637, guid: 0ea7cff2c09e0b841b1fd492c9ac3ec5, type: 3}
+      propertyPath: carPools.Items.Array.data[1].Max
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 3233359448268099316, guid: 0ea7cff2c09e0b841b1fd492c9ac3ec5, type: 3}
       propertyPath: 'spawnerTransforms.Items.Array.data[0]'
       value: 

@@ -56,9 +56,9 @@ public class CarAI : MonoBehaviour
     readonly private List<GameObject> cars = new();
 
     [HideInInspector]
-    public Vector3 targetLane;
+    public Vector2 targetLane;
 
-    private Vector3 startingLane;
+    private Vector2 startingLane;
 
     void Awake()
     {
@@ -72,52 +72,63 @@ public class CarAI : MonoBehaviour
         animator.Play("Left Turn Signal");
         targetSpeed = player.autoLinearVelocitySpeed - (player.autoLinearVelocitySpeed * Random.Range(0f, speedLimitLeniency));
         currentSpeed = targetSpeed;
+        currentTurnSpeed = turnSpeed;
         startingLane = targetLane;
+        rb.linearVelocityX = 0f;
+        rb.linearVelocityY = currentSpeed;
         rb.angularVelocity = 0f;
         rb.rotation = 0f;
 
         isChangingLanes = false;
         lostControl = false;
         turnTimer = 0f;
-        currentSpeed = 0f;
-        currentSpeed = 0f;
     }
 
-    // Update is called once per frame
     void Update()
     {
         // If the car is no longer straight and at a steep angle, start crashing state
-        if (Mathf.Abs(Vector2.Angle(transform.up, Vector3.up)) > 60f)
+        if (!lostControl && Mathf.Abs(Vector2.Angle(transform.up, Vector3.up)) > 60f)
+        {
             lostControl = true;
+        }
 
         DetectCar();
 
-        if (!lostControl)
+        if (lostControl)
+        {
+            currentSpeed = Mathf.Lerp(currentSpeed, 0f, Time.deltaTime * 2);
+        }
+        else
         {
             ChooseLane();
             AvoidCar();
+        }
+    }
+
+    void FixedUpdate()
+    {
+        if (!lostControl)
+        {
             RotateCar();
         }
-        else
-            currentSpeed = Mathf.Lerp(currentSpeed, 0f, Time.deltaTime * 2);
-
-        rb.linearVelocity = currentSpeed * transform.up;
+        rb.linearVelocityX = Mathf.MoveTowards(rb.linearVelocityX, rb.transform.up.x * rb.linearVelocity.magnitude, Time.fixedDeltaTime * 2f);
+        rb.linearVelocityY = Mathf.MoveTowards(rb.linearVelocityY, currentSpeed, Time.fixedDeltaTime * 2f);
     }
 
     void RotateCar()
     {
-        Vector3 targetDirection;
+        float targetDirectionX;
 
         if (isChangingLanes && turnTimer > turnDelay + 1f)
         {
-            targetDirection = (targetLane - transform.position).normalized;
+            targetDirectionX = targetLane.x - rb.position.x;
         }
         else
         {
-            targetDirection = (startingLane - transform.position).normalized;
+            targetDirectionX = startingLane.x - rb.position.x;
         }
 
-        if (transform.position.x < targetLane.x + 0.05f && transform.position.x > targetLane.x - 0.05f)
+        if (Mathf.Abs(targetDirectionX) < 1f /*&& rb.position.x > targetLane.x - 0.05f*/)
         {
             if (isChangingLanes)
             {
@@ -128,16 +139,22 @@ public class CarAI : MonoBehaviour
             else
             {
                 // if we are close enough to the target lane, align with it and stop turning
-                transform.rotation = Quaternion.FromToRotation(transform.up, Vector3.up) * transform.rotation;
-                targetDirection = transform.up;
+                //transform.rotation = Quaternion.FromToRotation(transform.up, Vector3.up) * transform.rotation;
+                //targetDirection = transform.up;
             }
 
             // Reduce turn speed when not swerving
-            currentTurnSpeed = turnSpeed / 2;
+            //currentTurnSpeed = turnSpeed / 2;
+
+            targetDirectionX = 0f;
         }
 
-        float angle = Vector2.SignedAngle(transform.up, targetDirection.x * Vector2.right);
-        transform.Rotate(0, 0, angle * currentTurnSpeed * Time.deltaTime);
+        float angle = targetDirectionX * -5f; // Vector2.SignedAngle(transform.up, Vector2.right * targetDirectionX);
+
+        Debug.DrawRay(rb.transform.position, rb.transform.right * targetDirectionX, Color.brown, Time.fixedDeltaTime);
+        
+        rb.MoveRotation(angle);
+        //rb.MoveRotation(Mathf.MoveTowardsAngle(rb.rotation, angle, currentTurnSpeed * Time.fixedDeltaTime));
     }
 
     void DetectCar()
@@ -166,6 +183,8 @@ public class CarAI : MonoBehaviour
         cars.RemoveAll(car => farCars.Contains(car));
     }
 
+
+    // CHOOSE LANE LOGIC CHOOSING DIFFERENT LANES TOO OFTEN!!!!!! 
     void ChooseLane()
     {
         // Probability per second to change lanes
@@ -202,7 +221,7 @@ public class CarAI : MonoBehaviour
             }
 
             // Remove the starting lane from the lane positions to choose from
-            lanePositions.RemoveAll(lane => lane.position == startingLane);
+            lanePositions.RemoveAll(lane => new Vector2(lane.position.x, lane.position.y) == startingLane);
 
             var nextLaneIndex = Random.Range(0, lanePositions.Count);
             targetLane = lanePositions[nextLaneIndex].position;
@@ -254,6 +273,7 @@ public class CarAI : MonoBehaviour
         }
     }
 
+#if UNITY_EDITOR
     void OnDrawGizmos()
     {
         // Draw top left line
@@ -295,4 +315,5 @@ public class CarAI : MonoBehaviour
 
         }
     }
+#endif
 }
