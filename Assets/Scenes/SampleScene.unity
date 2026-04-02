@@ -7822,11 +7822,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2615950994488445496, guid: 31f0172e5540648bf87b8a0681699bce, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 560.1232
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2615950994488445496, guid: 31f0172e5540648bf87b8a0681699bce, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1154.1404
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2615950994488445496, guid: 31f0172e5540648bf87b8a0681699bce, type: 3}
       propertyPath: m_LocalPosition.z
@@ -7863,6 +7863,10 @@ PrefabInstance:
     - target: {fileID: 4874160846110375631, guid: 31f0172e5540648bf87b8a0681699bce, type: 3}
       propertyPath: m_Name
       value: stroop_prefab
+      objectReference: {fileID: 0}
+    - target: {fileID: 4874160846110375631, guid: 31f0172e5540648bf87b8a0681699bce, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
