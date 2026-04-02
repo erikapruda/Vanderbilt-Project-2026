@@ -110,14 +110,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CarAI
   laneChangeProbability: 0.05
-  hostility: 0
+  hostility: 0.1
   reactionTime: 1.5
-  turnSpeed: 0.25
+  turnSpeed: 1
   turnDelay: 0.8
-  speedLimitLeniency: 0.2
-  carHitPenalty: 20000
+  speedLimitLeniency: 0.05
   passengers: 2
   detectionDistance: 2.5
+  semiDetectionDistance: 4
   targetLane: {x: 0, y: 0, z: 0}
 --- !u!114 &7122390724337055971
 MonoBehaviour:
