@@ -144,6 +144,39 @@
                     "isPartOfComposite": true
                 },
                 {
+                    "name": "Wheel",
+                    "id": "f35a68ff-89c7-4cb2-8324-e127826e9b60",
+                    "path": "1DAxis",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Steering",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "negative",
+                    "id": "f680a110-11a7-4b26-ae5c-cb180a07935c",
+                    "path": "<Joystick>/stick/left",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Steering",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "positive",
+                    "id": "f3c981db-012c-495d-9d1f-07b4ce6d100e",
+                    "path": "<Joystick>/stick/right",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Steering",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
                     "name": "",
                     "id": "7ce8bb09-6d4a-4a61-830c-dc2ae564ae19",
                     "path": "<Keyboard>/s",
@@ -257,6 +290,17 @@
             "devices": [
                 {
                     "devicePath": "<Gamepad>",
+                    "isOptional": false,
+                    "isOR": false
+                }
+            ]
+        },
+        {
+            "name": "Wheel",
+            "bindingGroup": "Wheel",
+            "devices": [
+                {
+                    "devicePath": "<Joystick>",
                     "isOptional": false,
                     "isOR": false
                 }
