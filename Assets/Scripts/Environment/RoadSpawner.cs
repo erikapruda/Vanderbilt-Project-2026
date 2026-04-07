@@ -44,6 +44,7 @@ public class RoadSpawner : MonoBehaviour
         int numCars = UnityEngine.Random.Range(road.numCars.x, road.numCars.y);
 
         List<float> ySpawnPositions = new();
+        var carList = FindObjectsByType<CarAI>(FindObjectsSortMode.None);
 
         for (int i = 0; i < numCars; i++)
         {
@@ -66,16 +67,30 @@ public class RoadSpawner : MonoBehaviour
             Vector3 randPosition = new(randX, randY, 0f);
             Vector3 spawnPos = lanePosition + randPosition;
 
-            ObjectPool carPool = carPools.GetRandom();
-            GameObject car = carPool.CreateObject(spawnPos, Quaternion.identity, false);
-            
-            if (car != null)
-            {
-                car.transform.parent = transform;
-                car.GetComponent<CarAI>().targetLane = lanePosition;
-                car.SetActive(true);
+            bool skipSpawn = false;
 
-                if (car.name.Contains("Semi"))
+            foreach (var car in carList)
+            {
+                if (Vector3.Distance(car.transform.position, spawnPos) < 6f)
+                {
+                    skipSpawn = true;
+                    break;
+                }
+            }
+
+            if (skipSpawn)
+                continue;
+            
+            ObjectPool carPool = carPools.GetRandom();
+            GameObject spawnedCar = carPool.CreateObject(spawnPos, Quaternion.identity, false);
+            
+            if (spawnedCar != null)
+            {
+                spawnedCar.transform.parent = transform;
+                spawnedCar.GetComponent<CarAI>().targetLane = lanePosition;
+                spawnedCar.SetActive(true);
+
+                if (spawnedCar.name.Contains("Semi"))
                     road.lanePositions.RemoveAt(laneIndex);
             }
         }
