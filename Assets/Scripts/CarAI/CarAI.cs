@@ -190,7 +190,7 @@ public class CarAI : MonoBehaviour
         // Probability per second to change lanes
         turnTimer += Time.deltaTime;
 
-        if (turnTimer < 1f && !isChangingLanes)
+        if (turnTimer < 1f)
             return;
 
         float changeLaneProbability = laneChangeProbability + (hostility * cars.Count);
@@ -204,28 +204,28 @@ public class CarAI : MonoBehaviour
         List<Transform> leftLanes = ClosestRoad().lanePositions.Where(lane => lane.position.x < transform.position.x).ToList();
 
         if (isChangingLanes)
+            return;
+        
+        foreach (var car in cars)
         {
-            foreach (var car in cars)
+            if (car != null)
             {
-                if (car != null)
+                if (car.GetComponent<Rigidbody2D>().linearVelocity.y > rb.linearVelocity.y)
                 {
-                    if (car.GetComponent<Rigidbody2D>().linearVelocity.y > rb.linearVelocity.y)
-                    {
-                        lanePositions.AddRange(rightLanes);
-                    }
-                    else
-                    {
-                        lanePositions.AddRange(leftLanes);
-                    }
+                    lanePositions.AddRange(rightLanes);
+                }
+                else
+                {
+                    lanePositions.AddRange(leftLanes);
                 }
             }
-
-            // Remove the starting lane from the lane positions to choose from
-            lanePositions.RemoveAll(lane => new Vector2(lane.position.x, lane.position.y) == startingLane);
-
-            var nextLaneIndex = Random.Range(0, lanePositions.Count);
-            targetLane = lanePositions[nextLaneIndex].position;
         }
+
+        // Remove the starting lane from the lane positions to choose from
+        lanePositions.RemoveAll(lane => new Vector2(lane.position.x, lane.position.y) == startingLane);
+
+        var nextLaneIndex = Random.Range(0, lanePositions.Count);
+        targetLane = lanePositions[nextLaneIndex].position;
     }
 
     Road ClosestRoad()
