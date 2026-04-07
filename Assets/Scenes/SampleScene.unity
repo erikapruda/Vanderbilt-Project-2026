@@ -9104,6 +9104,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1943682801}
     - target: {fileID: 8908964563554615608, guid: 97938d39a93cc2c42b6f29624b369a2e, type: 3}
+      propertyPath: driftSpeed
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 8908964563554615608, guid: 97938d39a93cc2c42b6f29624b369a2e, type: 3}
       propertyPath: worldTransform
       value: 
       objectReference: {fileID: 548868168}
