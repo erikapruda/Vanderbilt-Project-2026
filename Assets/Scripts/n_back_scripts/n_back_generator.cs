@@ -7,8 +7,8 @@ using System.Collections.Generic;
 public class n_back_generator : MonoBehaviour
 {
 
+    public static bool SHOW_COLOR_RESPONSE = true;
     public const float TIME_INTERVAL = 3f;    //time interval
-
     public int AMOUNT_BACK = 2;
     public TextMeshProUGUI number_text;          //canvas text 
     public Image backgroundImage;               //canvas image
@@ -26,7 +26,8 @@ public class n_back_generator : MonoBehaviour
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
-    {
+    {   
+        
         backgroundImage.color = Color.white;
 
         StartCoroutine(Change_n_back());
@@ -44,10 +45,10 @@ public class n_back_generator : MonoBehaviour
 
     IEnumerator Change_n_back()
     {
+        
 
         while (true)
         {
-
             backgroundImage.color = Color.white;
 
            
@@ -75,32 +76,49 @@ public class n_back_generator : MonoBehaviour
             number_text.text = nextLetter.ToString();
             letters_list.Add(nextLetter);
 
-            /*
-            
-            for(int i = 0; i < letters_list.Count; i++)
-            {
-                Debug.Log(letters_list[i] + ", ");
-            }
-
-            */
+            //Debug.Log("list count: " + letters_list.Count);
+            yield return new WaitForSeconds(TIME_INTERVAL);
 
             if(letters_list.Count >= 3)
             {
                 correct_letter = letters_list[(letters_list.Count - 1) - AMOUNT_BACK]; //second to last from the most recent character
                 //Debug.Log("" + correct_letter);
                 bool correctness = nBackVerifier.CompareWords();
-                if(correct_letter == letters_list[letters_list.Count - 1])
-                {
-                    Debug.Log("Same");
-                }
+                
 
-                else
-                {
-                    //Debug.Log("Different");
-                }
+                //-------------DEBUGGING--------------
+                
+                // if(letters_list[letters_list.Count - 1] == correct_letter){
+                //     Debug.Log("Same!!");
+                // }
 
+                // else
+                // {
+                //     Debug.Log("Different!!");
+                // }
+
+                
+                if(SHOW_COLOR_RESPONSE == true)
+                {
+                    if (correctness == true)
+                    {
+                        backgroundImage.color = new Color(0.01f, 1f, 0.01f, 0.68f);
+                    }
+
+                    else
+                    {
+                        backgroundImage.color = new Color(1f, 0.01f, 0.01f, 0.68f);
+                    }
+
+                    yield return new WaitForSeconds(1.0f);
+                    backgroundImage.color = Color.white;
+
+                }
+                
+
+                
             }
-            yield return new WaitForSeconds(TIME_INTERVAL);
+            
 
 
  
