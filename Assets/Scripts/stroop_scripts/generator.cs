@@ -41,8 +41,8 @@ public class generator : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        results_array.Clear();
         backgroundImage.color = Color.white;
-
         StartCoroutine(Change_Stroop());
         
     }
@@ -101,6 +101,11 @@ public class generator : MonoBehaviour
                 results temp_results = new results();
                 bool correctness = stroopVerifier.CompareWords();
 
+                temp_results.reaction_time = stroopVerifier.reactionTime;
+                temp_results.correctness = correctness;
+                temp_results.color_word = color_words[wordIndex];
+                temp_results.color_index = colorIndex;
+                results_array.Add(temp_results);
                 
                 if(SHOW_COLOR_RESPONSE == true)
                 {
@@ -120,12 +125,7 @@ public class generator : MonoBehaviour
                 }
 
 
-                temp_results.reaction_time = stroopVerifier.reactionTime;
-                temp_results.correctness = correctness;
-                temp_results.color_word = color_words[wordIndex];
-                temp_results.color_index = colorIndex;
-
-                results_array.Add(temp_results);
+                
                 
                 backgroundImage.color = Color.white;
             }

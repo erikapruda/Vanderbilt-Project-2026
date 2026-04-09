@@ -43,14 +43,18 @@ public class generator_emotion : MonoBehaviour
     {
         public float reaction_time;
         public bool correctness;
+
+        public string word;
+        public int emotion;  //0 for bad, 1 for good.
     };
-    List<results> results_array = new List<results>();
+    public static List<results> results_array = new List<results>();
 
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
 
     void Start()
     {
+        results_array.Clear();
         emotion_background.color = Color.white;
         StartCoroutine(Change_Text());
     }
@@ -145,6 +149,8 @@ public class generator_emotion : MonoBehaviour
 
                 temp_results.reaction_time = emotionVerifier.reactionTime;
                 temp_results.correctness = emotion_correctness;
+                temp_results.word = words[wordIndex];
+                temp_results.emotion = wordsDict[words[newWordIndex]];
 
                 results_array.Add(temp_results);       
             }
