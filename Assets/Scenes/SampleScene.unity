@@ -9091,46 +9091,26 @@ PrefabInstance:
       propertyPath: m_Name
       value: PlayerCar
       objectReference: {fileID: 0}
-    - target: {fileID: 6958099837528174848, guid: 97938d39a93cc2c42b6f29624b369a2e, type: 3}
-      propertyPath: m_Material
-      value: 
-      objectReference: {fileID: 6200000, guid: 63b6a8c9742e52e479417b554b0025fb, type: 2}
+    - target: {fileID: 6450300480570856368, guid: 97938d39a93cc2c42b6f29624b369a2e, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 6476706239207160431, guid: 97938d39a93cc2c42b6f29624b369a2e, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.3
+      objectReference: {fileID: 0}
     - target: {fileID: 8908964563554615608, guid: 97938d39a93cc2c42b6f29624b369a2e, type: 3}
       propertyPath: debtText
       value: 
       objectReference: {fileID: 1943682801}
     - target: {fileID: 8908964563554615608, guid: 97938d39a93cc2c42b6f29624b369a2e, type: 3}
-      propertyPath: recoveryTime
-      value: 1.75
-      objectReference: {fileID: 0}
-    - target: {fileID: 8908964563554615608, guid: 97938d39a93cc2c42b6f29624b369a2e, type: 3}
-      propertyPath: steeringPower
-      value: 45
+      propertyPath: driftSpeed
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 8908964563554615608, guid: 97938d39a93cc2c42b6f29624b369a2e, type: 3}
       propertyPath: worldTransform
       value: 
       objectReference: {fileID: 548868168}
-    - target: {fileID: 8908964563554615608, guid: 97938d39a93cc2c42b6f29624b369a2e, type: 3}
-      propertyPath: accelerationPower
-      value: 15
-      objectReference: {fileID: 0}
-    - target: {fileID: 8908964563554615608, guid: 97938d39a93cc2c42b6f29624b369a2e, type: 3}
-      propertyPath: decelerationPower
-      value: 45
-      objectReference: {fileID: 0}
-    - target: {fileID: 8908964563554615608, guid: 97938d39a93cc2c42b6f29624b369a2e, type: 3}
-      propertyPath: maxAngularVelocity
-      value: 45
-      objectReference: {fileID: 0}
-    - target: {fileID: 8908964563554615608, guid: 97938d39a93cc2c42b6f29624b369a2e, type: 3}
-      propertyPath: crashKnockbackForce
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8908964563554615608, guid: 97938d39a93cc2c42b6f29624b369a2e, type: 3}
-      propertyPath: steeringCenterPower
-      value: 90
-      objectReference: {fileID: 0}
     - target: {fileID: 8908964563554615608, guid: 97938d39a93cc2c42b6f29624b369a2e, type: 3}
       propertyPath: OnHitObstacle.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
@@ -9143,10 +9123,6 @@ PrefabInstance:
       propertyPath: OnHitObstacle.m_PersistentCalls.m_Calls.Array.data[2].m_Target
       value: 
       objectReference: {fileID: 519420033}
-    - target: {fileID: 8908964563554615608, guid: 97938d39a93cc2c42b6f29624b369a2e, type: 3}
-      propertyPath: OnHitObstacle.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_FloatArgument
-      value: 1
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

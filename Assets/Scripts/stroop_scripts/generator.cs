@@ -6,7 +6,6 @@ using System.Collections.Generic;
 
 public class generator : MonoBehaviour
 {
-
     public const float TIME_INTERVAL = 3f;    //time interval
     public static float STROOP_START_TIME = 0f;      //variable for when stroop test displays a word
 
@@ -29,12 +28,14 @@ public class generator : MonoBehaviour
     {
         public float reaction_time;
         public bool correctness;
+        public string color_word;
+        public int color_index;
     };
 
     //public results[] results_array = new array();
 
-    List<results> results_array = new List<results>();
-
+    public static List<results> results_array = new List<results>();
+    
 
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -121,6 +122,9 @@ public class generator : MonoBehaviour
 
                 temp_results.reaction_time = stroopVerifier.reactionTime;
                 temp_results.correctness = correctness;
+                temp_results.color_word = color_words[wordIndex];
+                temp_results.color_index = colorIndex;
+
                 results_array.Add(temp_results);
                 
                 backgroundImage.color = Color.white;

@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
@@ -67,6 +68,13 @@ public class Player : MonoBehaviour
     [Tooltip("The car's steering acceleration when steering input is released")]
     private float steeringCenterPower = 100f;
 
+    [SerializeField]
+    private List<ParticleSystem> driftParticleSystems = new();
+
+    [SerializeField]
+    [Tooltip("The car's minimum horizontal speed at which smoke starts appearing around the tires")]
+    private float driftSpeed = 6f;
+
     [Space]
 
     [Header("Interactions")]
@@ -111,38 +119,44 @@ public class Player : MonoBehaviour
 
     void FixedUpdate()
     {
-        if (InputManager.IsGameplayInputEnabled)
-        {
-            float deltaTime = Time.fixedDeltaTime;
-
-            // Adjust angular velocity based on steering
-            if (InputManager.SteeringInput == 0f)
-            {
-                rb.MoveRotation(Mathf.MoveTowards(rb.rotation, 0f, steeringCenterPower * deltaTime));
-            }
-            else
-            {
-                rb.MoveRotation(Mathf.Clamp(rb.rotation + (steeringPower * -InputManager.SteeringInput * deltaTime), -maxRotationAngle, maxRotationAngle));
-            }
-
-            // Get current velocity direction and speed
-            Vector2 velNorm = transform.up;
-            float velMag = rb.linearVelocity.magnitude;
-
-            // Accelerate/decelerate based on input
-            float targetSpeed = InputManager.AccelerateInputHeld ? maxLinearVelocity : autoLinearVelocitySpeed;
-            float celeration = InputManager.DecelerateInputHeld ? decelerationPower * deltaTime : accelerationPower * deltaTime;
-            velMag = Mathf.MoveTowards(velMag, targetSpeed, celeration);
-            
-            // Update velocity
-            rb.linearVelocityX = Mathf.MoveTowards(rb.linearVelocityX, velNorm.x * velMag, celeration);
-            rb.linearVelocityY = Mathf.MoveTowards(rb.linearVelocityY, targetSpeed, celeration);
-        }
+        UpdateController();        
 
         // Limit backwards velocity
         rb.linearVelocityY = Mathf.Max(0f, rb.linearVelocityY);
 
         MoveWorld();
+
+        PlayRoadParticles();
+    }
+
+    void UpdateController()
+    {
+        if (!InputManager.IsGameplayInputEnabled) return;
+
+        float deltaTime = Time.fixedDeltaTime;
+
+        // Adjust angular velocity based on steering
+        if (InputManager.SteeringInput == 0f)
+        {
+            rb.MoveRotation(Mathf.MoveTowards(rb.rotation, 0f, steeringCenterPower * deltaTime));
+        }
+        else
+        {
+            rb.MoveRotation(Mathf.Clamp(rb.rotation + (steeringPower * -InputManager.SteeringInput * deltaTime), -maxRotationAngle, maxRotationAngle));
+        }
+
+        // Get current velocity direction and speed
+        Vector2 velNorm = transform.up;
+        float velMag = rb.linearVelocity.magnitude;
+
+        // Accelerate/decelerate based on input
+        float targetSpeed = InputManager.AccelerateInputHeld ? maxLinearVelocity : autoLinearVelocitySpeed;
+        float celeration = InputManager.DecelerateInputHeld ? decelerationPower * deltaTime : accelerationPower * deltaTime;
+        velMag = Mathf.MoveTowards(velMag, targetSpeed, celeration);
+        
+        // Update velocity
+        rb.linearVelocityX = Mathf.MoveTowards(rb.linearVelocityX, velNorm.x * velMag, celeration);
+        rb.linearVelocityY = Mathf.MoveTowards(rb.linearVelocityY, targetSpeed, celeration);
     }
 
     // Move the world instead of the car for proper floating point world origin
@@ -324,6 +338,28 @@ public class Player : MonoBehaviour
         return leftOverDebtString.Length == 0 || leftOverDebt == 0 || numZerosBefore >= debtLabelDecimalPlaces ? $"{scaledDebt}{debtLabel}" : $"{scaledDebt}.{leftOverDebtString}{debtLabel}";
     }
 
+    void PlayRoadParticles()
+    {
+        if (driftParticleSystems == null || driftParticleSystems.Count == 0) return;
+
+        foreach (var driftParticleSystem in driftParticleSystems)
+        {
+            if (InputManager.IsGameplayInputEnabled && Mathf.Abs(rb.linearVelocityX) > driftSpeed)
+            {
+                if (!driftParticleSystem.emission.enabled)
+                {
+                    ParticleSystem.EmissionModule emissionModule = driftParticleSystem.emission;
+                    emissionModule.enabled = true;
+                }
+            }
+            else if (driftParticleSystem.emission.enabled)
+            {
+                ParticleSystem.EmissionModule emissionModule = driftParticleSystem.emission;
+                emissionModule.enabled = false;
+            }
+            }
+    }
+
     IEnumerator RecoverCar()
     {
         yield return recoveryWait;
@@ -334,8 +370,7 @@ public class Player : MonoBehaviour
         // Reset orientation
         rb.rotation = 0f;
 
-        // Reset velocities
-        //rb.linearVelocity = Vector2.zero;
+        // Reset angular velocity
         rb.angularVelocity = 0f;
 
         // Play invincibility animation and disable colliders if animation exists

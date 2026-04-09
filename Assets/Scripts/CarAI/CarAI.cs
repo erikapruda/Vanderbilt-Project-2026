@@ -3,8 +3,6 @@ using System.Linq;
 using UnityEditor;
 using UnityEngine;
 
-[RequireComponent(typeof(Animator))]
-[RequireComponent(typeof(BoxCollider2D))]
 [RequireComponent(typeof(Rigidbody2D))]
 public class CarAI : MonoBehaviour
 {
@@ -36,9 +34,9 @@ public class CarAI : MonoBehaviour
     public float detectionDistance = 2.0f;
 
     public float semiDetectionDistance = 4.0f;
-    private Animator animator;
 
-    private Rigidbody2D rb;
+    [HideInInspector]
+    public Rigidbody2D rb;
 
     private float targetSpeed = 0;
 
@@ -48,7 +46,8 @@ public class CarAI : MonoBehaviour
 
     private bool isChangingLanes = false;
 
-    private bool lostControl = false;
+    [HideInInspector]
+    public bool lostControl = false;
 
     private float currentTurnSpeed;
 
@@ -63,13 +62,11 @@ public class CarAI : MonoBehaviour
     void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
-        animator = GetComponent<Animator>();
         player = FindObjectsByType<Player>(FindObjectsSortMode.None)[0];
     }
 
     void OnEnable()
     {
-        animator.Play("Left Turn Signal");
         targetSpeed = player.autoLinearVelocitySpeed - (player.autoLinearVelocitySpeed * Random.Range(0f, speedLimitLeniency));
         currentSpeed = targetSpeed;
         currentTurnSpeed = turnSpeed;
@@ -122,10 +119,13 @@ public class CarAI : MonoBehaviour
         if (isChangingLanes && turnTimer > turnDelay + 1f)
         {
             targetDirectionX = targetLane.x - rb.position.x;
+            // Reduce turn speed when changing lanes
+            currentTurnSpeed = turnSpeed / 2;
         }
         else
         {
             targetDirectionX = startingLane.x - rb.position.x;
+            currentTurnSpeed = turnSpeed;
         }
 
         if (Mathf.Abs(targetDirectionX) < 1f /*&& rb.position.x > targetLane.x - 0.05f*/)
@@ -136,25 +136,15 @@ public class CarAI : MonoBehaviour
                 startingLane = targetLane;
                 turnTimer = 0f;
             }
-            else
-            {
-                // if we are close enough to the target lane, align with it and stop turning
-                //transform.rotation = Quaternion.FromToRotation(transform.up, Vector3.up) * transform.rotation;
-                //targetDirection = transform.up;
-            }
-
-            // Reduce turn speed when not swerving
-            //currentTurnSpeed = turnSpeed / 2;
 
             targetDirectionX = 0f;
         }
 
-        float angle = targetDirectionX * -5f; // Vector2.SignedAngle(transform.up, Vector2.right * targetDirectionX);
+        float angle = targetDirectionX * -currentTurnSpeed; // Vector2.SignedAngle(transform.up, Vector2.right * targetDirectionX);
 
         Debug.DrawRay(rb.transform.position, rb.transform.right * targetDirectionX, Color.brown, Time.fixedDeltaTime);
         
         rb.MoveRotation(angle);
-        //rb.MoveRotation(Mathf.MoveTowardsAngle(rb.rotation, angle, currentTurnSpeed * Time.fixedDeltaTime));
     }
 
     void DetectCar()

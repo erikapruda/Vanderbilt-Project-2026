@@ -32,7 +32,7 @@ Transform:
   m_GameObject: {fileID: 3841376137598409359}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -5.644879, y: -6.71, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 4.36, y: 4.36, z: 4.36}
   m_ConstrainProportionsScale: 1
   m_Children: []
@@ -112,13 +112,15 @@ MonoBehaviour:
   laneChangeProbability: 0.05
   hostility: 0.1
   reactionTime: 1.5
-  turnSpeed: 1
+  turnSpeed: 3
   turnDelay: 0.8
-  speedLimitLeniency: 0.05
+  speedLimitLeniency: 0.2
   passengers: 2
   detectionDistance: 2.5
   semiDetectionDistance: 4
-  targetLane: {x: 0, y: 0, z: 0}
+  rb: {fileID: 0}
+  lostControl: 0
+  targetLane: {x: 0, y: 0}
 --- !u!114 &7122390724337055971
 MonoBehaviour:
   m_ObjectHideFlags: 0

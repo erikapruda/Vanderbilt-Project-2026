@@ -29,6 +29,11 @@ public class MenuManager : MonoBehaviour
     private Button currentDurationButton = null;
     private Button currentModifierButton = null;
 
+    [Header("Test Options")]
+    public Toggle ColorToggleButton;
+
+
+
     public void Start()
     {
         durationButtons[0].onClick.AddListener(() => SelectDuration(1, durationButtons[0]));
@@ -39,8 +44,12 @@ public class MenuManager : MonoBehaviour
         modifierButtons[1].onClick.AddListener(() => SelectModifier("Emotion", modifierButtons[1]));
         modifierButtons[2].onClick.AddListener(() => SelectModifier("Arithmetic", modifierButtons[2]));
         
+        ColorToggleButton.onValueChanged.AddListener((Toggle_Value) => SelectColorToggle(Toggle_Value));
+
+        
         startButton.onClick.AddListener(StartGame);
 
+        
         UpdateStartButtonState();
     }
 
@@ -146,6 +155,23 @@ public class MenuManager : MonoBehaviour
         SetButtonVisual(currentDurationButton, true);
 
         UpdateStartButtonState();
+    }
+
+    void SelectColorToggle(bool toggle_on)
+    {
+        if(toggle_on == true)
+        {
+            generator.SHOW_COLOR_RESPONSE = true;
+            generator_emotion.SHOW_COLOR_RESPONSE = true;
+            arithmetic_generator.SHOW_COLOR_RESPONSE = true;
+        }
+
+        else if(toggle_on == false)
+        {
+            generator.SHOW_COLOR_RESPONSE = false;
+            generator_emotion.SHOW_COLOR_RESPONSE = false;
+            arithmetic_generator.SHOW_COLOR_RESPONSE = false;
+        }
     }
 
     void SelectModifier(string modifier, Button clickedButton)
