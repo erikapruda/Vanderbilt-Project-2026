@@ -262,6 +262,8 @@ public class Player : MonoBehaviour
 
     public void AddDebt(uint value, Vector2 debtTextPosition = default, Vector2 debtTextVelocity = default)
     {
+        if (!GameManager.IsUsingDebt) return;
+        
         Debt += value;
         debtText.text = $"Debt ${GetDebtText(Debt)}"; ;
 

@@ -6984,11 +6984,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 973629748}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: db8f8df46a45daa41b6629dab68aec4f, type: 3}
+  m_Script: {fileID: 11500000, guid: 9aa61541883505b45914e0c6659fe3ce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::RandomManager
   defaultStartingSeed: 0
   defaultIsUsingSpeed: 1
+  DebtGUI: {fileID: 1943682799}
   SeededRandom:
     state: 0
 --- !u!4 &973629750
@@ -8738,7 +8739,7 @@ GameObject:
   - component: {fileID: 1943682801}
   - component: {fileID: 1943682803}
   m_Layer: 5
-  m_Name: Text
+  m_Name: Debt Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
