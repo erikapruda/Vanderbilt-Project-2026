@@ -10,10 +10,10 @@ public class generator_emotion : MonoBehaviour
 
     
     private const float TIME_INTERVAL = 3f;
-    public static bool SHOW_COLOR_RESPONSE = true;
+    public static bool SHOW_COLOR_RESPONSE;
     private int wordIndex = 0;
     private int newWordIndex = 0;
-    public static float WORD_START_TIME = 0f;
+    public static float WORD_START_TIME;
 
     public Image emotion_background;    //emotion canvas image
     public TextMeshProUGUI textbox;

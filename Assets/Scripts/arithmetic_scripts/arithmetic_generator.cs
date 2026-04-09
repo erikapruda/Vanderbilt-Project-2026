@@ -7,10 +7,10 @@ using System;
 
 public class arithmetic_generator : MonoBehaviour
 {
-    public static bool SHOW_COLOR_RESPONSE = false;
+    public static bool SHOW_COLOR_RESPONSE;
     public const float TIME_INTERVAL = 2.0f;
     public const float VOICE_INTERVAL = 3.0f;
-    public static float ARITHMETIC_START_TIME = 0f;
+    public static float ARITHMETIC_START_TIME;
 
 
     public TextMeshProUGUI numberText;
