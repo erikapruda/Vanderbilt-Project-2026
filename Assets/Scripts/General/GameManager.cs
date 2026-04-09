@@ -8,7 +8,7 @@ public class GameManager : MonoBehaviour
 
     [SerializeField]
     [Tooltip("Default decision for whether the game should use a seed or be completely random\n\nNote 1: Value can be changed later\n\nNote 2: Using a seed includes the scenario of a randomly generated seed")]
-    private bool defaultIsUsingSpeed = true;
+    private bool defaultIsUsingSeed = true;
 
     [SerializeField]
     private GameObject DebtGUI;
@@ -44,10 +44,23 @@ public class GameManager : MonoBehaviour
     void Awake()
     {
         Singleton = this;
-        Seed = defaultStartingSeed;
-        IsUsingSeed = defaultIsUsingSpeed;
+
+        IsUsingSeed = PlayerPrefs.GetInt("UseSeed", defaultIsUsingSeed ? 1 : 0) == 1;
+        if (IsUsingSeed)
+        {
+            uint requestedSeed = (uint)PlayerPrefs.GetInt("RequestedSeed", (int)defaultStartingSeed);
+            Seed = requestedSeed;
+        }
+        else
+        {
+            Seed = 0;
+        }
+
         Debug.Log($"Game Seed: {Seed}");
         
-        DebtGUI.SetActive(IsUsingDebt);
+        if (DebtGUI != null)
+        {
+            DebtGUI.SetActive(IsUsingDebt);
+        }
     }
 }

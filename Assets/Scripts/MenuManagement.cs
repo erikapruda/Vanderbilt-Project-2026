@@ -3,6 +3,7 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using TMPro;
 using UnityEngine.Audio;
+using Unity.VisualScripting;
 
 public class MenuManager : MonoBehaviour
 {
@@ -30,8 +31,11 @@ public class MenuManager : MonoBehaviour
     private Button currentModifierButton = null;
 
     [Header("Test Options")]
-    //private bool Toggle_Status = false;
     public Button colorToggle;
+    public Button debtToggle;
+
+    [Header("Seed Input")]
+    public TMP_InputField seedInput;
 
 
     public void Awake()
@@ -42,7 +46,7 @@ public class MenuManager : MonoBehaviour
         generator.SHOW_COLOR_RESPONSE = false;
         generator_emotion.SHOW_COLOR_RESPONSE = false;
         arithmetic_generator.SHOW_COLOR_RESPONSE = false;
-        Debug.Log($"{generator.SHOW_COLOR_RESPONSE}");
+        GameManager.IsUsingDebt = false;
 
         durationButtons[0].onClick.AddListener(() => SelectDuration(1, durationButtons[0]));
         durationButtons[1].onClick.AddListener(() => SelectDuration(2, durationButtons[1]));
@@ -55,10 +59,16 @@ public class MenuManager : MonoBehaviour
         modifierButtons[3].onClick.AddListener(() => SelectModifier("Arithmetic", modifierButtons[3]));
 
         colorToggle.onClick.AddListener(() => SelectColorToggle());
+
+        debtToggle.onClick.AddListener(() => SelectDebtToggle());
         
         startButton.onClick.AddListener(StartGame);
 
-        
+        if (seedInput != null)
+        {
+            seedInput.onEndEdit.AddListener(LoadSeedConfiguration);
+        }
+
         UpdateStartButtonState();
     }
 
@@ -172,21 +182,11 @@ public class MenuManager : MonoBehaviour
         generator.SHOW_COLOR_RESPONSE = !generator.SHOW_COLOR_RESPONSE;
         generator_emotion.SHOW_COLOR_RESPONSE = !generator_emotion.SHOW_COLOR_RESPONSE;
         arithmetic_generator.SHOW_COLOR_RESPONSE = !arithmetic_generator.SHOW_COLOR_RESPONSE;
+    }
 
-
-        // if(generator.SHOW_COLOR_RESPONSE == true)
-        // {
-        //     generator.SHOW_COLOR_RESPONSE = true;
-        //     generator_emotion.SHOW_COLOR_RESPONSE = true;
-        //     arithmetic_generator.SHOW_COLOR_RESPONSE = true;
-        // }
-        // else
-        // {
-        //     generator.SHOW_COLOR_RESPONSE = false;
-        //     generator_emotion.SHOW_COLOR_RESPONSE = false;
-        //     arithmetic_generator.SHOW_COLOR_RESPONSE = false;
-        // }
-        Debug.Log($"{generator.SHOW_COLOR_RESPONSE}");
+    void SelectDebtToggle()
+    {
+        GameManager.IsUsingDebt = !GameManager.IsUsingDebt;
     }
 
     void SelectModifier(string modifier, Button clickedButton)
@@ -224,15 +224,128 @@ public class MenuManager : MonoBehaviour
 
     void UpdateStartButtonState()
     {
-        startButton.interactable = selectedDuration > 0 && !string.IsNullOrEmpty(selectedModifier);
+        bool hasModeSelection = selectedDuration > 0 && !string.IsNullOrEmpty(selectedModifier);
+        bool hasSeedEntry = seedInput != null && !string.IsNullOrEmpty(seedInput.text);
+
+        startButton.interactable = hasModeSelection || hasSeedEntry;
+    }
+
+    void LoadSeedConfiguration(string seedText)
+    {
+        seedText = seedText.Trim();
+
+        if (string.IsNullOrEmpty(seedText))
+        {
+            UpdateStartButtonState();
+            return;
+        }
+
+        int seedValue;
+        if (!int.TryParse(seedText, out seedValue))
+        {
+            seedValue = StringToSeed(seedText);
+        }
+
+        int savedDuration = PlayerPrefs.GetInt($"Seed_{seedValue}_Duration", 0);
+        string savedModifier = PlayerPrefs.GetString($"Seed_{seedValue}_Modifier", "");
+
+        if (savedDuration > 0)
+        {
+            selectedDuration = savedDuration;
+            RestoreDurationButton(savedDuration);
+        }
+
+        if (!string.IsNullOrEmpty(savedModifier))
+        {
+            selectedModifier = savedModifier;
+            RestoreModifierButton(savedModifier);
+        }
+
+        UpdateStartButtonState();
+    }
+
+    void RestoreDurationButton(int duration)
+    {
+        if (currentDurationButton != null)
+        {
+            SetButtonVisual(currentDurationButton, false);
+        }
+
+        Button targetButton = null;
+
+        switch (duration)
+        {
+            case 1: targetButton = durationButtons[0]; break;
+            case 2: targetButton = durationButtons[1]; break;
+            case 3: targetButton = durationButtons[2]; break;
+            case 5: targetButton = durationButtons[3]; break;
+        }
+
+        if (targetButton != null)
+        {
+            currentDurationButton = targetButton;
+            SetButtonVisual(currentDurationButton, true);
+        }
+    }
+
+    void RestoreModifierButton(string modifier)
+    {
+        if (currentModifierButton != null)
+        {
+            SetButtonVisual(currentModifierButton, false);
+        }
+
+        Button targetButton = null;
+
+        switch (modifier)
+        {
+            case "Stroop": targetButton = modifierButtons[0]; break;
+            case "N-back": targetButton = modifierButtons[1]; break;
+            case "Emotion": targetButton = modifierButtons[2]; break;
+            case "Arithmetic": targetButton = modifierButtons[3]; break;
+        }
+
+        if (targetButton != null)
+        {
+            currentModifierButton = targetButton;
+            SetButtonVisual(currentModifierButton, true);
+        }
     }
 
     void StartGame()
     {
+        string seedText = seedInput != null ? seedInput.text.Trim() : "";
+        int finalSeed;
+
+        if (string.IsNullOrEmpty(seedText))
+        {
+            finalSeed = Random.Range(1, int.MaxValue);
+        }
+        else if (!int.TryParse(seedText, out finalSeed))
+        {
+            finalSeed = StringToSeed(seedText);
+        }
+
+        PlayerPrefs.SetInt("UseSeed", 1);
+        PlayerPrefs.SetInt("RequestedSeed", finalSeed);
+
         PlayerPrefs.SetInt("GameDuration", selectedDuration);
         PlayerPrefs.SetString("GameModifier", selectedModifier);
-        PlayerPrefs.Save();
 
+        PlayerPrefs.SetInt($"Seed_{finalSeed}_Duration", selectedDuration);
+        PlayerPrefs.SetString($"Seed_{finalSeed}_Modifier", selectedModifier);
+
+        PlayerPrefs.Save();
         SceneManager.LoadScene(1);
+    }
+
+    private int StringToSeed(string text)
+    {
+        int hash = 23;
+        foreach (char c in text)
+        {
+            hash = hash * 31 + c;
+        }
+        return hash;
     }
 }
