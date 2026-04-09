@@ -6969,7 +6969,7 @@ GameObject:
   - component: {fileID: 973629750}
   - component: {fileID: 973629749}
   m_Layer: 0
-  m_Name: Random Manager
+  m_Name: Game Manager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -9092,22 +9092,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: PlayerCar
       objectReference: {fileID: 0}
-    - target: {fileID: 6450300480570856368, guid: 97938d39a93cc2c42b6f29624b369a2e, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0.3
-      objectReference: {fileID: 0}
-    - target: {fileID: 6476706239207160431, guid: 97938d39a93cc2c42b6f29624b369a2e, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0.3
-      objectReference: {fileID: 0}
     - target: {fileID: 8908964563554615608, guid: 97938d39a93cc2c42b6f29624b369a2e, type: 3}
       propertyPath: debtText
       value: 
       objectReference: {fileID: 1943682801}
-    - target: {fileID: 8908964563554615608, guid: 97938d39a93cc2c42b6f29624b369a2e, type: 3}
-      propertyPath: driftSpeed
-      value: 6
-      objectReference: {fileID: 0}
     - target: {fileID: 8908964563554615608, guid: 97938d39a93cc2c42b6f29624b369a2e, type: 3}
       propertyPath: worldTransform
       value: 

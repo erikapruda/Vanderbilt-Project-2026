@@ -104,6 +104,8 @@ public class Player : MonoBehaviour
 
     private Vector3 startPosition;
 
+    private float prevPosX;
+
     public static Player Singleton { get; private set; }
 
     public bool IsInvincible { get; private set; }
@@ -113,6 +115,7 @@ public class Player : MonoBehaviour
     private void Awake()
     {
         startPosition = transform.position;
+        prevPosX = transform.position.x;
         rb = GetComponent<Rigidbody2D>();
         Singleton = this;
     }
@@ -120,13 +123,13 @@ public class Player : MonoBehaviour
     void FixedUpdate()
     {
         UpdateController();        
+        PlayRoadParticles();
 
         // Limit backwards velocity
         rb.linearVelocityY = Mathf.Max(0f, rb.linearVelocityY);
+        prevPosX = rb.position.x;
 
         MoveWorld();
-
-        PlayRoadParticles();
     }
 
     void UpdateController()
@@ -263,7 +266,7 @@ public class Player : MonoBehaviour
     public void AddDebt(uint value, Vector2 debtTextPosition = default, Vector2 debtTextVelocity = default)
     {
         if (!GameManager.IsUsingDebt) return;
-        
+
         Debt += value;
         debtText.text = $"Debt ${GetDebtText(Debt)}"; ;
 
@@ -346,7 +349,7 @@ public class Player : MonoBehaviour
 
         foreach (var driftParticleSystem in driftParticleSystems)
         {
-            if (InputManager.IsGameplayInputEnabled && Mathf.Abs(rb.linearVelocityX) > driftSpeed)
+            if (InputManager.IsGameplayInputEnabled && Mathf.Abs((prevPosX - rb.position.x) / Time.fixedDeltaTime) > driftSpeed)
             {
                 if (!driftParticleSystem.emission.enabled)
                 {
@@ -359,7 +362,7 @@ public class Player : MonoBehaviour
                 ParticleSystem.EmissionModule emissionModule = driftParticleSystem.emission;
                 emissionModule.enabled = false;
             }
-            }
+        }
     }
 
     IEnumerator RecoverCar()
