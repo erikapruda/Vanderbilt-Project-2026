@@ -1984,7 +1984,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &380565144
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2320,7 +2320,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &469154858
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8751,7 +8751,7 @@ MonoBehaviour:
   startButton: {fileID: 890522639}
   colorToggle: {fileID: 1770253838}
   debtToggle: {fileID: 1698166513}
-  seedInput: {fileID: 0}
+  seedInput: {fileID: 2145748846}
 --- !u!4 &1974503213
 Transform:
   m_ObjectHideFlags: 0
