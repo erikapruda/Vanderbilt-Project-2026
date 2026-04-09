@@ -37,12 +37,14 @@ public class MenuManager : MonoBehaviour
     public void Start()
     {
         durationButtons[0].onClick.AddListener(() => SelectDuration(1, durationButtons[0]));
-        durationButtons[1].onClick.AddListener(() => SelectDuration(3, durationButtons[1]));
-        durationButtons[2].onClick.AddListener(() => SelectDuration(5, durationButtons[2]));
+        durationButtons[1].onClick.AddListener(() => SelectDuration(2, durationButtons[1]));
+        durationButtons[2].onClick.AddListener(() => SelectDuration(3, durationButtons[2]));
+        durationButtons[3].onClick.AddListener(() => SelectDuration(5, durationButtons[3]));
 
         modifierButtons[0].onClick.AddListener(() => SelectModifier("Stroop", modifierButtons[0]));
-        modifierButtons[1].onClick.AddListener(() => SelectModifier("Emotion", modifierButtons[1]));
-        modifierButtons[2].onClick.AddListener(() => SelectModifier("Arithmetic", modifierButtons[2]));
+        modifierButtons[1].onClick.AddListener(() => SelectModifier("N-back", modifierButtons[1]));
+        modifierButtons[2].onClick.AddListener(() => SelectModifier("Emotion", modifierButtons[2]));
+        modifierButtons[3].onClick.AddListener(() => SelectModifier("Arithmetic", modifierButtons[3]));
 
         
         startButton.onClick.AddListener(StartGame);
