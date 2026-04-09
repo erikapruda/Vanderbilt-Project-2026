@@ -20,10 +20,6 @@ public class CarAI : MonoBehaviour
     [Header("How aggressive a car swerves away from another car when changing lanes")]
     public float turnSpeed = 1.0f;
 
-    [Range(0, 6)]
-    [Header("Delay in seconds for the vehicle to legally change lanes\n The timer resets when the opening closes")]
-    public float turnDelay = 0.8f;
-
     [Header("A weight for factoring in random speed variability")]
     public float speedLimitLeniency = 1.0f;
 
@@ -113,7 +109,7 @@ public class CarAI : MonoBehaviour
     {
         float targetDirectionX;
 
-        if (isChangingLanes && turnTimer > turnDelay + 1f)
+        if (isChangingLanes)
         {
             targetDirectionX = targetLane.x - rb.position.x;
             // Reduce turn speed when changing lanes
@@ -125,13 +121,12 @@ public class CarAI : MonoBehaviour
             currentTurnSpeed = turnSpeed;
         }
 
-        if (Mathf.Abs(targetDirectionX) < 1f /*&& rb.position.x > targetLane.x - 0.05f*/)
+        if (Mathf.Abs(targetDirectionX) < 0.75f)
         {
             if (isChangingLanes)
             {
                 isChangingLanes = false;
                 startingLane = targetLane;
-                turnTimer = 0f;
             }
 
             targetDirectionX = 0f;
@@ -174,24 +169,28 @@ public class CarAI : MonoBehaviour
     // CHOOSE LANE LOGIC CHOOSING DIFFERENT LANES TOO OFTEN!!!!!! 
     void ChooseLane()
     {
+        if (isChangingLanes)
+            return;
+
         // Probability per second to change lanes
         turnTimer += Time.deltaTime;
 
         if (turnTimer < 1f)
             return;
 
+        turnTimer = 0;
+
         float changeLaneProbability = laneChangeProbability + (hostility * cars.Count);
+        var random = Random.Range(0f, 1f);
+        isChangingLanes = random <= changeLaneProbability;
 
-
-        isChangingLanes = changeLaneProbability <= Random.Range(0f, 1f);
+        if (!isChangingLanes)
+            return;
 
         List<Transform> lanePositions = ClosestRoad().lanePositions.ToList();
 
         List<Transform> rightLanes = ClosestRoad().lanePositions.Where(lane => lane.position.x > transform.position.x).ToList();
         List<Transform> leftLanes = ClosestRoad().lanePositions.Where(lane => lane.position.x < transform.position.x).ToList();
-
-        if (isChangingLanes)
-            return;
         
         foreach (var car in cars)
         {
@@ -213,6 +212,7 @@ public class CarAI : MonoBehaviour
 
         var nextLaneIndex = Random.Range(0, lanePositions.Count);
         targetLane = lanePositions[nextLaneIndex].position;
+        Debug.Log("Choosing Lane " + random);
     }
 
     Road ClosestRoad()
