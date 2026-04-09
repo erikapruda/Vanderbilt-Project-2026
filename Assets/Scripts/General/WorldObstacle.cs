@@ -2,7 +2,6 @@ using UnityEngine;
 using UnityEngine.Events;
 
 [RequireComponent(typeof(WorldObject))]
-[RequireComponent(typeof(Rigidbody2D))]
 public class WorldObstacle : MonoBehaviour
 {
     [SerializeField]
@@ -39,6 +38,7 @@ public class WorldObstacle : MonoBehaviour
         cam = Camera.main;
         SparkParticleSystemPrefabPool.Setup();
         HitCost = _hitCost;
+        
         rb = GetComponent<Rigidbody2D>();
     }
 

@@ -30,20 +30,31 @@ public class MenuManager : MonoBehaviour
     private Button currentModifierButton = null;
 
     [Header("Test Options")]
-    public Toggle ColorToggleButton;
+    //private bool Toggle_Status = false;
+    public Button colorToggle;
 
 
-
-    public void Start()
+    public void Awake()
     {
+        generator.STROOP_START_TIME = 0f;
+        generator_emotion.WORD_START_TIME = 0f;
+        arithmetic_generator.ARITHMETIC_START_TIME = 0f;
+        generator.SHOW_COLOR_RESPONSE = false;
+        generator_emotion.SHOW_COLOR_RESPONSE = false;
+        arithmetic_generator.SHOW_COLOR_RESPONSE = false;
+        Debug.Log($"{generator.SHOW_COLOR_RESPONSE}");
+
         durationButtons[0].onClick.AddListener(() => SelectDuration(1, durationButtons[0]));
-        durationButtons[1].onClick.AddListener(() => SelectDuration(3, durationButtons[1]));
-        durationButtons[2].onClick.AddListener(() => SelectDuration(5, durationButtons[2]));
+        durationButtons[1].onClick.AddListener(() => SelectDuration(2, durationButtons[1]));
+        durationButtons[2].onClick.AddListener(() => SelectDuration(3, durationButtons[2]));
+        durationButtons[3].onClick.AddListener(() => SelectDuration(5, durationButtons[3]));
 
         modifierButtons[0].onClick.AddListener(() => SelectModifier("Stroop", modifierButtons[0]));
-        modifierButtons[1].onClick.AddListener(() => SelectModifier("Emotion", modifierButtons[1]));
-        modifierButtons[2].onClick.AddListener(() => SelectModifier("Arithmetic", modifierButtons[2]));
+        modifierButtons[1].onClick.AddListener(() => SelectModifier("N-back", modifierButtons[1]));
+        modifierButtons[2].onClick.AddListener(() => SelectModifier("Emotion", modifierButtons[2]));
+        modifierButtons[3].onClick.AddListener(() => SelectModifier("Arithmetic", modifierButtons[3]));
 
+        colorToggle.onClick.AddListener(() => SelectColorToggle());
         
         startButton.onClick.AddListener(StartGame);
 
@@ -155,21 +166,27 @@ public class MenuManager : MonoBehaviour
         UpdateStartButtonState();
     }
 
-    void SelectColorToggle(bool toggle_on)
+    void SelectColorToggle()
     {
-        if(toggle_on == true)
-        {
-            generator.SHOW_COLOR_RESPONSE = true;
-            generator_emotion.SHOW_COLOR_RESPONSE = true;
-            arithmetic_generator.SHOW_COLOR_RESPONSE = true;
-        }
+        
+        generator.SHOW_COLOR_RESPONSE = !generator.SHOW_COLOR_RESPONSE;
+        generator_emotion.SHOW_COLOR_RESPONSE = !generator_emotion.SHOW_COLOR_RESPONSE;
+        arithmetic_generator.SHOW_COLOR_RESPONSE = !arithmetic_generator.SHOW_COLOR_RESPONSE;
 
-        else if(toggle_on == false)
-        {
-            generator.SHOW_COLOR_RESPONSE = false;
-            generator_emotion.SHOW_COLOR_RESPONSE = false;
-            arithmetic_generator.SHOW_COLOR_RESPONSE = false;
-        }
+
+        // if(generator.SHOW_COLOR_RESPONSE == true)
+        // {
+        //     generator.SHOW_COLOR_RESPONSE = true;
+        //     generator_emotion.SHOW_COLOR_RESPONSE = true;
+        //     arithmetic_generator.SHOW_COLOR_RESPONSE = true;
+        // }
+        // else
+        // {
+        //     generator.SHOW_COLOR_RESPONSE = false;
+        //     generator_emotion.SHOW_COLOR_RESPONSE = false;
+        //     arithmetic_generator.SHOW_COLOR_RESPONSE = false;
+        // }
+        Debug.Log($"{generator.SHOW_COLOR_RESPONSE}");
     }
 
     void SelectModifier(string modifier, Button clickedButton)
