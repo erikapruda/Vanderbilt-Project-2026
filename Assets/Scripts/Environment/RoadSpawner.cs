@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -7,6 +6,9 @@ public class RoadSpawner : MonoBehaviour
     public ListRandomizer<GameObject> roads;
 
     public ListRandomizer<ObjectPool> carPools;
+
+    [Tooltip("Keep this option checked unless you are testing")]
+    public bool forceCarSpawn = true;
 
     private List<GameObject> roadList = new();
 
@@ -82,7 +84,7 @@ public class RoadSpawner : MonoBehaviour
                 continue;
             
             ObjectPool carPool = carPools.GetRandom();
-            GameObject spawnedCar = carPool.CreateObject(spawnPos, Quaternion.identity, false);
+            GameObject spawnedCar = carPool.CreateObject(spawnPos, Quaternion.identity, false, forceCarSpawn);
             
             if (spawnedCar != null)
             {

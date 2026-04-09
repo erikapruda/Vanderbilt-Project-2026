@@ -30,9 +30,14 @@ public class ObjectPool
         }
     }
 
-    public GameObject CreateObject(Vector3 position, Quaternion rotation, bool setActive = true)
+    public GameObject CreateObject(Vector3 position, Quaternion rotation, bool setActive = true, bool forceCreate = true)
     {
         if (Prefab == null || Max == 0)
+        {
+            return null;
+        }
+
+        if (forceCreate == false && nextIndex == Max - 1)
         {
             return null;
         }
