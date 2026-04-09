@@ -33,7 +33,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 4.36, y: 4.36, z: 4.36}
+  m_LocalScale: {x: 6.4, y: 5.3085275, z: 5.3085275}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 0}
@@ -112,12 +112,11 @@ MonoBehaviour:
   laneChangeProbability: 0.05
   hostility: 0.1
   reactionTime: 1.5
-  turnSpeed: 3
-  turnDelay: 0.8
-  speedLimitLeniency: 0.2
-  passengers: 2
+  turnSpeed: 6
+  speedLimitLeniency: 0.6
   detectionDistance: 2.5
-  semiDetectionDistance: 4
+  semiDetectionDistance: 6.18
+  detectionOffset: {x: 0, y: 0, z: 0}
   rb: {fileID: 284029469825756433}
   lostControl: 0
   targetLane: {x: 0, y: 0}
@@ -133,7 +132,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1640e02244b5e084095452b864ea4ed0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::WorldObject
-  despawnDistance: 20
+  despawnDistance: 25
   isBoundedByWorldBounds: 1
 --- !u!114 &-2579223097988198317
 MonoBehaviour:

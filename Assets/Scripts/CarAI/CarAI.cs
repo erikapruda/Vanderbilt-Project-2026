@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
 
@@ -21,7 +22,8 @@ public class CarAI : MonoBehaviour
     public float turnSpeed = 1.0f;
 
     [Header("A weight for factoring in random speed variability")]
-    public float speedLimitLeniency = 1.0f;
+    [Range(0.2f, 0.9f)]
+    public float speedLimitLeniency = 0.4f;
 
     public float detectionDistance = 2.0f;
 
@@ -60,7 +62,7 @@ public class CarAI : MonoBehaviour
 
     void OnEnable()
     {
-        targetSpeed = player.autoLinearVelocitySpeed - (player.autoLinearVelocitySpeed * Random.Range(0f, speedLimitLeniency));
+        targetSpeed = player.autoLinearVelocitySpeed - (player.autoLinearVelocitySpeed * Random.Range(0.2f, speedLimitLeniency));
         currentSpeed = targetSpeed;
         currentTurnSpeed = turnSpeed;
         startingLane = targetLane;
@@ -86,7 +88,8 @@ public class CarAI : MonoBehaviour
 
         if (lostControl)
         {
-            currentSpeed = Mathf.Lerp(currentSpeed, 0f, Time.deltaTime * 2);
+            currentSpeed = Mathf.Lerp(currentSpeed, 0f, Time.deltaTime * 5f);
+            return;
         }
         else
         {
@@ -132,11 +135,11 @@ public class CarAI : MonoBehaviour
             targetDirectionX = 0f;
         }
 
-        float angle = targetDirectionX * -currentTurnSpeed; // Vector2.SignedAngle(transform.up, Vector2.right * targetDirectionX);
+        float angle = targetDirectionX * -turnSpeed;
 
         Debug.DrawRay(rb.transform.position, rb.transform.right * targetDirectionX, Color.brown, Time.fixedDeltaTime);
         
-        rb.MoveRotation(angle);
+        rb.MoveRotation(Mathf.LerpAngle(rb.rotation, angle, Time.fixedDeltaTime * 50f));
     }
 
     void DetectCar()
@@ -165,8 +168,6 @@ public class CarAI : MonoBehaviour
         cars.RemoveAll(car => farCars.Contains(car));
     }
 
-
-    // CHOOSE LANE LOGIC CHOOSING DIFFERENT LANES TOO OFTEN!!!!!! 
     void ChooseLane()
     {
         if (isChangingLanes)
@@ -212,7 +213,6 @@ public class CarAI : MonoBehaviour
 
         var nextLaneIndex = Random.Range(0, lanePositions.Count);
         targetLane = lanePositions[nextLaneIndex].position;
-        Debug.Log("Choosing Lane " + random);
     }
 
     Road ClosestRoad()
@@ -243,7 +243,7 @@ public class CarAI : MonoBehaviour
             Vector2 directionToCar = (car.transform.position - transform.position).normalized;
 
             // if the car is in front of us, slow down, otherwise speed up to target speed
-            if (Vector2.Dot(transform.up, directionToCar) > 0.8f)
+            if (Vector2.Dot(transform.up, directionToCar) > 0.9f)
                 currentSpeed = Mathf.Lerp(currentSpeed, 0, Time.deltaTime / reactionTime);
             else
                 currentSpeed = Mathf.Lerp(currentSpeed, targetSpeed, Time.deltaTime / reactionTime);
@@ -257,6 +257,20 @@ public class CarAI : MonoBehaviour
                     targetLane = startingLane;
                 }
             }
+        }
+    }
+
+    void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.TryGetComponent(out CarAI car))
+        {
+            // Only lose control if the collision is strong enough
+            if (collision.relativeVelocity.magnitude < 2f)
+                return;
+            
+            lostControl = true;
+            car.lostControl = true;
+            car.rb.AddTorque(rb.angularVelocity * 0.5f);
         }
     }
 
@@ -281,7 +295,7 @@ public class CarAI : MonoBehaviour
 
 
 
-                    if (Vector2.Dot(transform.up, directionToCar) > 0.8f)
+                    if (Vector2.Dot(transform.up, directionToCar) > 0.9f)
                     {
                         Gizmos.color = Color.red;
                         Gizmos.DrawLine(transform.position, car.transform.position);

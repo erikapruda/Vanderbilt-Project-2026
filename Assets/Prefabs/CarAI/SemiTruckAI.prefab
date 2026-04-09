@@ -197,7 +197,7 @@ HingeJoint2D:
   m_BreakAction: 3
   m_AutoConfigureConnectedAnchor: 1
   m_Anchor: {x: 0, y: 0.22}
-  m_ConnectedAnchor: {x: 0, y: -1.6094}
+  m_ConnectedAnchor: {x: 0, y: -1.6093999}
   m_UseConnectedAnchor: 1
   m_UseMotor: 0
   m_Motor:
@@ -376,8 +376,8 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: -3, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 1.36, y: 1.36, z: 1.36}
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 1553561688809224316}
   - {fileID: 4963061639555426927}
@@ -398,11 +398,10 @@ MonoBehaviour:
   laneChangeProbability: 0.05
   hostility: 0
   reactionTime: 1.5
-  turnSpeed: 0.75
-  turnDelay: 0.8
-  speedLimitLeniency: 0.25
-  detectionDistance: 4
-  semiDetectionDistance: 6
+  turnSpeed: 2
+  speedLimitLeniency: 0.7
+  detectionDistance: 5.12
+  semiDetectionDistance: 6.65
   detectionOffset: {x: 0, y: -1.66, z: 0}
   rb: {fileID: 8162075722772915687}
   lostControl: 0
@@ -419,7 +418,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1640e02244b5e084095452b864ea4ed0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::WorldObject
-  despawnDistance: 20
+  despawnDistance: 25
   isBoundedByWorldBounds: 1
 --- !u!114 &5614531405394577368
 MonoBehaviour:

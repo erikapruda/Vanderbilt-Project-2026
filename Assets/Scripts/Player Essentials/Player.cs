@@ -261,6 +261,12 @@ public class Player : MonoBehaviour
             
             recoverCarRoutine ??= StartCoroutine(RecoverCar());
         }
+
+        if (collision.gameObject.TryGetComponent(out CarAI car))
+        {
+            car.lostControl = true;
+            car.rb.AddTorque(rb.angularVelocity * 0.5f);
+        }
     }
 
     public void AddDebt(uint value, Vector2 debtTextPosition = default, Vector2 debtTextVelocity = default)

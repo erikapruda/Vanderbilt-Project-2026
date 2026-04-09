@@ -12,9 +12,14 @@ public class WorldObject : MonoBehaviour
 
     private WaitForSeconds despawnCheckFrequency = new(0.5f);
 
-    void Awake()
+    void OnEnable()
     {
         StartCoroutine(CheckDespawn());
+    }
+
+    void OnDisable()
+    {
+        StopCoroutine("CheckDespawn");
     }
 
     void Update()
