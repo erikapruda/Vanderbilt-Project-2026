@@ -11,13 +11,19 @@ public class GameTimer : MonoBehaviour
     [Header("Timer Settings")]
     public bool startTimerAuto = true;
 
+    [Header("Prefabs")]
+    public GameObject stroopPrefab;
+    public GameObject nBackPrefab;
+    public GameObject emotionPrefab;
+    public GameObject arithmeticPrefab;
+
     private float timeRemaining;
     private bool timerRunning = false;
     private bool timerFinished = false;
 
-    [Header("End Game")]
-    public GameObject endGamePanel;
-    public Button returnToMenuButton;
+
+    [Header("Results")]
+    public ResultsManager resultsCanvas;
 
     void Start()
     {
@@ -30,10 +36,6 @@ public class GameTimer : MonoBehaviour
         {
             StartTimer();
         }
-
-        endGamePanel.SetActive(false);
-
-        returnToMenuButton.onClick.AddListener(ReturnToMenu);
     }
 
     void Update()
@@ -48,12 +50,10 @@ public class GameTimer : MonoBehaviour
             timeRemaining = 0f;
             timerFinished = true;
             timerRunning = false;
-            
+
             UpdateTimerDisplay();
 
-            Time.timeScale = 0f;
-            endGamePanel.SetActive(true);
-        
+            EndGame();
         }
         else
         {
@@ -72,11 +72,18 @@ public class GameTimer : MonoBehaviour
         timerRunning = false;
     }
 
-    void ReturnToMenu()
+    void HidePrefab()
     {
-        Time.timeScale = 1f;
+        GameObject[] modePrefab = { stroopPrefab, nBackPrefab, emotionPrefab, arithmeticPrefab };
 
-        SceneManager.LoadScene(0);
+        foreach (GameObject prefab in modePrefab)
+        {
+            if (prefab != null && prefab.activeInHierarchy)
+            {
+                prefab.SetActive(false);
+                break;
+            }
+        }
     }
 
     void UpdateTimerDisplay()
@@ -85,6 +92,26 @@ public class GameTimer : MonoBehaviour
         int seconds = Mathf.FloorToInt(timeRemaining % 60f);
 
         timerText.text = string.Format("{0:00}:{1:00}", minutes, seconds);
+    }
+
+    void EndGame()
+    {
+        Time.timeScale = 0f;
+
+        HidePrefab();
+
+        string summary = "Times Up!\n\n" + 
+            "Duration: " + PlayerPrefs.GetInt("GameDuration", 0) + " min\n" +
+            "Mode: " + PlayerPrefs.GetString("GameModifier", "Unknown");
+        
+        if (resultsCanvas != null)
+        {
+            resultsCanvas.ShowResults(summary);
+        }
+        else
+        {
+            Debug.LogWarning("ResultsCanvas not assigned");
+        }
     }
 
     public float GetTimeRemaining()

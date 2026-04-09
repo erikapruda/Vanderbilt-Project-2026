@@ -17,8 +17,8 @@ public class MenuManager : MonoBehaviour
 
     [Header("Audio")]
     public AudioMixer master;
+    public AudioMixer music;
     public AudioMixer SFX;
-    public AudioMixer dialog;
 
     [Header("Game Mode Buttons")]
     public Button[] durationButtons;
@@ -156,9 +156,9 @@ public class MenuManager : MonoBehaviour
         SFX.SetFloat("SoundEffects", volume);
     }
 
-    public void ReadingVoice(float volume)
+    public void MusicVolume(float volume)
     {
-        dialog.SetFloat("ReadingVoice", volume);
+        music.SetFloat("MusicVolume", volume);
     }
 
     void SelectDuration(int duration, Button clickedButton)
