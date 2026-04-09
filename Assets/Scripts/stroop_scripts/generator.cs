@@ -7,9 +7,9 @@ using System.Collections.Generic;
 public class generator : MonoBehaviour
 {
     public const float TIME_INTERVAL = 3f;    //time interval
-    public static float STROOP_START_TIME = 0f;      //variable for when stroop test displays a word
+    public static float STROOP_START_TIME;      //variable for when stroop test displays a word
 
-    public static bool SHOW_COLOR_RESPONSE = true;
+    public static bool SHOW_COLOR_RESPONSE;
     public TextMeshProUGUI stroopText;          //canvas text 
     public stroopVerification stroopVerifier;   //speech-to-text script
     public Image backgroundImage;               //canvas image

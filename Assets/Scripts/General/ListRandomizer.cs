@@ -52,9 +52,9 @@ public class ListRandomizer<T>
         {
             // Get random value between 0 and 1
             float rng;
-            if (RandomManager.Singleton.IsUsingSeed)
+            if (GameManager.Singleton.IsUsingSeed)
             {
-                rng = RandomManager.Singleton.SeededRandom.NextFloat();
+                rng = GameManager.Singleton.SeededRandom.NextFloat();
             }
             else
             {
