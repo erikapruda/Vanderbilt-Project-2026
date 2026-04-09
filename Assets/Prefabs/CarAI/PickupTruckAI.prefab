@@ -118,7 +118,7 @@ MonoBehaviour:
   passengers: 2
   detectionDistance: 2.5
   semiDetectionDistance: 4
-  rb: {fileID: 0}
+  rb: {fileID: 284029469825756433}
   lostControl: 0
   targetLane: {x: 0, y: 0}
 --- !u!114 &7122390724337055971

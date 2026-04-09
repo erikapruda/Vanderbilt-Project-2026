@@ -4,11 +4,14 @@ public class SemiTrailer : MonoBehaviour
 {
     public CarAI parentCarAI;
     
+    private Transform anchor;
+
     private Rigidbody2D rb;
 
     void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
+        anchor = transform;
     }
     
     void Update()
@@ -16,7 +19,8 @@ public class SemiTrailer : MonoBehaviour
         if (parentCarAI.lostControl)
             return;
 
-        // Make the semi-trailer lerp towards the same rotation as the car, but with a delay to simulate the trailer's movement
-        rb.MoveRotation(Mathf.LerpAngle(rb.rotation, parentCarAI.rb.rotation, 0.1f));
+        // Make the trailer's angular velocity face upwards the car's rotation, but with a delay to simulate the trailer's movement
+        rb.SetRotation(Mathf.LerpAngle(rb.rotation, parentCarAI.rb.rotation, Time.deltaTime * 2f));
+        // transform.position = anchor.position;
     }
 }

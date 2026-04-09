@@ -3,7 +3,6 @@ using System.Linq;
 using UnityEditor;
 using UnityEngine;
 
-[RequireComponent(typeof(Rigidbody2D))]
 public class CarAI : MonoBehaviour
 {
     [Range(0, 1)]
@@ -28,12 +27,11 @@ public class CarAI : MonoBehaviour
     [Header("A weight for factoring in random speed variability")]
     public float speedLimitLeniency = 1.0f;
 
-    [Header("The number of people in the car. The number adds to\nthe death toll score")]
-    public int passengers = 2;
-
     public float detectionDistance = 2.0f;
 
     public float semiDetectionDistance = 4.0f;
+
+    public Vector3 detectionOffset = new(0f, 0f, 0f);
 
     [HideInInspector]
     public Rigidbody2D rb;
@@ -61,7 +59,6 @@ public class CarAI : MonoBehaviour
 
     void Awake()
     {
-        rb = GetComponent<Rigidbody2D>();
         player = FindObjectsByType<Player>(FindObjectsSortMode.None)[0];
     }
 
@@ -153,7 +150,7 @@ public class CarAI : MonoBehaviour
 
         var carList = FindObjectsByType<CarAI>(FindObjectsSortMode.None);
 
-        if (Vector2.Distance(transform.position, player.gameObject.transform.position) <= detectionDistance + 0.5f)
+        if (Vector2.Distance(transform.position + detectionOffset, player.gameObject.transform.position) <= detectionDistance)
             cars.Add(player.gameObject);
 
         foreach (CarAI car in carList)
@@ -163,10 +160,10 @@ public class CarAI : MonoBehaviour
 
         foreach (var car in cars)
         {
-            if (Vector2.Distance(transform.position, car.transform.position) > detectionDistance + 0.5f)
+            if (Vector2.Distance(transform.position + detectionOffset, car.transform.position) > detectionDistance)
                 farCars.Add(car);
 
-            if (Vector2.Distance(transform.position, car.transform.position) <= semiDetectionDistance + 0.5f)
+            if (Vector2.Distance(transform.position + detectionOffset, car.transform.position) <= semiDetectionDistance)
                 farCars.Remove(car);
         }
 
@@ -268,9 +265,9 @@ public class CarAI : MonoBehaviour
     {
         // Draw top left line
         Handles.color = Color.blue;
-        Handles.DrawWireDisc(transform.position, Vector3.forward, detectionDistance);
+        Handles.DrawWireDisc(transform.position + detectionOffset, Vector3.forward, detectionDistance);
         Handles.color = Color.yellow;
-        Handles.DrawWireDisc(transform.position, Vector3.forward, semiDetectionDistance);
+        Handles.DrawWireDisc(transform.position + detectionOffset, Vector3.forward, semiDetectionDistance);
 
         if (cars.Count > 0)
         {

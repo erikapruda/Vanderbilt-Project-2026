@@ -12,8 +12,8 @@ GameObject:
   - component: {fileID: 3246289626053848154}
   - component: {fileID: 6690999222850713599}
   - component: {fileID: 713567162697538008}
-  - component: {fileID: 974440252390267436}
   - component: {fileID: 1931957949694166548}
+  - component: {fileID: 4701315755569372110}
   m_Layer: 0
   m_Name: temp-semi-truck-bed_0
   m_TagString: Untagged
@@ -30,7 +30,7 @@ Transform:
   m_GameObject: {fileID: 3959342934082409745}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.97, z: 0}
+  m_LocalPosition: {x: 0, y: -2.76, z: 0}
   m_LocalScale: {x: 5.23, y: 5.23, z: 5.23}
   m_ConstrainProportionsScale: 1
   m_Children: []
@@ -109,9 +109,9 @@ Rigidbody2D:
   m_UseAutoMass: 0
   m_Mass: 25
   m_LinearDamping: 0
-  m_AngularDamping: 5
+  m_AngularDamping: 3
   m_GravityScale: 0
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: 8478136c9010a8e40aa52e400d717b38, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -156,7 +156,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: 0, y: -0.014340371}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -166,34 +166,8 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 0.28, y: 0.69}
+  m_Size: {x: 0.28, y: 0.6613193}
   m_EdgeRadius: 0
---- !u!233 &974440252390267436
-HingeJoint2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3959342934082409745}
-  m_Enabled: 1
-  serializedVersion: 4
-  m_EnableCollision: 0
-  m_ConnectedRigidBody: {fileID: 4000026131500036969}
-  m_BreakForce: Infinity
-  m_BreakTorque: Infinity
-  m_BreakAction: 3
-  m_AutoConfigureConnectedAnchor: 1
-  m_Anchor: {x: 0, y: 0.25}
-  m_ConnectedAnchor: {x: 0, y: 0.33749962}
-  m_UseConnectedAnchor: 1
-  m_UseMotor: 0
-  m_Motor:
-    m_MotorSpeed: 0
-    m_MaximumMotorForce: 10000
-  m_UseLimits: 1
-  m_AngleLimits:
-    m_LowerAngle: 85
-    m_UpperAngle: 95
 --- !u!114 &1931957949694166548
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -207,6 +181,32 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SemiTrailer
   parentCarAI: {fileID: 3897637994052102390}
+--- !u!233 &4701315755569372110
+HingeJoint2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3959342934082409745}
+  m_Enabled: 1
+  serializedVersion: 4
+  m_EnableCollision: 1
+  m_ConnectedRigidBody: {fileID: 8162075722772915687}
+  m_BreakForce: Infinity
+  m_BreakTorque: Infinity
+  m_BreakAction: 3
+  m_AutoConfigureConnectedAnchor: 1
+  m_Anchor: {x: 0, y: 0.22}
+  m_ConnectedAnchor: {x: 0, y: -1.6094}
+  m_UseConnectedAnchor: 1
+  m_UseMotor: 0
+  m_Motor:
+    m_MotorSpeed: 0
+    m_MaximumMotorForce: 10000
+  m_UseLimits: 0
+  m_AngleLimits:
+    m_LowerAngle: 95
+    m_UpperAngle: 85
 --- !u!1 &4268569403550416472
 GameObject:
   m_ObjectHideFlags: 0
@@ -234,7 +234,7 @@ Transform:
   m_GameObject: {fileID: 4268569403550416472}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.29, z: 0}
+  m_LocalPosition: {x: 0, y: -0.5, z: 0}
   m_LocalScale: {x: 5.16, y: 5.16, z: 5.16}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -357,8 +357,8 @@ GameObject:
   - component: {fileID: 3897637994052102390}
   - component: {fileID: 183002212755704909}
   - component: {fileID: 5614531405394577368}
+  - component: {fileID: 8162075722772915687}
   - component: {fileID: 6755611326094436411}
-  - component: {fileID: 4000026131500036969}
   m_Layer: 0
   m_Name: SemiTruckAI
   m_TagString: Untagged
@@ -398,13 +398,13 @@ MonoBehaviour:
   laneChangeProbability: 0.05
   hostility: 0
   reactionTime: 1.5
-  turnSpeed: 0.1
+  turnSpeed: 0.75
   turnDelay: 0.8
   speedLimitLeniency: 0.25
-  passengers: 1
-  detectionDistance: 3
+  detectionDistance: 4
   semiDetectionDistance: 6
-  rb: {fileID: 0}
+  detectionOffset: {x: 0, y: -1.66, z: 0}
+  rb: {fileID: 8162075722772915687}
   lostControl: 0
   targetLane: {x: 0, y: 0}
 --- !u!114 &183002212755704909
@@ -442,29 +442,7 @@ MonoBehaviour:
   OnHitCar:
     m_PersistentCalls:
       m_Calls: []
---- !u!95 &6755611326094436411
-Animator:
-  serializedVersion: 7
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4634531918073431656}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: fa92bedc2e242af4d990cc97a2f48949, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_AnimatePhysics: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
---- !u!50 &4000026131500036969
+--- !u!50 &8162075722772915687
 Rigidbody2D:
   serializedVersion: 5
   m_ObjectHideFlags: 0
@@ -490,4 +468,26 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 1
-  m_Constraints: 3
+  m_Constraints: 0
+--- !u!95 &6755611326094436411
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4634531918073431656}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: fa92bedc2e242af4d990cc97a2f48949, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
