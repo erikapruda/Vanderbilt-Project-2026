@@ -14,6 +14,7 @@ public class CountdownManager : MonoBehaviour
     public GameObject stroopPrefab;
     public GameObject emotionPrefab;
     public GameObject arithmeticPrefab;
+    public GameObject nBackPrefab;
 
     void Start()
     {

@@ -6,12 +6,14 @@ public class TestLoader : MonoBehaviour
     public GameObject stroopPrefab;
     public GameObject emotionPrefab;
     public GameObject arithmeticPrefab;
+    public GameObject nBackPrefab;
 
     public void ActivateSelectedMode()
     {
         if (stroopPrefab != null) stroopPrefab.SetActive(false);
         if (emotionPrefab != null) emotionPrefab.SetActive(false);
         if (arithmeticPrefab != null) arithmeticPrefab.SetActive(false);
+        if (nBackPrefab != null) nBackPrefab.SetActive(false);
 
         string selectedMode = PlayerPrefs.GetString("GameModifier", "");
 
@@ -26,6 +28,9 @@ public class TestLoader : MonoBehaviour
             case "Arithmetic":
                 arithmeticPrefab.SetActive(true);
                 break;
+            case "N-back":
+                nBackPrefab.SetActive(true);
+                break;    
             default:
                 Debug.LogWarning("Nothing has been selected.");
             break;

@@ -19,8 +19,8 @@ public class test_results : MonoBehaviour
     {
         export_stroop_results();
         export_emotion_results();
-        //arithmetic
-        //n-back
+        export_arithmetic_results();
+        export_n_back_results();
     }
 
     public void export_stroop_results()
@@ -116,6 +116,99 @@ public class test_results : MonoBehaviour
 
     }
 
+
+    public void export_arithmetic_results(){
+        // Accessing the list from the arithmetic_generator class
+        if (arithmetic_generator.results_array.Count != 0)
+        {
+            string timeStamp = DateTime.Now.ToString("dd-MM-yyyy_HH_mm");
+            string filePath = Path.Combine(Application.persistentDataPath, $"ArithmeticResults_{timeStamp}.csv");
+
+            try
+            {
+                using (StreamWriter writer = new StreamWriter(filePath))
+                {
+                    
+                    writer.WriteLine("RoundIndex,QuestionIndex,InitialNumber,Modifier,CorrectNumber,Correctness,ReactionTime");
+
+                    for (int i = 0; i < arithmetic_generator.results_array.Count; i++)
+                    {
+                        
+                        string round = arithmetic_generator.results_array[i].adding_number_index.ToString();
+                        string question = arithmetic_generator.results_array[i].question_index.ToString();
+                        string initial = arithmetic_generator.results_array[i].initial_number.ToString();
+                        string modifier = arithmetic_generator.results_array[i].adding_number.ToString();
+                        string CorrectNumber = arithmetic_generator.results_array[i].correct_answer.ToString();
+                        
+                        string correctness = decide_correctness(arithmetic_generator.results_array[i].correctness);
+                        string reactionTime = arithmetic_generator.results_array[i].reaction_time.ToString("F2"); // Formatted to 2 decimal places
+
+                        writer.WriteLine($"{round},{question},{initial},{modifier},{CorrectNumber},{correctness},{reactionTime}");
+                    }
+                }
+
+                Debug.Log($"Arithmetic Results CSV file saved to: {filePath}");
+            }
+            catch (IOException e)
+            {
+                Debug.LogError($"FILE LOCKED: Could not write to {filePath}. Is it open in Excel? {e.Message}");
+            }
+            catch (Exception e)
+            {
+                Debug.LogError($"General Error writing Arithmetic CSV: {e.Message}");
+            }
+        }
+        else
+        {
+            Debug.Log("Arithmetic Results are empty. CSV file not saved!");
+        }
+    }
+
+    public void export_n_back_results()
+{
+    
+    if (n_back_generator.results_array.Count != 0)
+    {
+        string timeStamp = DateTime.Now.ToString("dd-MM-yyyy_HH_mm");
+        string filePath = Path.Combine(Application.persistentDataPath, $"NBackResults_{timeStamp}.csv");
+
+        try
+        {
+            using (StreamWriter writer = new StreamWriter(filePath))
+            {
+                
+                writer.WriteLine("Index,CurrentLetter,LetterNBack,Correctness,ReactionTime");
+
+                for (int i = 0; i < n_back_generator.results_array.Count; i++)
+                {
+                    
+
+                    string index = i.ToString();
+                    string currentLetter = n_back_generator.results_array[i].current_letter.ToString();
+                    string letterNBack = n_back_generator.results_array[i].letter_n_back.ToString();
+                    string correctness = decide_correctness(n_back_generator.results_array[i].correctness);
+                    string reactionTime = n_back_generator.results_array[i].reaction_time.ToString("F2");
+
+                    writer.WriteLine($"{index},{currentLetter},{letterNBack},{correctness},{reactionTime}");
+                }
+            }
+
+            Debug.Log($"N-Back Results CSV file saved to: {filePath}");
+        }
+        catch (IOException e)
+        {
+            Debug.LogError($"FILE LOCKED: Could not write to {filePath}. Is it open in Excel? {e.Message}");
+        }
+        catch (Exception e)
+        {
+            Debug.LogError($"General Error writing N-Back CSV: {e.Message}");
+        }
+    }
+    else
+        {
+            Debug.Log("N-Back Results are empty. CSV file not saved!");
+        }
+}
     string decide_color(int index)
     {   
         

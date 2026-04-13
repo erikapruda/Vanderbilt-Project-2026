@@ -182,6 +182,7 @@ public class MenuManager : MonoBehaviour
         generator.SHOW_COLOR_RESPONSE = !generator.SHOW_COLOR_RESPONSE;
         generator_emotion.SHOW_COLOR_RESPONSE = !generator_emotion.SHOW_COLOR_RESPONSE;
         arithmetic_generator.SHOW_COLOR_RESPONSE = !arithmetic_generator.SHOW_COLOR_RESPONSE;
+        n_back_generator.SHOW_COLOR_RESPONSE = !n_back_generator.SHOW_COLOR_RESPONSE;
     }
 
     void SelectDebtToggle()

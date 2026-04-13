@@ -27,17 +27,23 @@ public class arithmetic_generator : MonoBehaviour
 
     public struct results
     {
-        public float reaction_time;
-        public bool correctness;
-        public int question_number;
+
+        public int adding_number_index; //Index(position) for the adding number
+        public int question_index; //Index(position) for the current question
+        public int initial_number; //value user is adding TO
+        public int adding_number; //what number is being added
+        public bool correctness; //correctness of answer
+        public int correct_answer;
+        public float reaction_time; //reaction time
     };
 
-    List<results> results_array = new List<results>();
+    public static List<results> results_array = new List<results>();
 
     
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        results_array.Clear();
         StartCoroutine(change_number());
     }
 
@@ -49,6 +55,7 @@ public class arithmetic_generator : MonoBehaviour
 
     IEnumerator change_number()
     {
+        int num_index = 0;
         int adding_num = 0;
 
 
@@ -76,7 +83,7 @@ public class arithmetic_generator : MonoBehaviour
 
             for(int i = 0; i < added_num_array.Length; i++)
             {
-                added_num_array[i] += (numbers_array[i] + adding_num);
+                added_num_array[i] = (numbers_array[i] + adding_num);
             }
 
             for (int i = 0; i < numbers_array.Length; i++)
@@ -124,9 +131,15 @@ public class arithmetic_generator : MonoBehaviour
                 arithmetic_background.color = Color.white;
 
                 results newResult = new results();
-                newResult.question_number = i + 1;
+
+                newResult.adding_number_index = num_index;
+                newResult.question_index = i;
+                newResult.initial_number = numbers_array[i];
+                newResult.adding_number = adding_num;
+                newResult.correct_answer = added_num_array[i];
                 newResult.correctness = answerResults[i];
                 newResult.reaction_time = arithmeticVerifier.reactionTime;
+
                 results_array.Add(newResult);
             }
 
@@ -138,6 +151,8 @@ public class arithmetic_generator : MonoBehaviour
             Array.Clear(added_num_array, 0, added_num_array.Length);
             Array.Clear(numbers_array, 0, added_num_array.Length);
             adding_num = 0;
+
+            num_index++;
         }
 
         
