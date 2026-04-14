@@ -22,7 +22,7 @@ public class RoadSpawner : MonoBehaviour
 
     void Start()
     {
-        roadList.Add(Instantiate(roads.GetRandom(), new Vector3(-3.5f, -4f, 0), Quaternion.identity, transform));
+        roadList.Add(Instantiate(roads.GetRandom(), new Vector3(-3.5f, -4f, 0), Quaternion.identity));
     }
 
     void Update()
@@ -34,7 +34,7 @@ public class RoadSpawner : MonoBehaviour
             GameObject road = roads.GetRandom();
             Vector3 spawnPos = roadList[^1].transform.position + new Vector3(0f, 11.5f, 0f);
 
-            road = Instantiate(road, spawnPos, Quaternion.identity, transform);
+            road = Instantiate(road, spawnPos, Quaternion.identity);
             roadList.Add(road);
 
             SpawnCars(road.GetComponent<Road>());
@@ -88,7 +88,6 @@ public class RoadSpawner : MonoBehaviour
             
             if (spawnedCar != null)
             {
-                spawnedCar.transform.parent = transform;
                 spawnedCar.GetComponent<CarAI>().targetLane = lanePosition;
                 spawnedCar.SetActive(true);
 

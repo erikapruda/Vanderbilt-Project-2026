@@ -1,5 +1,4 @@
 using System.Collections;
-//using Unity.VisualScripting;
 using UnityEngine;
 
 public class WorldObject : MonoBehaviour
@@ -10,23 +9,47 @@ public class WorldObject : MonoBehaviour
     [SerializeField]
     private bool isBoundedByWorldBounds = true;
 
+    [SerializeField]
+    [Tooltip("Whether or not to move this object when the world is centered on another object")]
+    private bool isMovedByWorld = true;
+
+    [HideInInspector]
+    public bool shouldDestroyOnDespawn;
+
     private WaitForSeconds despawnCheckFrequency = new(0.5f);
+
+    private Rigidbody2D rb;
+
+    private Coroutine despawnRoutine;
+
+    void Awake()
+    {
+        TryGetComponent(out rb);
+    }
 
     void OnEnable()
     {
-        StartCoroutine(CheckDespawn());
+        despawnRoutine = StartCoroutine(CheckDespawn());
     }
 
     void OnDisable()
     {
-        StopCoroutine("CheckDespawn");
+        StopCoroutine(despawnRoutine);
     }
 
     void Update()
     {
         if (isBoundedByWorldBounds)
         {
-            transform.position = new Vector3(Mathf.Clamp(transform.position.x, WorldBounds.Singleton.LeftX, WorldBounds.Singleton.RightX), transform.position.y, transform.position.z);            
+            transform.position = new Vector3(Mathf.Clamp(transform.position.x, WorldBounds.Singleton.LeftX, WorldBounds.Singleton.RightX), transform.position.y, transform.position.z);
+        }
+    }
+
+    void FixedUpdate()
+    {
+        if (isMovedByWorld && rb != null)
+        {
+            World.MoveObject(rb);
         }
     }
 
