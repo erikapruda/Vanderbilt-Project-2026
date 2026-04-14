@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 4295909869137209324}
   - component: {fileID: 7122390724337055971}
   - component: {fileID: -2579223097988198317}
+  - component: {fileID: -5410285980924933680}
   - component: {fileID: 4069432104725382969}
   - component: {fileID: 8499629186116443427}
   - component: {fileID: 284029469825756433}
@@ -134,6 +135,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::WorldObject
   despawnDistance: 25
   isBoundedByWorldBounds: 1
+  isMovedByWorld: 1
+  shouldDestroyOnDespawn: 0
 --- !u!114 &-2579223097988198317
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -146,7 +149,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 366fe6e20123cf54ea5909fa39acfda0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::WorldObstacle
-  _hitCost: 1800
+  _hitCost: 5000
   SparkParticleSystemPrefabPool:
     Prefab: {fileID: 7284036052413443104, guid: 91087dcd82e942149ba0ce2e84032c0b, type: 3}
     Max: 4
@@ -155,6 +158,23 @@ MonoBehaviour:
   OnHitCar:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &-5410285980924933680
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3841376137598409359}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 117a913e4c5c52d4b94ea27102797171, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TravelSpawner
+  PrefabPool:
+    Prefab: {fileID: 6268671329234585021, guid: a590a791c3ea749459f2337ad368ac39, type: 3}
+    Max: 20
+  SpawnerTransform: {fileID: 0}
+  SpawnFrequency: 2
 --- !u!95 &4069432104725382969
 Animator:
   serializedVersion: 7

@@ -97,7 +97,7 @@ Rigidbody2D:
   m_LinearDamping: 0
   m_AngularDamping: 0.05
   m_GravityScale: 1
-  m_Material: {fileID: 6200000, guid: 63b6a8c9742e52e479417b554b0025fb, type: 2}
+  m_Material: {fileID: 6200000, guid: 8478136c9010a8e40aa52e400d717b38, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -122,6 +122,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::WorldObject
   despawnDistance: 20
   isBoundedByWorldBounds: 0
+  isMovedByWorld: 0
+  shouldDestroyOnDespawn: 0
 --- !u!114 &6624546028416854734
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -135,7 +137,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::WorldObstacle
   _hitCost: 100
-  SparkParticleSystemPrefab: {fileID: 0}
+  SparkParticleSystemPrefabPool:
+    Prefab: {fileID: 7284036052413443104, guid: 91087dcd82e942149ba0ce2e84032c0b, type: 3}
+    Max: 10
+  ShouldPropagateDebt: 0
   MaxPenalizedHits: 4294967295
   OnHitCar:
     m_PersistentCalls:
@@ -285,7 +290,7 @@ Rigidbody2D:
   m_LinearDamping: 0
   m_AngularDamping: 0.05
   m_GravityScale: 1
-  m_Material: {fileID: 6200000, guid: 63b6a8c9742e52e479417b554b0025fb, type: 2}
+  m_Material: {fileID: 6200000, guid: 8478136c9010a8e40aa52e400d717b38, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -310,6 +315,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::WorldObject
   despawnDistance: 20
   isBoundedByWorldBounds: 0
+  isMovedByWorld: 0
+  shouldDestroyOnDespawn: 0
 --- !u!114 &3665073372302967254
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -323,7 +330,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::WorldObstacle
   _hitCost: 100
-  SparkParticleSystemPrefab: {fileID: 0}
+  SparkParticleSystemPrefabPool:
+    Prefab: {fileID: 7284036052413443104, guid: 91087dcd82e942149ba0ce2e84032c0b, type: 3}
+    Max: 10
+  ShouldPropagateDebt: 0
   MaxPenalizedHits: 4294967295
   OnHitCar:
     m_PersistentCalls:

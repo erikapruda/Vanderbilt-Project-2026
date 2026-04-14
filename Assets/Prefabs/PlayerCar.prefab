@@ -4877,8 +4877,8 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 1.22, y: 1.22, z: 1.22}
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 6476706239207160431}
   - {fileID: 6450300480570856368}
@@ -5047,7 +5047,6 @@ MonoBehaviour:
   - {fileID: 1349468554616009811}
   - {fileID: 3374778961517985972}
   driftSpeed: 6
-  worldTransform: {fileID: 0}
   debtTextPrefab: {fileID: 8019341860198137268, guid: 155cef4b5beebc04ba03fe6c683addbb, type: 3}
   OnHitObstacle:
     m_PersistentCalls:

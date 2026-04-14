@@ -7,19 +7,6 @@ using UnityEngine.Events;
 [RequireComponent(typeof(Rigidbody2D))]
 public class Player : MonoBehaviour
 {
-    [Header("Debt")]
-
-    [SerializeField]
-    private TextMeshProUGUI debtText;
-
-    [SerializeField]
-    private uint debtLabelMult = 1;
-
-    [SerializeField]
-    private byte debtLabelDecimalPlaces = 2;
-
-    [Space]
-
     [Header("Animation")]
 
     [SerializeField]
@@ -79,9 +66,6 @@ public class Player : MonoBehaviour
 
     [Header("Interactions")]
 
-    [SerializeField]
-    private GameObject debtTextPrefab;
-
     [Tooltip("Events to fire when crashing against an obstacle")]
     public UnityEvent OnHitObstacle;
 
@@ -104,8 +88,6 @@ public class Player : MonoBehaviour
     public static Player Singleton { get; private set; }
 
     public bool IsInvincible { get; private set; }
-
-    public System.Numerics.BigInteger Debt { get; private set; }
 
     private void Awake()
     {
@@ -232,7 +214,7 @@ public class Player : MonoBehaviour
                 worldObstacle.OnHitCar?.Invoke();
                 worldObstacle.HasHitPlayer = true;
                 InputManager.IsGameplayInputEnabled = false;
-                AddDebt(worldObstacle.HitCost, averageContactPoint, -averageKnockback.normalized);
+                DebtSystem.AddDebt(worldObstacle.HitCost, averageContactPoint, -averageKnockback.normalized);
             }
 
             // Recover car after recovery time
@@ -246,86 +228,6 @@ public class Player : MonoBehaviour
             car.lostControl = true;
             car.rb.AddTorque(rb.angularVelocity * 0.5f);
         }
-    }
-
-    public void AddDebt(uint value, Vector2 debtTextPosition = default, Vector2 debtTextVelocity = default)
-    {
-        if (!GameManager.IsUsingDebt) return;
-
-        Debt += value;
-        debtText.text = $"Debt ${GetDebtText(Debt)}"; ;
-
-        // Create debt text at collision point
-        if (debtTextPrefab != null)
-        {
-            GameObject instance = Instantiate(debtTextPrefab, debtTextPosition, Quaternion.identity);
-
-            if (instance.TryGetComponent(out TextMeshPro text))
-            {
-                text.text = $"-${GetDebtText(value)}";
-            }
-
-            if (instance.TryGetComponent(out Rigidbody2D textRb))
-            {
-                textRb.linearVelocity = debtTextVelocity;
-                textRb.angularVelocity = Vector2.SignedAngle(Vector2.up, debtTextVelocity);
-            }
-        }
-
-        // Play debt add animation
-        if (debtText.gameObject.TryGetComponent(out Animation animation))
-        {
-            animation.Stop();
-            animation.Play();
-        }
-    }
-
-    string GetDebtText(System.Numerics.BigInteger value)
-    {
-        uint THRESHOLD_K = 1000 * debtLabelMult;
-        uint THRESHOLD_M = 1000000 * debtLabelMult;
-        ulong THRESHOLD_B = 1000000000ul * debtLabelMult;
-
-        uint chosenLabelUnitPlace;
-        if (value < THRESHOLD_K)
-        {
-            chosenLabelUnitPlace = 1;
-        }
-        else if (value < THRESHOLD_M)
-        {
-            chosenLabelUnitPlace = 1000;
-        }
-        else if (value < THRESHOLD_B)
-        {
-            chosenLabelUnitPlace = 1000000;
-        }
-        else
-        {
-            chosenLabelUnitPlace = 1000000000;
-        }
-
-        System.Numerics.BigInteger scaledDebt = value / chosenLabelUnitPlace;
-        System.Numerics.BigInteger leftOverDebt = value % chosenLabelUnitPlace;
-        byte numZerosBefore = (byte)(Mathf.Floor(Mathf.Log10(chosenLabelUnitPlace)) - Mathf.Floor(Mathf.Log10((float)leftOverDebt)) - 1f);
-
-        char debtLabel = chosenLabelUnitPlace switch
-        {
-            1 => ' ',
-            1000 => 'K',
-            1000000 => 'M',
-            1000000000 => 'B',
-            _ => ' '
-        };
-
-        // Construct decimal place
-        string leftOverDebtString = "";
-        for (byte i = 0; i < numZerosBefore; i++)
-        {
-            leftOverDebtString += "0";
-        }
-        leftOverDebtString += leftOverDebt.ToString();
-        leftOverDebtString = leftOverDebtString[0..Mathf.Min(leftOverDebtString.Length, debtLabelDecimalPlaces)];
-        return leftOverDebtString.Length == 0 || leftOverDebt == 0 || numZerosBefore >= debtLabelDecimalPlaces ? $"{scaledDebt}{debtLabel}" : $"{scaledDebt}.{leftOverDebtString}{debtLabel}";
     }
 
     void PlayRoadParticles()

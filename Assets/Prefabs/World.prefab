@@ -85,5 +85,6 @@ MonoBehaviour:
     - Prefab: {fileID: 4634531918073431656, guid: ff0cc78046ed2a64ca9140364aacd746, type: 3}
       Max: 3
     ElementProbabilities:
-    - 5
+    - 7
     - 1
+  forceCarSpawn: 1

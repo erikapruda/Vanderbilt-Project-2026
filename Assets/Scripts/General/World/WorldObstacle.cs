@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.Events;
 
 [RequireComponent(typeof(WorldObject))]
+[RequireComponent(typeof(Rigidbody2D))]
 public class WorldObstacle : MonoBehaviour
 {
     [SerializeField]
@@ -70,7 +71,7 @@ public class WorldObstacle : MonoBehaviour
             averageContactPoint /= collision.contactCount;
             averageKnockback /= collision.contactCount;
 
-            Player.Singleton.AddDebt(obstacle.HitCost, averageContactPoint, -averageKnockback.normalized);
+            DebtSystem.AddDebt(obstacle.HitCost, averageContactPoint, -averageKnockback.normalized);
             obstacle.HasHitPlayer = true;
         }
         

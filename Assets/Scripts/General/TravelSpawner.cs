@@ -2,16 +2,14 @@ using UnityEngine;
 
 public class TravelSpawner : MonoBehaviour
 {
-    [Tooltip("The prefab to use when spawning")]
-    public GameObject Prefab;
+    [Tooltip("The prefab pool to use when spawning")]
+    public ObjectPool PrefabPool;
 
     [Tooltip("Where to spawn the object")]
     public Transform SpawnerTransform;
 
     [Tooltip("How many meters to travel to spawn object")]
     public float SpawnFrequency;
-
-    public bool UseObjectPool;
 
     // The amount of distance left to travel before spawning again
     private float distanceLeftToNextSpawn;
@@ -21,9 +19,13 @@ public class TravelSpawner : MonoBehaviour
 
     void Awake()
     {
-        SpawnerTransform ??= transform;
+        if (SpawnerTransform == null)
+        {
+            SpawnerTransform = transform;
+        }
         distanceLeftToNextSpawn = SpawnFrequency;
         previousPosition = SpawnerTransform.position;
+        PrefabPool.Setup();
     }
 
     void Update()
@@ -31,12 +33,12 @@ public class TravelSpawner : MonoBehaviour
         if (SpawnerTransform == null) return;
 
         distanceLeftToNextSpawn -= Vector3.Distance(previousPosition, SpawnerTransform.position);
+        previousPosition = SpawnerTransform.position;
 
         if (distanceLeftToNextSpawn <= 0)
         {
             distanceLeftToNextSpawn = SpawnFrequency;
-
-            Instantiate(Prefab, SpawnerTransform.position, SpawnerTransform.rotation);
+            PrefabPool.CreateObject(SpawnerTransform.position, SpawnerTransform.rotation);
         }
     }
 }

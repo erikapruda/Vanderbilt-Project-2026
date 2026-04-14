@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 6941999224993942061}
   - component: {fileID: 8965786692670927605}
   m_Layer: 0
-  m_Name: World Debt Text
+  m_Name: Debt Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

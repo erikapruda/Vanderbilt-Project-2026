@@ -889,15 +889,35 @@ PrefabInstance:
       value: World
       objectReference: {fileID: 0}
     - target: {fileID: 1506285828265470637, guid: 0ea7cff2c09e0b841b1fd492c9ac3ec5, type: 3}
-      propertyPath: carPools.Items.Array.data[0].Max
+      propertyPath: forceCarSpawn
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1506285828265470637, guid: 0ea7cff2c09e0b841b1fd492c9ac3ec5, type: 3}
+      propertyPath: carPools.Items.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1506285828265470637, guid: 0ea7cff2c09e0b841b1fd492c9ac3ec5, type: 3}
+      propertyPath: carPools.Items.Array.data[2].Max
       value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 1506285828265470637, guid: 0ea7cff2c09e0b841b1fd492c9ac3ec5, type: 3}
-      propertyPath: carPools.Items.Array.data[1].Max
+      propertyPath: carPools.Items.Array.data[2].Prefab
+      value: 
+      objectReference: {fileID: 3841376137598409359, guid: 7bf887c45d90248459c8504f873a7daf, type: 3}
+    - target: {fileID: 1506285828265470637, guid: 0ea7cff2c09e0b841b1fd492c9ac3ec5, type: 3}
+      propertyPath: carPools.ElementProbabilities.Array.size
       value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 1506285828265470637, guid: 0ea7cff2c09e0b841b1fd492c9ac3ec5, type: 3}
       propertyPath: 'carPools.ElementProbabilities.Array.data[0]'
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1506285828265470637, guid: 0ea7cff2c09e0b841b1fd492c9ac3ec5, type: 3}
+      propertyPath: 'carPools.ElementProbabilities.Array.data[1]'
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1506285828265470637, guid: 0ea7cff2c09e0b841b1fd492c9ac3ec5, type: 3}
+      propertyPath: 'carPools.ElementProbabilities.Array.data[2]'
       value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 3233359448268099316, guid: 0ea7cff2c09e0b841b1fd492c9ac3ec5, type: 3}
@@ -1246,11 +1266,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::CameraController
   shakeSpeed: 50
   maxShakeMagnitude: 5
---- !u!4 &548868168 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 5884109925594308922, guid: 0ea7cff2c09e0b841b1fd492c9ac3ec5, type: 3}
-  m_PrefabInstance: {fileID: 309170006}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &560182145
 GameObject:
   m_ObjectHideFlags: 0
@@ -8441,6 +8456,7 @@ GameObject:
   - component: {fileID: 1943682802}
   - component: {fileID: 1943682801}
   - component: {fileID: 1943682803}
+  - component: {fileID: 1943682804}
   m_Layer: 5
   m_Name: Debt Text
   m_TagString: Untagged
@@ -8585,6 +8601,21 @@ Animation:
   m_AnimatePhysics: 0
   m_UpdateMode: 0
   m_CullingType: 0
+--- !u!114 &1943682804
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1943682799}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ead23134872be02499296ef8aec355eb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DebtSystem
+  debtLabelMult: 1
+  debtLabelDecimalPlaces: 2
+  debtTextPrefab: {fileID: 8019341860198137268, guid: 155cef4b5beebc04ba03fe6c683addbb, type: 3}
 --- !u!1 &2035741678
 GameObject:
   m_ObjectHideFlags: 0
@@ -8660,50 +8691,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 1906096562340269148, guid: addfd3a6123ce444ab6e56c1344d9b52, type: 3}
-      propertyPath: m_Material
-      value: 
-      objectReference: {fileID: 6200000, guid: 8478136c9010a8e40aa52e400d717b38, type: 2}
-    - target: {fileID: 3665073372302967254, guid: addfd3a6123ce444ab6e56c1344d9b52, type: 3}
-      propertyPath: ShouldPropagateDebt
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3665073372302967254, guid: addfd3a6123ce444ab6e56c1344d9b52, type: 3}
-      propertyPath: SparkParticleSystemPrefab
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 3665073372302967254, guid: addfd3a6123ce444ab6e56c1344d9b52, type: 3}
-      propertyPath: SparkParticleSystemPrefabPool.Max
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 3665073372302967254, guid: addfd3a6123ce444ab6e56c1344d9b52, type: 3}
-      propertyPath: SparkParticleSystemPrefabPool.Prefab
-      value: 
-      objectReference: {fileID: 7284036052413443104, guid: 91087dcd82e942149ba0ce2e84032c0b, type: 3}
-    - target: {fileID: 3776962370893375681, guid: addfd3a6123ce444ab6e56c1344d9b52, type: 3}
-      propertyPath: isMovedByWorld
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4290479738105861715, guid: addfd3a6123ce444ab6e56c1344d9b52, type: 3}
-      propertyPath: m_Material
-      value: 
-      objectReference: {fileID: 6200000, guid: 8478136c9010a8e40aa52e400d717b38, type: 2}
     - target: {fileID: 5482424401442616084, guid: addfd3a6123ce444ab6e56c1344d9b52, type: 3}
       propertyPath: m_Name
       value: World Bounds
       objectReference: {fileID: 0}
-    - target: {fileID: 6624546028416854734, guid: addfd3a6123ce444ab6e56c1344d9b52, type: 3}
-      propertyPath: ShouldPropagateDebt
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6624546028416854734, guid: addfd3a6123ce444ab6e56c1344d9b52, type: 3}
-      propertyPath: SparkParticleSystemPrefabPool.Max
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 6624546028416854734, guid: addfd3a6123ce444ab6e56c1344d9b52, type: 3}
-      propertyPath: SparkParticleSystemPrefabPool.Prefab
-      value: 
-      objectReference: {fileID: 7284036052413443104, guid: 91087dcd82e942149ba0ce2e84032c0b, type: 3}
     - target: {fileID: 7312772768238690063, guid: addfd3a6123ce444ab6e56c1344d9b52, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -8744,10 +8735,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 8900629349527441880, guid: addfd3a6123ce444ab6e56c1344d9b52, type: 3}
-      propertyPath: isMovedByWorld
-      value: 0
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -8761,18 +8748,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 2394599566504754807, guid: 97938d39a93cc2c42b6f29624b369a2e, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 1.22
-      objectReference: {fileID: 0}
-    - target: {fileID: 2394599566504754807, guid: 97938d39a93cc2c42b6f29624b369a2e, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 1.22
-      objectReference: {fileID: 0}
-    - target: {fileID: 2394599566504754807, guid: 97938d39a93cc2c42b6f29624b369a2e, type: 3}
-      propertyPath: m_LocalScale.z
-      value: 1.22
-      objectReference: {fileID: 0}
     - target: {fileID: 2394599566504754807, guid: 97938d39a93cc2c42b6f29624b369a2e, type: 3}
       propertyPath: m_LocalPosition.x
       value: -3
@@ -8813,10 +8788,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 2394599566504754807, guid: 97938d39a93cc2c42b6f29624b369a2e, type: 3}
-      propertyPath: m_ConstrainProportionsScale
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 5828620058881280794, guid: 97938d39a93cc2c42b6f29624b369a2e, type: 3}
       propertyPath: m_Name
       value: PlayerCar
@@ -8825,10 +8796,6 @@ PrefabInstance:
       propertyPath: debtText
       value: 
       objectReference: {fileID: 1943682801}
-    - target: {fileID: 8908964563554615608, guid: 97938d39a93cc2c42b6f29624b369a2e, type: 3}
-      propertyPath: worldTransform
-      value: 
-      objectReference: {fileID: 548868168}
     - target: {fileID: 8908964563554615608, guid: 97938d39a93cc2c42b6f29624b369a2e, type: 3}
       propertyPath: OnHitObstacle.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
