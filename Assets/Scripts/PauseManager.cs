@@ -5,6 +5,7 @@ using UnityEngine.InputSystem;
 public class PauseManager : MonoBehaviour
 {
     [SerializeField] private GameObject pauseMenuUI;
+    [SerializeField] private GameObject optionsMenuUI;
 
     [SerializeField] private string mainMenuScene = "MainMenu";
 
@@ -33,6 +34,24 @@ public class PauseManager : MonoBehaviour
         isPaused = false;
         if (pauseMenuUI) pauseMenuUI.SetActive(false);
         Time.timeScale = 1f;
+    }
+
+    public void OpenOptions()
+    {
+        if (pauseMenuUI != null)
+            pauseMenuUI.SetActive(false);
+        
+        if (optionsMenuUI != null)
+            optionsMenuUI.SetActive(true);
+    }
+
+    public void CloseOptions()
+    {
+        if (optionsMenuUI != null)
+            optionsMenuUI.SetActive(false);
+
+        if (pauseMenuUI != null)
+            pauseMenuUI.SetActive(true);
     }
 
     public void RestartLevel()

@@ -16,9 +16,15 @@ public class MenuManager : MonoBehaviour
     public TMP_Dropdown displayModeDropdown;
 
     [Header("Audio")]
-    public AudioMixer master;
-    public AudioMixer music;
-    public AudioMixer SFX;
+    public AudioMixer audioMixer;
+    public Slider masterSlider;
+    public Slider musicSlider;
+    public Slider sfxSlider;
+
+    private const string MASTER_KEY = "MasterVolume";
+    private const string MUSIC_KEY = "MusicVolume";
+    private const string SFX_KEY = "SFXVolume";
+
 
     [Header("Game Mode Buttons")]
     public Button[] durationButtons;
@@ -102,12 +108,25 @@ public class MenuManager : MonoBehaviour
         gamePrepPanel.SetActive(false);
     }
     
-    void onStart(int index)
+    void Start()
     {
         SetDropdownToCurrentMode();
-        displayModeDropdown.onValueChanged.AddListener(SetDisplayMode);
-        PlayerPrefs.SetInt("DisplayMode", index);
-        PlayerPrefs.Save();
+
+        if (displayModeDropdown != null)
+        {
+            displayModeDropdown.onValueChanged.AddListener(SetDisplayMode);
+        }   
+
+        LoadVolumeSettings();
+
+        if (masterSlider != null)
+            masterSlider.onValueChanged.AddListener(SetMasterVolume);
+
+        if (musicSlider != null)
+              musicSlider.onValueChanged.AddListener(SetMusicVolume);
+        
+        if (sfxSlider != null)
+              sfxSlider.onValueChanged.AddListener(SetSFXVolume);
     }
 
     public void SetDisplayMode(int index)
@@ -124,6 +143,9 @@ public class MenuManager : MonoBehaviour
                 Screen.fullScreenMode = FullScreenMode.FullScreenWindow;
                 break;
         }
+
+        PlayerPrefs.SetInt("DisplayMode", index);
+        PlayerPrefs.Save();
     }
 
     void SetDropdownToCurrentMode()
@@ -146,19 +168,40 @@ public class MenuManager : MonoBehaviour
         displayModeDropdown.RefreshShownValue();
     }
 
-    public void MasterVolume(float volume)
+    void LoadVolumeSettings()
     {
-        master.SetFloat("MasterVolume", volume);
+        float masterVol = PlayerPrefs.GetFloat(MASTER_KEY, 0f);
+        float musicVol = PlayerPrefs.GetFloat(MUSIC_KEY, 0f);
+        float sfxVol = PlayerPrefs.GetFloat(SFX_KEY, 0f);
+
+        if (masterSlider != null) masterSlider.value = masterVol;
+        if (musicSlider != null) musicSlider.value = musicVol;
+        if (sfxSlider != null) sfxSlider.value = sfxVol;
+
+        audioMixer.SetFloat("MasterVolume", masterVol);
+        audioMixer.SetFloat("MusicVolume", musicVol);
+        audioMixer.SetFloat("SFXVolume", sfxVol);
     }
 
-    public void SoundEffects(float volume)
+    public void SetMasterVolume(float volume)
     {
-        SFX.SetFloat("SoundEffects", volume);
+        audioMixer.SetFloat("MasterVolume", volume);
+        PlayerPrefs.SetFloat(MASTER_KEY, volume);
+        PlayerPrefs.Save();
     }
 
-    public void MusicVolume(float volume)
+    public void SetMusicVolume(float volume)
     {
-        music.SetFloat("MusicVolume", volume);
+        audioMixer.SetFloat("MusicVolume", volume);
+        PlayerPrefs.SetFloat(MUSIC_KEY, volume);
+        PlayerPrefs.Save();
+    }
+
+    public void SetSFXVolume(float volume)
+    {
+        audioMixer.SetFloat("SFXVolume", volume);
+        PlayerPrefs.SetFloat(SFX_KEY, volume);
+        PlayerPrefs.Save();
     }
 
     void SelectDuration(int duration, Button clickedButton)
