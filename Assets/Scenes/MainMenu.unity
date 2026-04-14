@@ -3364,8 +3364,9 @@ MonoBehaviour:
             m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
             m_IntArgument: 0
             m_FloatArgument: 0
-            m_StringArgument: Say the color the font is without reading the word
-              color.
+            m_StringArgument: You are shown a series of letters. On the third letter
+              the test starts. You must say 'same' or 'different' while comparing
+              the current letter to the letter two prompts before it.
             m_BoolArgument: 0
           m_CallState: 2
   - eventID: 1
@@ -3698,8 +3699,8 @@ MonoBehaviour:
             m_IntArgument: 0
             m_FloatArgument: 0
             m_StringArgument: You are shown a number for adding to four following
-              numbers. After the four numbers are shown, you then need to aswer what
-              the sum of the first and each of the four numbers are.
+              numbers. After the four numbers are shown, you then need to answer
+              what the sum of the first and each of the four numbers are.
             m_BoolArgument: 0
           m_CallState: 2
   - eventID: 1
@@ -6092,7 +6093,7 @@ MonoBehaviour:
   startButton: {fileID: 890522639}
   colorToggle: {fileID: 1770253838}
   debtToggle: {fileID: 1698166513}
-  seedInput: {fileID: 0}
+  seedInput: {fileID: 2145748846}
 --- !u!4 &1974503213
 Transform:
   m_ObjectHideFlags: 0
