@@ -193,6 +193,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: ResultsPrefab
       objectReference: {fileID: 0}
+    - target: {fileID: 922766199930921606, guid: cd55b98ef1ec22c4ebb4275c9617a41e, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1410685149967070457, guid: cd55b98ef1ec22c4ebb4275c9617a41e, type: 3}
       propertyPath: m_Colors.m_HighlightedColor.b
       value: 0.078431375
@@ -8770,6 +8774,10 @@ PrefabInstance:
       propertyPath: SparkParticleSystemPrefabPool.Prefab
       value: 
       objectReference: {fileID: 7284036052413443104, guid: 91087dcd82e942149ba0ce2e84032c0b, type: 3}
+    - target: {fileID: 3776962370893375681, guid: addfd3a6123ce444ab6e56c1344d9b52, type: 3}
+      propertyPath: isMovedByWorld
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4290479738105861715, guid: addfd3a6123ce444ab6e56c1344d9b52, type: 3}
       propertyPath: m_Material
       value: 
@@ -8828,6 +8836,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7312772768238690063, guid: addfd3a6123ce444ab6e56c1344d9b52, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8900629349527441880, guid: addfd3a6123ce444ab6e56c1344d9b52, type: 3}
+      propertyPath: isMovedByWorld
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []

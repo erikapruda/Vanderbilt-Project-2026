@@ -80,9 +80,6 @@ public class Player : MonoBehaviour
     [Header("Interactions")]
 
     [SerializeField]
-    private Transform worldTransform;
-
-    [SerializeField]
     private GameObject debtTextPrefab;
 
     [Tooltip("Events to fire when crashing against an obstacle")]
@@ -102,8 +99,6 @@ public class Player : MonoBehaviour
 
     Coroutine recoverCarRoutine;
 
-    private Vector3 startPosition;
-
     private float prevPosX;
 
     public static Player Singleton { get; private set; }
@@ -114,22 +109,18 @@ public class Player : MonoBehaviour
 
     private void Awake()
     {
-        startPosition = transform.position;
         prevPosX = transform.position.x;
         rb = GetComponent<Rigidbody2D>();
         Singleton = this;
+
+        World.CenteredTransform = transform;
+        World.Origin = transform.position;
     }
 
     void FixedUpdate()
     {
         UpdateController();        
         PlayRoadParticles();
-
-        // Limit backwards velocity
-        rb.linearVelocityY = Mathf.Max(0f, rb.linearVelocityY);
-        prevPosX = rb.position.x;
-
-        MoveWorld();
     }
 
     void UpdateController()
@@ -160,30 +151,18 @@ public class Player : MonoBehaviour
         // Update velocity
         rb.linearVelocityX = Mathf.MoveTowards(rb.linearVelocityX, velNorm.x * velMag, celeration);
         rb.linearVelocityY = Mathf.MoveTowards(rb.linearVelocityY, targetSpeed, celeration);
-    }
 
-    // Move the world instead of the car for proper floating point world origin
-    void MoveWorld()
-    {
-        if (worldTransform != null)
-        {
-            for (int i = 0; i < worldTransform.childCount; i++)
-            {
-                Transform childTrans = worldTransform.GetChild(i);
+        // Limit backwards velocity
+        rb.linearVelocityY = Mathf.Max(0f, rb.linearVelocityY);
 
-                // Check if object is a world object and move it on the y if so
-                if (childTrans.TryGetComponent<WorldObject>(out _) && childTrans.TryGetComponent(out Rigidbody2D childRb))
-                {
-                    childRb.MovePosition(childRb.position + (childRb.linearVelocity * Time.fixedDeltaTime) - new Vector2(0f, rb.position.y - startPosition.y));
-                }
-            }
-            rb.position = new Vector2(Mathf.Clamp(rb.position.x, WorldBounds.Singleton.LeftX, WorldBounds.Singleton.RightX), startPosition.y);
-        }
+        // Update World
+        World.CurrentOffset = rb.position;
+        rb.position = new Vector2(Mathf.Clamp(rb.position.x, WorldBounds.Singleton.LeftX, WorldBounds.Singleton.RightX), World.Origin.y);
     }
 
     void LateUpdate()
     {
-        transform.position = new Vector3(Mathf.Clamp(transform.position.x, WorldBounds.Singleton.LeftX, WorldBounds.Singleton.RightX), startPosition.y, startPosition.z);
+        transform.position = new Vector3(Mathf.Clamp(transform.position.x, WorldBounds.Singleton.LeftX, WorldBounds.Singleton.RightX), World.Origin.y, World.Origin.z);
 
         AnimationClip currentClip = null;
         if (animator != null && animator.GetCurrentAnimatorClipInfo(0).Length > 0)
@@ -369,6 +348,8 @@ public class Player : MonoBehaviour
                 emissionModule.enabled = false;
             }
         }
+
+        prevPosX = rb.position.x;
     }
 
     IEnumerator RecoverCar()
