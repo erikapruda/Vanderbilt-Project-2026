@@ -17,10 +17,34 @@ public class test_results : MonoBehaviour
 
     public void export_all_results()
     {
-        export_stroop_results();
-        export_emotion_results();
-        export_arithmetic_results();
-        export_n_back_results();
+        string lastPlayed = PlayerPrefs.GetString("GameModifier", "");
+
+        if(lastPlayed == "Stroop")
+        {
+            export_stroop_results();
+        }
+
+        else if(lastPlayed == "Emotion")
+        {
+            export_emotion_results();
+        }
+
+        else if(lastPlayed == "Arithmetic")
+        {
+            export_arithmetic_results();
+        }
+
+        else if(lastPlayed == "N-back")
+        {
+            export_n_back_results();
+        }
+
+        else
+        {
+            Debug.LogWarning("Export failed: No valid last played game found in PlayerPrefs.");
+        }
+
+        
     }
 
     public void export_stroop_results()
