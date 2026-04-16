@@ -1,9 +1,16 @@
 using TMPro;
+using UnityEditor.Animations;
 using UnityEngine;
 
 [RequireComponent(typeof(TextMeshProUGUI))]
 public class DebtSystem : MonoBehaviour
 {
+    [SerializeField]
+    private string addAnim;
+
+    [SerializeField]
+    private string removeAnim;
+
     [SerializeField]
     private uint debtLabelMult = 1;
 
@@ -11,11 +18,30 @@ public class DebtSystem : MonoBehaviour
     private byte debtLabelDecimalPlaces = 2;
 
     [SerializeField]
-    private GameObject debtTextPrefab;
+    private GameObject worldDebtTextPrefab;
+
+    [SerializeField]
+    private string worldDebtTextAddAnim;
+
+    [SerializeField]
+    private string worldDebtTextRemoveAnim;
+
+    [SerializeField]
+    private ParticleSystem addParticles;
+
+    [SerializeField]
+    private ParticleSystem removeParticles;
 
     private static DebtSystem Singleton;
 
     private TextMeshProUGUI debtText;
+
+    private Animator animator;
+
+    private int addAnimHash;
+    private int removeAnimHash;
+    private int worldDebtTextAddAnimHash;
+    private int worldDebtTextRemoveAnimHash;
 
     public static System.Numerics.BigInteger Debt { get; private set; }
 
@@ -23,7 +49,12 @@ public class DebtSystem : MonoBehaviour
     {
         Debt = 0;
         Singleton = this;
+        addAnimHash = Animator.StringToHash(addAnim);
+        removeAnimHash = Animator.StringToHash(removeAnim);
+        worldDebtTextAddAnimHash = Animator.StringToHash(worldDebtTextAddAnim);
+        worldDebtTextRemoveAnimHash = Animator.StringToHash(worldDebtTextRemoveAnim);
         debtText = GetComponent<TextMeshProUGUI>();
+        TryGetComponent(out animator);
     }
 
     public static void AddDebt(uint value, Vector2 debtTextPosition = default, Vector2 debtTextVelocity = default)
@@ -31,30 +62,42 @@ public class DebtSystem : MonoBehaviour
         if (!GameManager.IsUsingDebt) return;
 
         Debt += value;
-        Singleton.debtText.text = $"Debt ${GetDebtText(Debt)}"; ;
 
-        // Create debt text at collision point
-        if (Singleton.debtTextPrefab != null)
-        {
-            GameObject instance = Instantiate(Singleton.debtTextPrefab, debtTextPosition, Quaternion.identity);
-
-            if (instance.TryGetComponent(out TextMeshPro text))
-            {
-                text.text = $"-${GetDebtText(value)}";
-            }
-
-            if (instance.TryGetComponent(out Rigidbody2D textRb))
-            {
-                textRb.linearVelocity = debtTextVelocity;
-                textRb.angularVelocity = Vector2.SignedAngle(Vector2.up, debtTextVelocity);
-            }
-        }
+        PlayDebtVisuals(value, debtTextPosition, debtTextVelocity, isAdd: true);
 
         // Play debt add animation
-        if (Singleton.debtText.gameObject.TryGetComponent(out Animation animation))
+        if (Singleton.animator != null)
         {
-            animation.Stop();
-            animation.Play();
+            Singleton.animator.CrossFade(Singleton.addAnimHash, 0.1f);
+        }
+
+        if (Singleton.addParticles != null)
+        {
+            Singleton.addParticles.Play();
+        }
+    }
+
+    public static void RemoveDebt(uint value, Vector2 debtTextPosition = default, Vector2 debtTextVelocity = default)
+    {
+        if (!GameManager.IsUsingDebt) return;
+
+        Debt -= value;
+        if (Debt < 0)
+        {
+            Debt = 0;
+        }
+
+        PlayDebtVisuals(value, debtTextPosition, debtTextVelocity, isAdd: false);
+
+        // Play debt remove animation
+        if (Singleton.animator != null)
+        {
+            Singleton.animator.CrossFade(Singleton.removeAnimHash, 0.1f);
+        }
+
+        if (Singleton.removeParticles != null)
+        {
+            Singleton.removeParticles.Play();
         }
     }
 
@@ -104,5 +147,39 @@ public class DebtSystem : MonoBehaviour
         leftOverDebtString += leftOverDebt.ToString();
         leftOverDebtString = leftOverDebtString[0..Mathf.Min(leftOverDebtString.Length, Singleton.debtLabelDecimalPlaces)];
         return leftOverDebtString.Length == 0 || leftOverDebt == 0 || numZerosBefore >= Singleton.debtLabelDecimalPlaces ? $"{scaledDebt}{debtLabel}" : $"{scaledDebt}.{leftOverDebtString}{debtLabel}";
+    }
+
+    static void PlayDebtVisuals(uint value, Vector2 debtTextPosition, Vector2 debtTextVelocity, bool isAdd)
+    {
+        Singleton.debtText.text = $"Debt ${GetDebtText(Debt)}";
+
+        // Create debt text at collision point
+        if (Singleton.worldDebtTextPrefab != null)
+        {
+            GameObject instance = Instantiate(Singleton.worldDebtTextPrefab, debtTextPosition, Quaternion.identity);
+
+            if (instance.TryGetComponent(out TextMeshPro text))
+            {
+                text.text = $"${GetDebtText(value)}";
+
+                if (instance.TryGetComponent(out Animator instanceAnimator))
+                {
+                    if (isAdd)
+                    {
+                        instanceAnimator.Play(Singleton.worldDebtTextAddAnimHash);
+                    }
+                    else
+                    {
+                        instanceAnimator.Play(Singleton.worldDebtTextRemoveAnimHash);
+                    }
+                }
+            }
+
+            if (instance.TryGetComponent(out Rigidbody2D textRb))
+            {
+                textRb.linearVelocity = debtTextVelocity;
+                textRb.angularVelocity = Vector2.SignedAngle(Vector2.up, debtTextVelocity);
+            }
+        }
     }
 }
