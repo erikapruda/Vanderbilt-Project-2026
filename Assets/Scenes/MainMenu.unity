@@ -3364,9 +3364,9 @@ MonoBehaviour:
             m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
             m_IntArgument: 0
             m_FloatArgument: 0
-            m_StringArgument: You are shown a series of letters. On the third letter
-              the tet starts. You need to say the letter two letters prior for each
-              current letter after the third.
+            m_StringArgument: You are shown a series of letters. On the second letter
+              the tet starts. You need to say the prior letter for each current letter
+              after the second.
             m_BoolArgument: 0
           m_CallState: 2
   - eventID: 1
