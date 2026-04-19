@@ -2742,7 +2742,12 @@ PrefabInstance:
       value: optionPanel
       objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: 3371110746432300084, guid: baca129fa99952a46985f7f93b1bd34f, type: 3}
+    - {fileID: 4936828332623878867, guid: baca129fa99952a46985f7f93b1bd34f, type: 3}
+    - {fileID: 3020196710033392414, guid: baca129fa99952a46985f7f93b1bd34f, type: 3}
+    - {fileID: 8014019374413294568, guid: baca129fa99952a46985f7f93b1bd34f, type: 3}
+    - {fileID: 4829759852203721849, guid: baca129fa99952a46985f7f93b1bd34f, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: baca129fa99952a46985f7f93b1bd34f, type: 3}
