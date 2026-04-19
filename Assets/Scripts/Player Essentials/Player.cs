@@ -9,6 +9,10 @@ public class Player : MonoBehaviour
 {
     [Header("Sound")]
 
+    [Tooltip("The soundfx mixer to plug into the car sounds")]
+    [SerializeField]
+    private UnityEngine.Audio.AudioMixerGroup soundFxMixer;
+
     [Tooltip("The player car's engine sound")]
     [SerializeField]
     private AudioClip engineSound;
@@ -126,6 +130,7 @@ public class Player : MonoBehaviour
         engineSoundContainer.transform.localPosition = Vector3.zero;
         engineSoundContainerAudioSource = engineSoundContainer.GetComponent<AudioSource>();
         engineSoundContainerAudioSource.clip = engineSound;
+        engineSoundContainerAudioSource.outputAudioMixerGroup = soundFxMixer;
         engineSoundContainerAudioSource.volume = engineSoundVolume;
         engineSoundContainerAudioSource.pitch = engineSoundIdlePitch;
         engineSoundContainerAudioSource.loop = true;
