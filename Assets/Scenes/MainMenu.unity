@@ -7665,7 +7665,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1974503212
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8864,6 +8864,14 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1081524923421255881, guid: baca129fa99952a46985f7f93b1bd34f, type: 3}
+      propertyPath: m_Type
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1081524923421255881, guid: baca129fa99952a46985f7f93b1bd34f, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: -6520486794422016901, guid: efa042579b919db46ae05f60f0b0de2f, type: 3}
     - target: {fileID: 1873608250012726105, guid: baca129fa99952a46985f7f93b1bd34f, type: 3}
       propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
@@ -8952,6 +8960,26 @@ PrefabInstance:
       propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 1974503212}
+    - target: {fileID: 8287524854201231024, guid: baca129fa99952a46985f7f93b1bd34f, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: -6520486794422016901, guid: efa042579b919db46ae05f60f0b0de2f, type: 3}
+    - target: {fileID: 8287524854201231024, guid: baca129fa99952a46985f7f93b1bd34f, type: 3}
+      propertyPath: m_Color.a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8287524854201231024, guid: baca129fa99952a46985f7f93b1bd34f, type: 3}
+      propertyPath: m_Color.b
+      value: 0.7735849
+      objectReference: {fileID: 0}
+    - target: {fileID: 8287524854201231024, guid: baca129fa99952a46985f7f93b1bd34f, type: 3}
+      propertyPath: m_Color.g
+      value: 0.7735849
+      objectReference: {fileID: 0}
+    - target: {fileID: 8287524854201231024, guid: baca129fa99952a46985f7f93b1bd34f, type: 3}
+      propertyPath: m_Color.r
+      value: 0.7735849
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects:
     - {fileID: 4829759852203721849, guid: baca129fa99952a46985f7f93b1bd34f, type: 3}
