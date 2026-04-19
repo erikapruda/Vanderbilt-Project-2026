@@ -1008,15 +1008,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1506285828265470637, guid: 0ea7cff2c09e0b841b1fd492c9ac3ec5, type: 3}
       propertyPath: 'carPools.ElementProbabilities.Array.data[0]'
-      value: 0
+      value: 80
       objectReference: {fileID: 0}
     - target: {fileID: 1506285828265470637, guid: 0ea7cff2c09e0b841b1fd492c9ac3ec5, type: 3}
       propertyPath: 'carPools.ElementProbabilities.Array.data[1]'
-      value: 1
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 1506285828265470637, guid: 0ea7cff2c09e0b841b1fd492c9ac3ec5, type: 3}
       propertyPath: 'carPools.ElementProbabilities.Array.data[2]'
-      value: 7
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 3233359448268099316, guid: 0ea7cff2c09e0b841b1fd492c9ac3ec5, type: 3}
       propertyPath: 'spawnerTransforms.Items.Array.data[0]'
@@ -2094,8 +2094,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9aa61541883505b45914e0c6659fe3ce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::RandomManager
-  defaultStartingSeed: 0
-  defaultIsUsingSeed: 1
   DebtGUI: {fileID: 1943682799}
   SeededRandom:
     state: 0

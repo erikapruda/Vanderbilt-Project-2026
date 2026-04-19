@@ -14,6 +14,8 @@ GameObject:
   - component: {fileID: 713567162697538008}
   - component: {fileID: 1931957949694166548}
   - component: {fileID: 4701315755569372110}
+  - component: {fileID: 6227452715768773998}
+  - component: {fileID: 5456148530653723817}
   m_Layer: 0
   m_Name: temp-semi-truck-bed_0
   m_TagString: Untagged
@@ -107,7 +109,7 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 25
+  m_Mass: 10
   m_LinearDamping: 0
   m_AngularDamping: 3
   m_GravityScale: 0
@@ -132,7 +134,7 @@ BoxCollider2D:
   m_Enabled: 1
   serializedVersion: 3
   m_Density: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: 8478136c9010a8e40aa52e400d717b38, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -197,7 +199,7 @@ HingeJoint2D:
   m_BreakAction: 3
   m_AutoConfigureConnectedAnchor: 1
   m_Anchor: {x: 0, y: 0.22}
-  m_ConnectedAnchor: {x: 0, y: -1.6093999}
+  m_ConnectedAnchor: {x: 0, y: -1.6094}
   m_UseConnectedAnchor: 1
   m_UseMotor: 0
   m_Motor:
@@ -207,6 +209,43 @@ HingeJoint2D:
   m_AngleLimits:
     m_LowerAngle: 95
     m_UpperAngle: 85
+--- !u!114 &6227452715768773998
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3959342934082409745}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1640e02244b5e084095452b864ea4ed0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::WorldObject
+  despawnDistance: 100000
+  isBoundedByWorldBounds: 0
+  isMovedByWorld: 0
+  shouldDestroyOnDespawn: 0
+--- !u!114 &5456148530653723817
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3959342934082409745}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 366fe6e20123cf54ea5909fa39acfda0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::WorldObstacle
+  _hitCost: 1800
+  SparkParticleSystemPrefabPool:
+    Prefab: {fileID: 7284036052413443104, guid: 91087dcd82e942149ba0ce2e84032c0b, type: 3}
+    Max: 4
+  ShouldPropagateDebt: 1
+  MaxPenalizedHits: 2
+  OnHitCar:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &4268569403550416472
 GameObject:
   m_ObjectHideFlags: 0
@@ -399,7 +438,7 @@ MonoBehaviour:
   hostility: 0
   reactionTime: 1.5
   turnSpeed: 2
-  speedLimitLeniency: 0.7
+  speedLimitLeniency: 0.65
   detectionDistance: 5.12
   semiDetectionDistance: 6.65
   detectionOffset: {x: 0, y: -1.66, z: 0}
@@ -420,6 +459,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::WorldObject
   despawnDistance: 25
   isBoundedByWorldBounds: 1
+  isMovedByWorld: 1
+  shouldDestroyOnDespawn: 0
 --- !u!114 &5614531405394577368
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -453,7 +494,7 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 25
+  m_Mass: 5
   m_LinearDamping: 0
   m_AngularDamping: 8
   m_GravityScale: 0

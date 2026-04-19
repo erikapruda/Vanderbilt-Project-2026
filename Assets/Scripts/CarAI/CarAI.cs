@@ -158,7 +158,7 @@ public class CarAI : MonoBehaviour
 
         Debug.DrawRay(rb.transform.position, rb.transform.right * targetDirectionX, Color.brown, Time.fixedDeltaTime);
         
-        rb.MoveRotation(Mathf.LerpAngle(rb.rotation, angle, Time.fixedDeltaTime * 50f));
+        rb.MoveRotation(Mathf.LerpAngle(rb.rotation, angle, Time.fixedDeltaTime * 10f));
     }
 
     void DetectCar()
