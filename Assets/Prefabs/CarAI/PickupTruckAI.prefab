@@ -112,7 +112,7 @@ MonoBehaviour:
   laneChangeProbability: 0.05
   hostility: 0.1
   reactionTime: 1.5
-  turnSpeed: 6
+  turnSpeed: 3
   speedLimitLeniency: 0.6
   detectionDistance: 2.5
   semiDetectionDistance: 6.18
@@ -134,6 +134,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::WorldObject
   despawnDistance: 25
   isBoundedByWorldBounds: 1
+  isMovedByWorld: 1
+  shouldDestroyOnDespawn: 0
 --- !u!114 &-2579223097988198317
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -4,7 +4,7 @@ using UnityEngine.SceneManagement;
 using TMPro;
 using UnityEngine.Audio;
 
-public class MenuManager : MonoBehaviour
+public class MenuManagement : MonoBehaviour
 {
     [Header("Panels")]
     public GameObject mainMenuPanel;
@@ -357,7 +357,7 @@ public class MenuManager : MonoBehaviour
 
     void StartGame()
     {
-        string seedText = seedInput != null ? seedInput.text.Trim() : "";
+        string seedText = seedInput.text.Trim();
         int finalSeed;
 
         if (string.IsNullOrEmpty(seedText))
@@ -379,6 +379,9 @@ public class MenuManager : MonoBehaviour
         PlayerPrefs.SetString($"Seed_{finalSeed}_Modifier", selectedModifier);
 
         PlayerPrefs.Save();
+
+        Random.InitState(PlayerPrefs.GetInt("RequestedSeed", 1));
+
         SceneManager.LoadScene(1);
     }
 

@@ -46,6 +46,9 @@ public class CarAI : MonoBehaviour
 
     private float currentTurnSpeed;
 
+    private Unity.Mathematics.Random carRandom;
+    private bool hasSpawnSeed = false;
+
     private Player player;
     readonly private List<GameObject> cars = new();
 
@@ -59,9 +62,26 @@ public class CarAI : MonoBehaviour
         player = FindObjectsByType<Player>(FindObjectsSortMode.None)[0];
     }
 
+    public void SetSpawnSeed(uint seed)
+    {
+        if (seed == 0)
+        {
+            seed = 1u;
+        }
+
+        carRandom = new Unity.Mathematics.Random(seed);
+        hasSpawnSeed = true;
+    }
+
     void OnEnable()
     {
-        targetSpeed = player.autoLinearVelocitySpeed - (player.autoLinearVelocitySpeed * Random.Range(0.2f, speedLimitLeniency));
+        if (!hasSpawnSeed)
+        {
+            uint fallbackSeed = GameManager.Singleton != null ? GameManager.Singleton.Seed : 1u;
+            SetSpawnSeed(fallbackSeed);
+        }
+
+        targetSpeed = player.autoLinearVelocitySpeed - (player.autoLinearVelocitySpeed * carRandom.NextFloat(0.2f, speedLimitLeniency));
         currentSpeed = targetSpeed;
         currentTurnSpeed = turnSpeed;
         startingLane = targetLane;
@@ -138,7 +158,7 @@ public class CarAI : MonoBehaviour
 
         Debug.DrawRay(rb.transform.position, rb.transform.right * targetDirectionX, Color.brown, Time.fixedDeltaTime);
         
-        rb.MoveRotation(Mathf.LerpAngle(rb.rotation, angle, Time.fixedDeltaTime * 50f));
+        rb.MoveRotation(Mathf.LerpAngle(rb.rotation, angle, Time.fixedDeltaTime * 10f));
     }
 
     void DetectCar()
@@ -181,7 +201,7 @@ public class CarAI : MonoBehaviour
         turnTimer = 0;
 
         float changeLaneProbability = laneChangeProbability + (hostility * cars.Count);
-        var random = Random.Range(0f, 1f);
+        var random = carRandom.NextFloat(0f, 1f);
         isChangingLanes = random <= changeLaneProbability;
 
         if (!isChangingLanes)
@@ -210,7 +230,7 @@ public class CarAI : MonoBehaviour
         // Remove the starting lane from the lane positions to choose from
         lanePositions.RemoveAll(lane => new Vector2(lane.position.x, lane.position.y) == startingLane);
 
-        var nextLaneIndex = Random.Range(0, lanePositions.Count);
+        var nextLaneIndex = carRandom.NextInt(0, lanePositions.Count);
         targetLane = lanePositions[nextLaneIndex].position;
     }
 
