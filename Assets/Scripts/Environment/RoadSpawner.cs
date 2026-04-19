@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class RoadSpawner : MonoBehaviour
@@ -11,6 +12,7 @@ public class RoadSpawner : MonoBehaviour
     public bool forceCarSpawn = true;
 
     private List<GameObject> roadList = new();
+    private uint carSpawnIndex = 1u;
 
     void Awake()
     {
@@ -46,7 +48,12 @@ public class RoadSpawner : MonoBehaviour
         int numCars = UnityEngine.Random.Range(road.numCars.x, road.numCars.y);
 
         List<float> ySpawnPositions = new();
-        var carList = FindObjectsByType<CarAI>(FindObjectsSortMode.None);
+        var carList = FindObjectsByType<CarAI>(FindObjectsSortMode.None)
+            .OrderBy(car => car.transform.position.sqrMagnitude)
+            .ThenBy(car => car.transform.position.x)
+            .ThenBy(car => car.transform.position.y)
+            .ThenBy(car => car.transform.position.z)
+            .ToArray();
 
         for (int i = 0; i < numCars; i++)
         {
@@ -88,8 +95,12 @@ public class RoadSpawner : MonoBehaviour
             
             if (spawnedCar != null)
             {
-                spawnedCar.GetComponent<CarAI>().targetLane = lanePosition;
+                CarAI carAI = spawnedCar.GetComponent<CarAI>();
+                carAI.SetSpawnSeed(GameManager.Singleton.Seed ^ carSpawnIndex);
+                carAI.targetLane = lanePosition;
                 spawnedCar.SetActive(true);
+
+                carSpawnIndex++;
 
                 if (spawnedCar.name.Contains("Semi"))
                     road.lanePositions.RemoveAt(laneIndex);
