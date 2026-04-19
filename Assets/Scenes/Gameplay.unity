@@ -3889,6 +3889,10 @@ PrefabInstance:
       propertyPath: Priority
       value: 30
       objectReference: {fileID: 0}
+    - target: {fileID: 1679051792959117747, guid: 97938d39a93cc2c42b6f29624b369a2e, type: 3}
+      propertyPath: OutputAudioMixerGroup
+      value: 
+      objectReference: {fileID: 6695691119006781333, guid: d9a86e5a571f2a246966f7858c39268b, type: 2}
     - target: {fileID: 2394599566504754807, guid: 97938d39a93cc2c42b6f29624b369a2e, type: 3}
       propertyPath: m_LocalPosition.x
       value: -3
@@ -3941,6 +3945,10 @@ PrefabInstance:
       propertyPath: engineSound
       value: 
       objectReference: {fileID: 8300000, guid: 125480b487ae08f49b5200d16c03af6f, type: 3}
+    - target: {fileID: 8908964563554615608, guid: 97938d39a93cc2c42b6f29624b369a2e, type: 3}
+      propertyPath: soundFxMixer
+      value: 
+      objectReference: {fileID: 6695691119006781333, guid: d9a86e5a571f2a246966f7858c39268b, type: 2}
     - target: {fileID: 8908964563554615608, guid: 97938d39a93cc2c42b6f29624b369a2e, type: 3}
       propertyPath: engineSoundVolume
       value: 1
