@@ -7,10 +7,27 @@ using UnityEngine.Events;
 [RequireComponent(typeof(Rigidbody2D))]
 public class Player : MonoBehaviour
 {
-    [Header("Animation")]
+    [Header("Sound")]
 
+    [Tooltip("The player car's engine sound")]
     [SerializeField]
-    private Animator animator;
+    private AudioClip engineSound;
+
+    [Tooltip("The volume of the engine sound")]
+    [SerializeField]
+    private float engineSoundVolume;
+
+    [Tooltip("The pitch of the engine sound when the car is not moving")]
+    [SerializeField]
+    private float engineSoundIdlePitch;
+
+    [Tooltip("The pitch of the engine sound when the car is driving at full speed")]
+    [SerializeField]
+    private float engineSoundRunningPitch;
+
+    [Space]
+
+    [Header("Animation")]
 
     [SerializeField]
     private string drivingAnimName;
@@ -77,13 +94,17 @@ public class Player : MonoBehaviour
     [Tooltip("How long it takes before the player can collide against the same obstacle")]
     private float hitCooldown = 0.1f;
 
+    Animator animator;
+
     Rigidbody2D rb;
+
+    AudioSource engineSoundContainerAudioSource;
 
     WaitForSeconds recoveryWait;
 
     Coroutine recoverCarRoutine;
 
-    private float prevPosX;
+    float prevPosX;
 
     public static Player Singleton { get; private set; }
 
@@ -92,11 +113,23 @@ public class Player : MonoBehaviour
     private void Awake()
     {
         prevPosX = transform.position.x;
+        TryGetComponent(out animator);
         rb = GetComponent<Rigidbody2D>();
         Singleton = this;
 
         World.CenteredTransform = transform;
         World.Origin = transform.position;
+
+        // Create an engine sound container and play the engine sound
+        GameObject engineSoundContainer = new("Player_Engine_Audio_Container", typeof(AudioSource));
+        engineSoundContainer.transform.parent = transform;
+        engineSoundContainer.transform.localPosition = Vector3.zero;
+        engineSoundContainerAudioSource = engineSoundContainer.GetComponent<AudioSource>();
+        engineSoundContainerAudioSource.clip = engineSound;
+        engineSoundContainerAudioSource.volume = engineSoundVolume;
+        engineSoundContainerAudioSource.pitch = engineSoundIdlePitch;
+        engineSoundContainerAudioSource.loop = true;
+        engineSoundContainerAudioSource.Play();
     }
 
     void FixedUpdate()
@@ -107,39 +140,45 @@ public class Player : MonoBehaviour
 
     void UpdateController()
     {
-        if (!InputManager.IsGameplayInputEnabled) return;
-
-        float deltaTime = Time.fixedDeltaTime;
-
-        // Adjust angular velocity based on steering
-        if (InputManager.SteeringInput == 0f)
+        if (InputManager.IsGameplayInputEnabled)
         {
-            rb.MoveRotation(Mathf.MoveTowards(rb.rotation, 0f, steeringCenterPower * deltaTime));
-        }
-        else
-        {
-            rb.MoveRotation(Mathf.Clamp(rb.rotation + (steeringPower * -InputManager.SteeringInput * deltaTime), -maxRotationAngle, maxRotationAngle));
-        }
+            float deltaTime = Time.fixedDeltaTime;
 
-        // Get current velocity direction and speed
-        Vector2 velNorm = transform.up;
-        float velMag = rb.linearVelocity.magnitude;
+            // Adjust angular velocity based on steering
+            if (InputManager.SteeringInput == 0f)
+            {
+                rb.MoveRotation(Mathf.MoveTowards(rb.rotation, 0f, steeringCenterPower * deltaTime));
+            }
+            else
+            {
+                rb.MoveRotation(Mathf.Clamp(rb.rotation + (steeringPower * -InputManager.SteeringInput * deltaTime), -maxRotationAngle, maxRotationAngle));
+            }
 
-        // Accelerate/decelerate based on input
-        float targetSpeed = InputManager.AccelerateInputHeld ? maxLinearVelocity : autoLinearVelocitySpeed;
-        float celeration = InputManager.DecelerateInputHeld ? decelerationPower * deltaTime : accelerationPower * deltaTime;
-        velMag = Mathf.MoveTowards(velMag, targetSpeed, celeration);
-        
-        // Update velocity
-        rb.linearVelocityX = Mathf.MoveTowards(rb.linearVelocityX, velNorm.x * velMag, celeration);
-        rb.linearVelocityY = Mathf.MoveTowards(rb.linearVelocityY, targetSpeed, celeration);
+            // Get current velocity direction and speed
+            Vector2 velNorm = transform.up;
+            float velMag = rb.linearVelocity.magnitude;
+
+            // Accelerate/decelerate based on input
+            float targetSpeed = InputManager.AccelerateInputHeld ? maxLinearVelocity : autoLinearVelocitySpeed;
+            float celeration = InputManager.DecelerateInputHeld ? decelerationPower * deltaTime : accelerationPower * deltaTime;
+            velMag = Mathf.MoveTowards(velMag, targetSpeed, celeration);
+            
+            // Update velocity
+            rb.linearVelocityX = Mathf.MoveTowards(rb.linearVelocityX, velNorm.x * velMag, celeration);
+            rb.linearVelocityY = Mathf.MoveTowards(rb.linearVelocityY, targetSpeed, celeration);
+        }
 
         // Limit backwards velocity
-        rb.linearVelocityY = Mathf.Max(0f, rb.linearVelocityY);
+        rb.linearVelocityY = Mathf.Max(0.1f, rb.linearVelocityY);
 
         // Update World
         World.CurrentOffset = rb.position;
         rb.position = new Vector2(Mathf.Clamp(rb.position.x, WorldBounds.Singleton.LeftX, WorldBounds.Singleton.RightX), World.Origin.y);
+
+        // Play engine sound with a pitch linearly interpolated by the car speed
+        engineSoundContainerAudioSource.pitch = InputManager.IsGameplayInputEnabled ?
+            engineSoundIdlePitch + ((engineSoundRunningPitch - engineSoundIdlePitch) * (rb.linearVelocityY / autoLinearVelocitySpeed)) :
+            engineSoundIdlePitch;
     }
 
     void LateUpdate()
