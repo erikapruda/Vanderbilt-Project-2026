@@ -18,7 +18,7 @@ GameObject:
   - component: {fileID: 8499629186116443427}
   - component: {fileID: 284029469825756433}
   m_Layer: 0
-  m_Name: MoneyCarAI
+  m_Name: SportsCarAI
   m_TagString: CarAI
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -88,7 +88,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_MaskInteraction: 0
-  m_Sprite: {fileID: -2251029607913414811, guid: d6da84063a116714cabd37a175e8fd61, type: 3}
+  m_Sprite: {fileID: -3984976717392876748, guid: b2f090b9818cb024cb1d131a83f402a1, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -183,9 +183,9 @@ Animator:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3841376137598409359}
-  m_Enabled: 0
+  m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: -3855222751188212774, guid: 342c0893251e4d24ab83249709549ccf, type: 3}
+  m_Controller: {fileID: 9100000, guid: ec921a37139c8804e9a8f137bb42e84a, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -231,17 +231,17 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: 0, y: 0.01}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 0.24, y: 0.38}
+    oldSize: {x: 0.20833333, y: 0.33333334}
     newSize: {x: 0.26, y: 0.32}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 0.18, y: 0.38}
+  m_Size: {x: 0.19, y: 0.32}
   m_EdgeRadius: 0
 --- !u!50 &284029469825756433
 Rigidbody2D:

@@ -1044,7 +1044,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1506285828265470637, guid: 0ea7cff2c09e0b841b1fd492c9ac3ec5, type: 3}
       propertyPath: carPools.Items.Array.data[2].Max
-      value: 20
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 1506285828265470637, guid: 0ea7cff2c09e0b841b1fd492c9ac3ec5, type: 3}
       propertyPath: carPools.Items.Array.data[2].Prefab
@@ -1056,7 +1056,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1506285828265470637, guid: 0ea7cff2c09e0b841b1fd492c9ac3ec5, type: 3}
       propertyPath: 'carPools.ElementProbabilities.Array.data[0]'
-      value: 80
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 1506285828265470637, guid: 0ea7cff2c09e0b841b1fd492c9ac3ec5, type: 3}
       propertyPath: 'carPools.ElementProbabilities.Array.data[1]'
@@ -3726,17 +3726,6 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 4474348984723463403, guid: 5df7ef8cc4e151f4da8a1bc4c2b726b9, type: 3}
   m_PrefabInstance: {fileID: 7848163953589657706}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1943682801 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 7852252782392549949, guid: 5df7ef8cc4e151f4da8a1bc4c2b726b9, type: 3}
-  m_PrefabInstance: {fileID: 7848163953589657706}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1943682799}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Unity.TextMeshPro::TMPro.TextMeshProUGUI
 --- !u!1 &2035741678
 GameObject:
   m_ObjectHideFlags: 0
@@ -3966,14 +3955,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 1679051792959117747, guid: 97938d39a93cc2c42b6f29624b369a2e, type: 3}
-      propertyPath: Priority
-      value: 30
-      objectReference: {fileID: 0}
-    - target: {fileID: 1679051792959117747, guid: 97938d39a93cc2c42b6f29624b369a2e, type: 3}
-      propertyPath: OutputAudioMixerGroup
-      value: 
-      objectReference: {fileID: 6695691119006781333, guid: d9a86e5a571f2a246966f7858c39268b, type: 2}
     - target: {fileID: 2394599566504754807, guid: 97938d39a93cc2c42b6f29624b369a2e, type: 3}
       propertyPath: m_LocalPosition.x
       value: -3
@@ -4019,42 +4000,6 @@ PrefabInstance:
       value: PlayerCar
       objectReference: {fileID: 0}
     - target: {fileID: 8908964563554615608, guid: 97938d39a93cc2c42b6f29624b369a2e, type: 3}
-      propertyPath: debtText
-      value: 
-      objectReference: {fileID: 1943682801}
-    - target: {fileID: 8908964563554615608, guid: 97938d39a93cc2c42b6f29624b369a2e, type: 3}
-      propertyPath: engineSound
-      value: 
-      objectReference: {fileID: 8300000, guid: 125480b487ae08f49b5200d16c03af6f, type: 3}
-    - target: {fileID: 8908964563554615608, guid: 97938d39a93cc2c42b6f29624b369a2e, type: 3}
-      propertyPath: soundFxMixer
-      value: 
-      objectReference: {fileID: 6695691119006781333, guid: d9a86e5a571f2a246966f7858c39268b, type: 2}
-    - target: {fileID: 8908964563554615608, guid: 97938d39a93cc2c42b6f29624b369a2e, type: 3}
-      propertyPath: engineSoundVolume
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8908964563554615608, guid: 97938d39a93cc2c42b6f29624b369a2e, type: 3}
-      propertyPath: engineSoundIdlePitch
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 8908964563554615608, guid: 97938d39a93cc2c42b6f29624b369a2e, type: 3}
-      propertyPath: engineSoundRunningPitch
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8908964563554615608, guid: 97938d39a93cc2c42b6f29624b369a2e, type: 3}
-      propertyPath: OnHitObstacle.m_PersistentCalls.m_Calls.Array.size
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 8908964563554615608, guid: 97938d39a93cc2c42b6f29624b369a2e, type: 3}
-      propertyPath: OnHitObstacle.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 8908964563554615608, guid: 97938d39a93cc2c42b6f29624b369a2e, type: 3}
-      propertyPath: OnHitObstacle.m_PersistentCalls.m_Calls.Array.data[2].m_Mode
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8908964563554615608, guid: 97938d39a93cc2c42b6f29624b369a2e, type: 3}
       propertyPath: OnHitObstacle.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 519420033}
@@ -4062,48 +4007,11 @@ PrefabInstance:
       propertyPath: OnHitObstacle.m_PersistentCalls.m_Calls.Array.data[1].m_Target
       value: 
       objectReference: {fileID: 519420033}
-    - target: {fileID: 8908964563554615608, guid: 97938d39a93cc2c42b6f29624b369a2e, type: 3}
-      propertyPath: OnHitObstacle.m_PersistentCalls.m_Calls.Array.data[2].m_Target
-      value: 
-      objectReference: {fileID: 8797472534974213729}
-    - target: {fileID: 8908964563554615608, guid: 97938d39a93cc2c42b6f29624b369a2e, type: 3}
-      propertyPath: OnHitObstacle.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: SetShakeMagnitude
-      objectReference: {fileID: 0}
-    - target: {fileID: 8908964563554615608, guid: 97938d39a93cc2c42b6f29624b369a2e, type: 3}
-      propertyPath: OnHitObstacle.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
-      value: SetShakeMagDivisor
-      objectReference: {fileID: 0}
-    - target: {fileID: 8908964563554615608, guid: 97938d39a93cc2c42b6f29624b369a2e, type: 3}
-      propertyPath: OnHitObstacle.m_PersistentCalls.m_Calls.Array.data[2].m_MethodName
-      value: Play
-      objectReference: {fileID: 0}
-    - target: {fileID: 8908964563554615608, guid: 97938d39a93cc2c42b6f29624b369a2e, type: 3}
-      propertyPath: OnHitObstacle.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: CameraController, Assembly-CSharp
-      objectReference: {fileID: 0}
-    - target: {fileID: 8908964563554615608, guid: 97938d39a93cc2c42b6f29624b369a2e, type: 3}
-      propertyPath: OnHitObstacle.m_PersistentCalls.m_Calls.Array.data[2].m_TargetAssemblyTypeName
-      value: UnityEngine.AudioSource, UnityEngine
-      objectReference: {fileID: 0}
-    - target: {fileID: 8908964563554615608, guid: 97938d39a93cc2c42b6f29624b369a2e, type: 3}
-      propertyPath: OnHitObstacle.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_FloatArgument
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8908964563554615608, guid: 97938d39a93cc2c42b6f29624b369a2e, type: 3}
-      propertyPath: OnHitObstacle.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_FloatArgument
-      value: 1.1
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 97938d39a93cc2c42b6f29624b369a2e, type: 3}
---- !u!82 &8797472534974213729 stripped
-AudioSource:
-  m_CorrespondingSourceObject: {fileID: 1679051792959117747, guid: 97938d39a93cc2c42b6f29624b369a2e, type: 3}
-  m_PrefabInstance: {fileID: 8797472534974213728}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

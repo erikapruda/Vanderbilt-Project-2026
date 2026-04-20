@@ -5028,10 +5028,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f360f89ccd1bd1744bb6a9be066f0c17, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Car
-  debtText: {fileID: 0}
-  debtLabelMult: 1
-  debtLabelDecimalPlaces: 2
-  animator: {fileID: 6810764788834599113}
+  soundFxMixer: {fileID: 6695691119006781333, guid: d9a86e5a571f2a246966f7858c39268b, type: 2}
+  engineSound: {fileID: 8300000, guid: 125480b487ae08f49b5200d16c03af6f, type: 3}
+  engineSoundVolume: 1
+  engineSoundIdlePitch: 0.5
+  engineSoundRunningPitch: 1
   drivingAnimName: Player_Driving
   drivingLeftAnimName: Player_Driving_Left
   drivingRightAnimName: Player_Driving_Right
@@ -5047,22 +5048,9 @@ MonoBehaviour:
   - {fileID: 1349468554616009811}
   - {fileID: 3374778961517985972}
   driftSpeed: 6
-  debtTextPrefab: {fileID: 8019341860198137268, guid: 155cef4b5beebc04ba03fe6c683addbb, type: 3}
   OnHitObstacle:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: UnityEngine.ParticleSystem, UnityEngine
-        m_MethodName: Play
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
       - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: CameraController, Assembly-CSharp
         m_MethodName: SetShakeMagnitude
@@ -5132,7 +5120,7 @@ AudioSource:
   m_GameObject: {fileID: 5828620058881280794}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: 6695691119006781333, guid: d9a86e5a571f2a246966f7858c39268b, type: 2}
   m_audioClip: {fileID: 0}
   m_Resource: {fileID: 8300000, guid: 560c439734bf65d41a1fffd451a36c4e, type: 3}
   m_PlayOnAwake: 0
@@ -5142,7 +5130,7 @@ AudioSource:
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
-  Priority: 128
+  Priority: 30
   DopplerLevel: 1
   MinDistance: 1
   MaxDistance: 500
