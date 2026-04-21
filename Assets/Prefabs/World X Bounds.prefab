@@ -136,7 +136,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 366fe6e20123cf54ea5909fa39acfda0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::WorldObstacle
-  _hitCost: 100
+  _hitCost: 500
   SparkParticleSystemPrefabPool:
     Prefab: {fileID: 7284036052413443104, guid: 91087dcd82e942149ba0ce2e84032c0b, type: 3}
     Max: 10
@@ -329,7 +329,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 366fe6e20123cf54ea5909fa39acfda0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::WorldObstacle
-  _hitCost: 100
+  _hitCost: 500
   SparkParticleSystemPrefabPool:
     Prefab: {fileID: 7284036052413443104, guid: 91087dcd82e942149ba0ce2e84032c0b, type: 3}
     Max: 10

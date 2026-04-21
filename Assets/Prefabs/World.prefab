@@ -84,7 +84,10 @@ MonoBehaviour:
       Max: 20
     - Prefab: {fileID: 4634531918073431656, guid: ff0cc78046ed2a64ca9140364aacd746, type: 3}
       Max: 3
+    - Prefab: {fileID: 3841376137598409359, guid: 7bf887c45d90248459c8504f873a7daf, type: 3}
+      Max: 10
     ElementProbabilities:
-    - 7
-    - 1
+    - 70
+    - 10
+    - 20
   forceCarSpawn: 1

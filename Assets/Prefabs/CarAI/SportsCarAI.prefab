@@ -149,7 +149,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 366fe6e20123cf54ea5909fa39acfda0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::WorldObstacle
-  _hitCost: 5000
+  _hitCost: 20000
   SparkParticleSystemPrefabPool:
     Prefab: {fileID: 7284036052413443104, guid: 91087dcd82e942149ba0ce2e84032c0b, type: 3}
     Max: 4
@@ -235,7 +235,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 0.20833333, y: 0.33333334}
+    oldSize: {x: 0.25, y: 0.4}
     newSize: {x: 0.26, y: 0.32}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
