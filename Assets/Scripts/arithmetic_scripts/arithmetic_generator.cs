@@ -115,14 +115,14 @@ public class arithmetic_generator : MonoBehaviour
                     if(answerResults[i] == true)
                     {
                         //change background
-                        arithmetic_background.color = new Color(0.01f, 1f, 0.01f, 0.68f);
+                        arithmetic_background.color = new Color(0.01f, 1f, 0.01f, 1f);
 
                     }
 
                     else if(answerResults[i] == false)
                     {
                         //change background
-                        arithmetic_background.color = new Color(1f, 0.01f, 0.01f, 0.68f);
+                        arithmetic_background.color = new Color(1f, 0.01f, 0.01f, 1f);
                     }
 
                 yield return new WaitForSeconds(1.0f);

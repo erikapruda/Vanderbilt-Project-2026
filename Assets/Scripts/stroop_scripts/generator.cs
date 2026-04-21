@@ -113,12 +113,12 @@ public class generator : MonoBehaviour
                 
                     if (correctness == true)
                     {
-                        backgroundImage.color = new Color(0.01f, 1f, 0.01f, 0.68f);
+                        backgroundImage.color = new Color(0.01f, 1f, 0.01f, 1f);
                     }
 
                     else
                     {
-                        backgroundImage.color = new Color(1f, 0.01f, 0.01f, 0.68f);
+                        backgroundImage.color = new Color(1f, 0.01f, 0.01f, 1f);
                     }
 
                     yield return new WaitForSeconds(1.0f);

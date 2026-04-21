@@ -134,14 +134,14 @@ public class generator_emotion : MonoBehaviour
                     if(emotion_correctness == true)
                     {
                         //change background
-                        emotion_background.color = new Color(0.01f, 1f, 0.01f, 0.68f);
+                        emotion_background.color = new Color(0.01f, 1f, 0.01f, 1f);
 
                     }
 
                     else if(emotion_correctness == false)
                     {
                         //change background
-                        emotion_background.color = new Color(1f, 0.01f, 0.01f, 0.68f);
+                        emotion_background.color = new Color(1f, 0.01f, 0.01f, 1f);
                     }
 
                     yield return new WaitForSeconds(1.0f);
