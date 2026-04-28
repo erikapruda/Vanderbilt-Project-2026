@@ -16,6 +16,9 @@ public class SemiTrailer : MonoBehaviour
     
     void Update()
     {
+        // Update semitruck sound when driving by player
+        SemitruckSoundPlayer.SetVolume(parentCarAI.transform.position);
+
         if (parentCarAI.lostControl)
             return;
 

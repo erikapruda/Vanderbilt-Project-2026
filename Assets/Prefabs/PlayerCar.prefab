@@ -5030,7 +5030,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Car
   soundFxMixer: {fileID: 6695691119006781333, guid: d9a86e5a571f2a246966f7858c39268b, type: 2}
   engineSound: {fileID: 8300000, guid: 125480b487ae08f49b5200d16c03af6f, type: 3}
-  engineSoundVolume: 1
+  engineSoundVolume: 0.25
   engineSoundIdlePitch: 0.5
   engineSoundRunningPitch: 1
   drivingAnimName: Player_Driving
