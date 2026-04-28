@@ -600,7 +600,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 120522944}
-  - component: {fileID: 120522943}
+  - component: {fileID: 120522945}
   m_Layer: 0
   m_Name: AudioManager
   m_TagString: Untagged
@@ -608,22 +608,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &120522943
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 120522942}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0f321f209e66e7a47b62e9bdb5469c44, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::AudioManager
-  audioMixer: {fileID: 24100000, guid: d9a86e5a571f2a246966f7858c39268b, type: 2}
-  masterSlider: {fileID: 1697165007}
-  musicSlider: {fileID: 1697165006}
-  sfxSlider: {fileID: 1697165005}
 --- !u!4 &120522944
 Transform:
   m_ObjectHideFlags: 0
@@ -639,6 +623,22 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &120522945
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 120522942}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0f321f209e66e7a47b62e9bdb5469c44, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AudioManager
+  audioMixer: {fileID: 24100000, guid: d9a86e5a571f2a246966f7858c39268b, type: 2}
+  masterSlider: {fileID: 1697165007}
+  musicSlider: {fileID: 1697165006}
+  sfxSlider: {fileID: 1697165005}
 --- !u!1 &143473682
 GameObject:
   m_ObjectHideFlags: 0
@@ -2927,6 +2927,30 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1873608250012726105, guid: baca129fa99952a46985f7f93b1bd34f, type: 3}
+      propertyPath: m_Value
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1873608250012726105, guid: baca129fa99952a46985f7f93b1bd34f, type: 3}
+      propertyPath: m_MaxValue
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1873608250012726105, guid: baca129fa99952a46985f7f93b1bd34f, type: 3}
+      propertyPath: m_MinValue
+      value: 0.0001
+      objectReference: {fileID: 0}
+    - target: {fileID: 1873608250012726105, guid: baca129fa99952a46985f7f93b1bd34f, type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 120522945}
+    - target: {fileID: 1873608250012726105, guid: baca129fa99952a46985f7f93b1bd34f, type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: SetSFXVolume
+      objectReference: {fileID: 0}
+    - target: {fileID: 1873608250012726105, guid: baca129fa99952a46985f7f93b1bd34f, type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: AudioManager, Assembly-CSharp
+      objectReference: {fileID: 0}
     - target: {fileID: 1962212887002955118, guid: baca129fa99952a46985f7f93b1bd34f, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
@@ -2939,9 +2963,73 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
       value: PauseManager, Assembly-CSharp
       objectReference: {fileID: 0}
+    - target: {fileID: 2167587747457350552, guid: baca129fa99952a46985f7f93b1bd34f, type: 3}
+      propertyPath: m_Value
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2167587747457350552, guid: baca129fa99952a46985f7f93b1bd34f, type: 3}
+      propertyPath: m_MaxValue
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2167587747457350552, guid: baca129fa99952a46985f7f93b1bd34f, type: 3}
+      propertyPath: m_MinValue
+      value: 0.0001
+      objectReference: {fileID: 0}
+    - target: {fileID: 2167587747457350552, guid: baca129fa99952a46985f7f93b1bd34f, type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 120522945}
+    - target: {fileID: 2167587747457350552, guid: baca129fa99952a46985f7f93b1bd34f, type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: SetMasterVolume
+      objectReference: {fileID: 0}
+    - target: {fileID: 2167587747457350552, guid: baca129fa99952a46985f7f93b1bd34f, type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: AudioManager, Assembly-CSharp
+      objectReference: {fileID: 0}
     - target: {fileID: 2376975947145664715, guid: baca129fa99952a46985f7f93b1bd34f, type: 3}
       propertyPath: m_Name
       value: optionPanel
+      objectReference: {fileID: 0}
+    - target: {fileID: 7398530258567536579, guid: baca129fa99952a46985f7f93b1bd34f, type: 3}
+      propertyPath: m_Value
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7398530258567536579, guid: baca129fa99952a46985f7f93b1bd34f, type: 3}
+      propertyPath: m_MaxValue
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7398530258567536579, guid: baca129fa99952a46985f7f93b1bd34f, type: 3}
+      propertyPath: m_MinValue
+      value: 0.0001
+      objectReference: {fileID: 0}
+    - target: {fileID: 7398530258567536579, guid: baca129fa99952a46985f7f93b1bd34f, type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 120522945}
+    - target: {fileID: 7398530258567536579, guid: baca129fa99952a46985f7f93b1bd34f, type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: SetMusicVolume
+      objectReference: {fileID: 0}
+    - target: {fileID: 7398530258567536579, guid: baca129fa99952a46985f7f93b1bd34f, type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: AudioManager, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 8287524854201231024, guid: baca129fa99952a46985f7f93b1bd34f, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: -6520486794422016901, guid: fd92fb6d59d538f46a432f9d63f82476, type: 3}
+    - target: {fileID: 8287524854201231024, guid: baca129fa99952a46985f7f93b1bd34f, type: 3}
+      propertyPath: m_Color.b
+      value: 0.8392666
+      objectReference: {fileID: 0}
+    - target: {fileID: 8287524854201231024, guid: baca129fa99952a46985f7f93b1bd34f, type: 3}
+      propertyPath: m_Color.g
+      value: 0.8392666
+      objectReference: {fileID: 0}
+    - target: {fileID: 8287524854201231024, guid: baca129fa99952a46985f7f93b1bd34f, type: 3}
+      propertyPath: m_Color.r
+      value: 0.8679245
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects:
