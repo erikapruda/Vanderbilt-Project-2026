@@ -1,6 +1,5 @@
 using UnityEngine;
 using UnityEngine.Windows.Speech;
-using UnityEngine.UI;
 
 public class stroopVerification : MonoBehaviour
 {
