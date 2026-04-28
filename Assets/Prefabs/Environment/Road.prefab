@@ -97,6 +97,9 @@ MonoBehaviour:
   - {fileID: 8257841328666381186}
   - {fileID: 242293674326964258}
   - {fileID: 5854386346984379248}
+  numCarsEasy: {x: 0, y: 2}
+  numCarsMedium: {x: 1, y: 4}
+  numCarsHard: {x: 3, y: 6}
   numCars: {x: 0, y: 3}
 --- !u!114 &6663828423364030572
 MonoBehaviour:
@@ -112,6 +115,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::WorldObject
   despawnDistance: 20
   isBoundedByWorldBounds: 0
+  isMovedByWorld: 1
+  shouldDestroyOnDespawn: 0
 --- !u!1 &1849848056842646376
 GameObject:
   m_ObjectHideFlags: 0

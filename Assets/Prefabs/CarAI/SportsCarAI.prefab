@@ -111,8 +111,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CarAI
   laneChangeProbability: 0.05
-  hostility: 0.1
-  reactionTime: 1.5
+  hostility: 0.25
+  reactionTime: 0.25
   turnSpeed: 3
   speedLimitLeniency: 0.2
   detectionDistance: 2.5

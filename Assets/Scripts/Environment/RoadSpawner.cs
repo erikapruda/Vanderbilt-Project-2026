@@ -6,7 +6,9 @@ public class RoadSpawner : MonoBehaviour
 {
     public ListRandomizer<GameObject> roads;
 
-    public ListRandomizer<ObjectPool> carPools;
+    public ListRandomizer<ObjectPool> carPoolsEasy;
+    public ListRandomizer<ObjectPool> carPoolsMedium;
+    public ListRandomizer<ObjectPool> carPoolsHard;
 
     [Tooltip("Keep this option checked unless you are testing")]
     public bool forceCarSpawn = true;
@@ -14,8 +16,25 @@ public class RoadSpawner : MonoBehaviour
     private List<GameObject> roadList = new();
     private uint carSpawnIndex = 1u;
 
+    private ListRandomizer<ObjectPool> carPools;
+
     void Awake()
     {
+        switch (PlayerPrefs.GetInt("Difficulty", 2))
+        {
+            case 1: // Easy
+                carPools = carPoolsEasy;
+                break;
+            case 2: // Medium
+                carPools = carPoolsMedium;
+                break;
+            case 3: // Hard
+                carPools = carPoolsHard;
+                break;
+            default:
+                break;
+        }
+
         foreach (var carPool in carPools.Items)
         {
             carPool.Setup();
@@ -45,29 +64,26 @@ public class RoadSpawner : MonoBehaviour
 
     void SpawnCars(Road road)
     {
-        int numCars = UnityEngine.Random.Range(road.numCars.x, road.numCars.y);
+        int numCars = Random.Range(road.numCars.x, road.numCars.y);
 
         List<float> ySpawnPositions = new();
-        var carList = FindObjectsByType<CarAI>(FindObjectsSortMode.None)
-            .OrderBy(car => car.transform.position.sqrMagnitude)
-            .ThenBy(car => car.transform.position.x)
-            .ThenBy(car => car.transform.position.y)
-            .ThenBy(car => car.transform.position.z)
-            .ToArray();
 
+        var carArray = FindObjectsByType<CarAI>(FindObjectsSortMode.None);
+        var carList = carArray.ToList();
+        
         for (int i = 0; i < numCars; i++)
         {
-            int laneIndex = UnityEngine.Random.Range(0, road.lanePositions.Count);
+            int laneIndex = Random.Range(0, road.lanePositions.Count);
             Vector3 lanePosition = road.lanePositions[laneIndex].position;
 
-            float randX = UnityEngine.Random.Range(-0.5f, 0.5f);
-            float randY = UnityEngine.Random.Range(-8f, -2f);
+            float randX = Random.Range(-0.25f, 0.25f);
+            float randY = Random.Range(-8f, -2f);
             
             ySpawnPositions.Add(randY);
             
             foreach (var yPos in ySpawnPositions)
             {
-                if (randY < yPos + 2f && randY > yPos - 2f)
+                if (randY < yPos + 3f && randY > yPos - 3f)
                 {
                     randY += 6f;
                 }
@@ -80,7 +96,7 @@ public class RoadSpawner : MonoBehaviour
 
             foreach (var car in carList)
             {
-                if (Vector3.Distance(car.transform.position, spawnPos) < 6f)
+                if (Vector2.Distance(car.transform.position, spawnPos) < 4f)
                 {
                     skipSpawn = true;
                     break;
@@ -104,6 +120,8 @@ public class RoadSpawner : MonoBehaviour
 
                 if (spawnedCar.name.Contains("Semi"))
                     road.lanePositions.RemoveAt(laneIndex);
+                
+                carList.Add(carAI);
             }
         }
     }

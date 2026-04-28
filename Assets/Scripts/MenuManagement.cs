@@ -28,9 +28,13 @@ public class MenuManagement : MonoBehaviour
     public Button colorToggle;
     public Button debtToggle;
 
+    [Header("Difficulty Options")]
+    public Button easyButton;
+    public Button mediumButton;
+    public Button hardButton;
+
     [Header("Seed Input")]
     public TMP_InputField seedInput;
-
 
     public void Awake()
     {
@@ -52,6 +56,10 @@ public class MenuManagement : MonoBehaviour
         modifierButtons[2].onClick.AddListener(() => SelectModifier("Emotion", modifierButtons[2]));
         modifierButtons[3].onClick.AddListener(() => SelectModifier("Arithmetic", modifierButtons[3]));
 
+        easyButton.onClick.AddListener(() => SetDifficulty(1, easyButton, mediumButton, hardButton));
+        mediumButton.onClick.AddListener(() => SetDifficulty(2, mediumButton, easyButton, hardButton));
+        hardButton.onClick.AddListener(() => SetDifficulty(3, hardButton, easyButton, mediumButton));
+
         colorToggle.onClick.AddListener(() => SelectColorToggle());
 
         debtToggle.onClick.AddListener(() => SelectDebtToggle());
@@ -64,6 +72,7 @@ public class MenuManagement : MonoBehaviour
         }
 
         UpdateStartButtonState();
+        SetDifficulty(2, mediumButton, easyButton, hardButton);
     }
 
     public void QuitGame()
@@ -103,7 +112,7 @@ public class MenuManagement : MonoBehaviour
         if (displayModeDropdown != null)
         {
             displayModeDropdown.onValueChanged.AddListener(SetDisplayMode);
-        }   
+        }
     }
 
     public void SetDisplayMode(int index)
@@ -162,7 +171,6 @@ public class MenuManagement : MonoBehaviour
 
     void SelectColorToggle()
     {
-        
         generator.SHOW_COLOR_RESPONSE = !generator.SHOW_COLOR_RESPONSE;
         generator_emotion.SHOW_COLOR_RESPONSE = !generator_emotion.SHOW_COLOR_RESPONSE;
         arithmetic_generator.SHOW_COLOR_RESPONSE = !arithmetic_generator.SHOW_COLOR_RESPONSE;
@@ -325,6 +333,15 @@ public class MenuManagement : MonoBehaviour
         Random.InitState(PlayerPrefs.GetInt("RequestedSeed", 1));
 
         SceneManager.LoadScene(1);
+    }
+
+    public void SetDifficulty(int difficulty, Button clickedButton, Button otherButton1, Button otherButton2)
+    {
+        PlayerPrefs.SetInt("Difficulty", difficulty);
+        SetButtonVisual(clickedButton, true);
+        SetButtonVisual(otherButton1, false);
+        SetButtonVisual(otherButton2, false);
+        PlayerPrefs.Save();
     }
 
     private int StringToSeed(string text)

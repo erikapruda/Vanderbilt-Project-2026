@@ -5037,8 +5037,13 @@ MonoBehaviour:
   drivingLeftAnimName: Player_Driving_Left
   drivingRightAnimName: Player_Driving_Right
   invincibilityAnimName: Player_Invincibility
-  maxLinearVelocity: 15
   autoLinearVelocitySpeed: 15
+  maxLinearVelocityEasy: 12
+  maxLinearVelocityMedium: 15
+  maxLinearVelocityHard: 18
+  autoLinearVelocitySpeedEasy: 12
+  autoLinearVelocitySpeedMedium: 15
+  autoLinearVelocitySpeedHard: 18
   accelerationPower: 15
   decelerationPower: 45
   maxRotationAngle: 60

@@ -49,12 +49,22 @@ public class Player : MonoBehaviour
 
     [Header("Controls")]
 
-    [SerializeField]
+    private float maxLinearVelocity;
+    //[HideInInspector]
+    public float autoLinearVelocitySpeed;
+
     [Tooltip("The maximum speed the car can go")]
-    private float maxLinearVelocity = 100f; // ~224 mph
+    [SerializeField]
+    private float maxLinearVelocityEasy = 10f;
+    [SerializeField]
+    private float maxLinearVelocityMedium = 15f;
+    [SerializeField]
+    private float maxLinearVelocityHard = 20f;
 
     [Tooltip("The car's target speed when the accelerator and decelerator are idle")]
-    public float autoLinearVelocitySpeed = 50f;
+    public float autoLinearVelocitySpeedEasy = 10f;
+    public float autoLinearVelocitySpeedMedium = 15f;
+    public float autoLinearVelocitySpeedHard = 20f;
 
     [SerializeField]
     [Tooltip("How fast the car accelerates towards the target speed")]
@@ -116,6 +126,25 @@ public class Player : MonoBehaviour
 
     private void Awake()
     {
+        // Set the player speed based on the difficulty
+        switch (PlayerPrefs.GetInt("Difficulty", 2))
+        {
+            case 1: // Easy
+                autoLinearVelocitySpeed = autoLinearVelocitySpeedEasy;
+                maxLinearVelocity = maxLinearVelocityEasy;
+                break;
+            case 2: // Medium
+                autoLinearVelocitySpeed = autoLinearVelocitySpeedMedium;
+                maxLinearVelocity = maxLinearVelocityMedium;
+                break;
+            case 3: // Hard
+                autoLinearVelocitySpeed = autoLinearVelocitySpeedHard;
+                maxLinearVelocity = maxLinearVelocityHard;
+                break;
+            default:
+                break;
+        }
+
         prevPosX = transform.position.x;
         TryGetComponent(out animator);
         rb = GetComponent<Rigidbody2D>();

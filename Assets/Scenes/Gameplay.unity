@@ -1034,6 +1034,174 @@ PrefabInstance:
       propertyPath: m_Name
       value: World
       objectReference: {fileID: 0}
+    - target: {fileID: 1506285828265470637, guid: 0ea7cff2c09e0b841b1fd492c9ac3ec5, type: 3}
+      propertyPath: carPoolsEasy.Items.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 1506285828265470637, guid: 0ea7cff2c09e0b841b1fd492c9ac3ec5, type: 3}
+      propertyPath: carPoolsHard.Items.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 1506285828265470637, guid: 0ea7cff2c09e0b841b1fd492c9ac3ec5, type: 3}
+      propertyPath: carPoolsMedium.Items.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 1506285828265470637, guid: 0ea7cff2c09e0b841b1fd492c9ac3ec5, type: 3}
+      propertyPath: carPoolsEasy.Items.Array.data[0].Max
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1506285828265470637, guid: 0ea7cff2c09e0b841b1fd492c9ac3ec5, type: 3}
+      propertyPath: carPoolsEasy.Items.Array.data[1].Max
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1506285828265470637, guid: 0ea7cff2c09e0b841b1fd492c9ac3ec5, type: 3}
+      propertyPath: carPoolsEasy.Items.Array.data[2].Max
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1506285828265470637, guid: 0ea7cff2c09e0b841b1fd492c9ac3ec5, type: 3}
+      propertyPath: carPoolsEasy.Items.Array.data[3].Max
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1506285828265470637, guid: 0ea7cff2c09e0b841b1fd492c9ac3ec5, type: 3}
+      propertyPath: carPoolsHard.Items.Array.data[0].Max
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 1506285828265470637, guid: 0ea7cff2c09e0b841b1fd492c9ac3ec5, type: 3}
+      propertyPath: carPoolsHard.Items.Array.data[1].Max
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 1506285828265470637, guid: 0ea7cff2c09e0b841b1fd492c9ac3ec5, type: 3}
+      propertyPath: carPoolsHard.Items.Array.data[2].Max
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 1506285828265470637, guid: 0ea7cff2c09e0b841b1fd492c9ac3ec5, type: 3}
+      propertyPath: carPoolsHard.Items.Array.data[3].Max
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 1506285828265470637, guid: 0ea7cff2c09e0b841b1fd492c9ac3ec5, type: 3}
+      propertyPath: carPoolsMedium.Items.Array.data[0].Max
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 1506285828265470637, guid: 0ea7cff2c09e0b841b1fd492c9ac3ec5, type: 3}
+      propertyPath: carPoolsMedium.Items.Array.data[1].Max
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 1506285828265470637, guid: 0ea7cff2c09e0b841b1fd492c9ac3ec5, type: 3}
+      propertyPath: carPoolsMedium.Items.Array.data[2].Max
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 1506285828265470637, guid: 0ea7cff2c09e0b841b1fd492c9ac3ec5, type: 3}
+      propertyPath: carPoolsMedium.Items.Array.data[3].Max
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 1506285828265470637, guid: 0ea7cff2c09e0b841b1fd492c9ac3ec5, type: 3}
+      propertyPath: carPoolsEasy.Items.Array.data[0].Prefab
+      value: 
+      objectReference: {fileID: 2550917474013715227, guid: 8e856d2923f3ca64ca74850fe5b23ba4, type: 3}
+    - target: {fileID: 1506285828265470637, guid: 0ea7cff2c09e0b841b1fd492c9ac3ec5, type: 3}
+      propertyPath: carPoolsEasy.Items.Array.data[1].Prefab
+      value: 
+      objectReference: {fileID: 3841376137598409359, guid: 369b8e2689b6f2e44b56e371d55f3a97, type: 3}
+    - target: {fileID: 1506285828265470637, guid: 0ea7cff2c09e0b841b1fd492c9ac3ec5, type: 3}
+      propertyPath: carPoolsEasy.Items.Array.data[2].Prefab
+      value: 
+      objectReference: {fileID: 3841376137598409359, guid: 7bf887c45d90248459c8504f873a7daf, type: 3}
+    - target: {fileID: 1506285828265470637, guid: 0ea7cff2c09e0b841b1fd492c9ac3ec5, type: 3}
+      propertyPath: carPoolsEasy.Items.Array.data[3].Prefab
+      value: 
+      objectReference: {fileID: 4634531918073431656, guid: ff0cc78046ed2a64ca9140364aacd746, type: 3}
+    - target: {fileID: 1506285828265470637, guid: 0ea7cff2c09e0b841b1fd492c9ac3ec5, type: 3}
+      propertyPath: carPoolsHard.Items.Array.data[0].Prefab
+      value: 
+      objectReference: {fileID: 2550917474013715227, guid: 8e856d2923f3ca64ca74850fe5b23ba4, type: 3}
+    - target: {fileID: 1506285828265470637, guid: 0ea7cff2c09e0b841b1fd492c9ac3ec5, type: 3}
+      propertyPath: carPoolsHard.Items.Array.data[1].Prefab
+      value: 
+      objectReference: {fileID: 3841376137598409359, guid: 369b8e2689b6f2e44b56e371d55f3a97, type: 3}
+    - target: {fileID: 1506285828265470637, guid: 0ea7cff2c09e0b841b1fd492c9ac3ec5, type: 3}
+      propertyPath: carPoolsHard.Items.Array.data[2].Prefab
+      value: 
+      objectReference: {fileID: 3841376137598409359, guid: 7bf887c45d90248459c8504f873a7daf, type: 3}
+    - target: {fileID: 1506285828265470637, guid: 0ea7cff2c09e0b841b1fd492c9ac3ec5, type: 3}
+      propertyPath: carPoolsHard.Items.Array.data[3].Prefab
+      value: 
+      objectReference: {fileID: 4634531918073431656, guid: ff0cc78046ed2a64ca9140364aacd746, type: 3}
+    - target: {fileID: 1506285828265470637, guid: 0ea7cff2c09e0b841b1fd492c9ac3ec5, type: 3}
+      propertyPath: carPoolsMedium.Items.Array.data[0].Prefab
+      value: 
+      objectReference: {fileID: 2550917474013715227, guid: 8e856d2923f3ca64ca74850fe5b23ba4, type: 3}
+    - target: {fileID: 1506285828265470637, guid: 0ea7cff2c09e0b841b1fd492c9ac3ec5, type: 3}
+      propertyPath: carPoolsMedium.Items.Array.data[1].Prefab
+      value: 
+      objectReference: {fileID: 3841376137598409359, guid: 369b8e2689b6f2e44b56e371d55f3a97, type: 3}
+    - target: {fileID: 1506285828265470637, guid: 0ea7cff2c09e0b841b1fd492c9ac3ec5, type: 3}
+      propertyPath: carPoolsMedium.Items.Array.data[2].Prefab
+      value: 
+      objectReference: {fileID: 3841376137598409359, guid: 7bf887c45d90248459c8504f873a7daf, type: 3}
+    - target: {fileID: 1506285828265470637, guid: 0ea7cff2c09e0b841b1fd492c9ac3ec5, type: 3}
+      propertyPath: carPoolsMedium.Items.Array.data[3].Prefab
+      value: 
+      objectReference: {fileID: 4634531918073431656, guid: ff0cc78046ed2a64ca9140364aacd746, type: 3}
+    - target: {fileID: 1506285828265470637, guid: 0ea7cff2c09e0b841b1fd492c9ac3ec5, type: 3}
+      propertyPath: carPoolsEasy.ElementProbabilities.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 1506285828265470637, guid: 0ea7cff2c09e0b841b1fd492c9ac3ec5, type: 3}
+      propertyPath: carPoolsHard.ElementProbabilities.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 1506285828265470637, guid: 0ea7cff2c09e0b841b1fd492c9ac3ec5, type: 3}
+      propertyPath: carPoolsMedium.ElementProbabilities.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 1506285828265470637, guid: 0ea7cff2c09e0b841b1fd492c9ac3ec5, type: 3}
+      propertyPath: 'carPoolsEasy.ElementProbabilities.Array.data[0]'
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 1506285828265470637, guid: 0ea7cff2c09e0b841b1fd492c9ac3ec5, type: 3}
+      propertyPath: 'carPoolsEasy.ElementProbabilities.Array.data[1]'
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 1506285828265470637, guid: 0ea7cff2c09e0b841b1fd492c9ac3ec5, type: 3}
+      propertyPath: 'carPoolsEasy.ElementProbabilities.Array.data[2]'
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 1506285828265470637, guid: 0ea7cff2c09e0b841b1fd492c9ac3ec5, type: 3}
+      propertyPath: 'carPoolsEasy.ElementProbabilities.Array.data[3]'
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1506285828265470637, guid: 0ea7cff2c09e0b841b1fd492c9ac3ec5, type: 3}
+      propertyPath: 'carPoolsHard.ElementProbabilities.Array.data[0]'
+      value: 35
+      objectReference: {fileID: 0}
+    - target: {fileID: 1506285828265470637, guid: 0ea7cff2c09e0b841b1fd492c9ac3ec5, type: 3}
+      propertyPath: 'carPoolsHard.ElementProbabilities.Array.data[1]'
+      value: 40
+      objectReference: {fileID: 0}
+    - target: {fileID: 1506285828265470637, guid: 0ea7cff2c09e0b841b1fd492c9ac3ec5, type: 3}
+      propertyPath: 'carPoolsHard.ElementProbabilities.Array.data[2]'
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 1506285828265470637, guid: 0ea7cff2c09e0b841b1fd492c9ac3ec5, type: 3}
+      propertyPath: 'carPoolsHard.ElementProbabilities.Array.data[3]'
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 1506285828265470637, guid: 0ea7cff2c09e0b841b1fd492c9ac3ec5, type: 3}
+      propertyPath: 'carPoolsMedium.ElementProbabilities.Array.data[0]'
+      value: 45
+      objectReference: {fileID: 0}
+    - target: {fileID: 1506285828265470637, guid: 0ea7cff2c09e0b841b1fd492c9ac3ec5, type: 3}
+      propertyPath: 'carPoolsMedium.ElementProbabilities.Array.data[1]'
+      value: 35
+      objectReference: {fileID: 0}
+    - target: {fileID: 1506285828265470637, guid: 0ea7cff2c09e0b841b1fd492c9ac3ec5, type: 3}
+      propertyPath: 'carPoolsMedium.ElementProbabilities.Array.data[2]'
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 1506285828265470637, guid: 0ea7cff2c09e0b841b1fd492c9ac3ec5, type: 3}
+      propertyPath: 'carPoolsMedium.ElementProbabilities.Array.data[3]'
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 3233359448268099316, guid: 0ea7cff2c09e0b841b1fd492c9ac3ec5, type: 3}
       propertyPath: 'spawnerTransforms.Items.Array.data[0]'
       value: 
@@ -3963,9 +4131,17 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3364830508109473379, guid: 97938d39a93cc2c42b6f29624b369a2e, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5828620058881280794, guid: 97938d39a93cc2c42b6f29624b369a2e, type: 3}
       propertyPath: m_Name
       value: PlayerCar
+      objectReference: {fileID: 0}
+    - target: {fileID: 5828620058881280794, guid: 97938d39a93cc2c42b6f29624b369a2e, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8908964563554615608, guid: 97938d39a93cc2c42b6f29624b369a2e, type: 3}
       propertyPath: OnHitObstacle.m_PersistentCalls.m_Calls.Array.data[0].m_Target

@@ -46,25 +46,15 @@ public class ListRandomizer<T>
     {
         if (Items.Count == 0) return default;
 
-        float stackedPastProbabilities = 0;
+        float rng = GameManager.Singleton.IsUsingSeed
+            ? GameManager.Singleton.SeededRandom.NextFloat()
+            : Random.Range(0f, 1f);
 
+        float cumulative = 0f;
         for (int i = 0; i < Items.Count; i++)
         {
-            // Get random value between 0 and 1
-            float rng;
-            if (GameManager.Singleton.IsUsingSeed)
-            {
-                rng = GameManager.Singleton.SeededRandom.NextFloat();
-            }
-            else
-            {
-                rng = Random.Range(0f, 1f);
-            }
-
-            float chosenProbability = (ElementProbabilities[i] / TotaledProbability) + stackedPastProbabilities;
-            stackedPastProbabilities += chosenProbability;
-
-            if (rng < chosenProbability)
+            cumulative += ElementProbabilities[i] / TotaledProbability;
+            if (rng < cumulative)
                 return Items[i];
         }
         return Items[^1];
