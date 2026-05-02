@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using TMPro;
+using System.Runtime.CompilerServices;
 
 public class MenuManagement : MonoBehaviour
 {
@@ -27,6 +28,7 @@ public class MenuManagement : MonoBehaviour
     [Header("Test Options")]
     public Button colorToggle;
     public Button debtToggle;
+    public Button timeTypeToggle;
 
     [Header("Difficulty Options")]
     public Button easyButton;
@@ -44,6 +46,12 @@ public class MenuManagement : MonoBehaviour
         generator.SHOW_COLOR_RESPONSE = false;
         generator_emotion.SHOW_COLOR_RESPONSE = false;
         arithmetic_generator.SHOW_COLOR_RESPONSE = false;
+
+        generator.ROUND_BASED = false;
+        generator_emotion.ROUND_BASED = false;
+        arithmetic_generator.ROUND_BASED = false;
+        n_back_generator.ROUND_BASED = false;
+
         GameManager.IsUsingDebt = false;
 
         durationButtons[0].onClick.AddListener(() => SelectDuration(1, durationButtons[0]));
@@ -63,7 +71,9 @@ public class MenuManagement : MonoBehaviour
         colorToggle.onClick.AddListener(() => SelectColorToggle());
 
         debtToggle.onClick.AddListener(() => SelectDebtToggle());
-        
+
+        timeTypeToggle.onClick.AddListener(() => SelectTimeTypeToggle());
+
         startButton.onClick.AddListener(StartGame);
 
         if (seedInput != null)
@@ -175,6 +185,14 @@ public class MenuManagement : MonoBehaviour
         generator_emotion.SHOW_COLOR_RESPONSE = !generator_emotion.SHOW_COLOR_RESPONSE;
         arithmetic_generator.SHOW_COLOR_RESPONSE = !arithmetic_generator.SHOW_COLOR_RESPONSE;
         n_back_generator.SHOW_COLOR_RESPONSE = !n_back_generator.SHOW_COLOR_RESPONSE;
+    }
+
+    void SelectTimeTypeToggle()
+    {
+        generator.ROUND_BASED = !generator.ROUND_BASED; 
+        generator_emotion.ROUND_BASED = !generator_emotion.ROUND_BASED;
+        arithmetic_generator.ROUND_BASED = !arithmetic_generator.ROUND_BASED;
+        n_back_generator.ROUND_BASED = !n_back_generator.ROUND_BASED;
     }
 
     void SelectDebtToggle()

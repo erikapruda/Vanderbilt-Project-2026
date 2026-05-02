@@ -7597,6 +7597,7 @@ MonoBehaviour:
   startButton: {fileID: 890522639}
   colorToggle: {fileID: 1770253838}
   debtToggle: {fileID: 1698166513}
+  timeTypeToggle: {fileID: 983350547}
   easyButton: {fileID: 313586142}
   mediumButton: {fileID: 1969125711}
   hardButton: {fileID: 1439236740}

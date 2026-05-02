@@ -3,6 +3,8 @@ using TMPro;
 using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
+using Color = UnityEngine.Color;
+using System.Drawing;
 
 public class generator : MonoBehaviour
 {
@@ -10,6 +12,8 @@ public class generator : MonoBehaviour
     public static float STROOP_START_TIME;      //variable for when stroop test displays a word
 
     public static bool SHOW_COLOR_RESPONSE;
+    public static bool ROUND_BASED;     //bool for if the stroop test is round based or not
+    public static int ROUND_NUM = 5;           //num of rounds if rounds based.
     public TextMeshProUGUI stroopText;          //canvas text 
     public stroopVerification stroopVerifier;   //speech-to-text script
     public Image backgroundImage;               //canvas image
@@ -69,70 +73,88 @@ public class generator : MonoBehaviour
     
     IEnumerator Change_Stroop(){
 
-        while (true)
+        if(ROUND_BASED == false)
         {
-
-            
-
-            int wordIndex = Random.Range(0, color_words.Length);
-            int colorIndex = Random.Range(0, colors.Length);
-
-            while (wordIndex == colorIndex || (currentTargetColor == color_words[colorIndex])) //loop to make sure text does not match color, and color always switches
+            //go until game is ended or paused. no round limit.
+            while (true)
             {
-                wordIndex = Random.Range(0, color_words.Length);
-                colorIndex = Random.Range(0, colors.Length);
+                yield return StartCoroutine(stroop_test());
+            }
+        }    
+
+        else
+        {
+            //go for every round.
+            for(int i = 0; i < ROUND_NUM; i++)
+            {
+                yield return StartCoroutine(stroop_test());
             }
 
-
-            stroopText.text = color_words[wordIndex];
-            stroopText.color = colors[colorIndex];
-
-            STROOP_START_TIME = Time.realtimeSinceStartup;      //storing time of when word appears.
-
-            //Debug.Log("" + STROOP_START_TIME);
-
-            currentTargetColor = color_words[colorIndex]; // Set public color variable for use in speech recognition.
-
-            yield return new WaitForSeconds(TIME_INTERVAL);
-
-            
-            if (currentTargetColor != null)
-            { // Calls verification command when a target color exists before changing to next stroop test.
-                results temp_results = new results();
-                bool correctness = stroopVerifier.CompareWords();
-
-                temp_results.reaction_time = stroopVerifier.reactionTime;
-                temp_results.correctness = correctness;
-                temp_results.color_word = color_words[wordIndex];
-                temp_results.color_index = colorIndex;
-                results_array.Add(temp_results);
-                
-                if(SHOW_COLOR_RESPONSE == true)
-                {
-                    
-                
-                    if (correctness == true)
-                    {
-                        backgroundImage.color = new Color(0.01f, 1f, 0.01f, 1f);
-                    }
-
-                    else
-                    {
-                        backgroundImage.color = new Color(1f, 0.01f, 0.01f, 1f);
-                    }
-
-                    yield return new WaitForSeconds(1.0f);
-                }
-
-
-                
-                
-                backgroundImage.color = Color.white;
-            }
-
+            stroopText.text = "";
             
         }
 
         
     }
+
+    IEnumerator stroop_test()
+    {
+        int wordIndex = Random.Range(0, color_words.Length);
+        int colorIndex = Random.Range(0, colors.Length);
+
+        while (wordIndex == colorIndex || (currentTargetColor == color_words[colorIndex])) //loop to make sure text does not match color, and color always switches
+        {
+            wordIndex = Random.Range(0, color_words.Length);
+            colorIndex = Random.Range(0, colors.Length);
+        }
+
+
+        stroopText.text = color_words[wordIndex];
+        stroopText.color = colors[colorIndex];
+
+        STROOP_START_TIME = Time.realtimeSinceStartup;      //storing time of when word appears.
+
+        //Debug.Log("" + STROOP_START_TIME);
+
+        currentTargetColor = color_words[colorIndex]; // Set public color variable for use in speech recognition.
+
+        yield return new WaitForSeconds(TIME_INTERVAL);
+
+        
+        if (currentTargetColor != null)
+        { // Calls verification command when a target color exists before changing to next stroop test.
+            results temp_results = new results();
+            bool correctness = stroopVerifier.CompareWords();
+
+            temp_results.reaction_time = stroopVerifier.reactionTime;
+            temp_results.correctness = correctness;
+            temp_results.color_word = color_words[wordIndex];
+            temp_results.color_index = colorIndex;
+            results_array.Add(temp_results);
+            
+            if(SHOW_COLOR_RESPONSE == true)
+            {
+                
+            
+                if (correctness == true)
+                {
+                    backgroundImage.color = new Color(0.01f, 1f, 0.01f, 1f);
+                }
+
+                else
+                {
+                    backgroundImage.color = new Color(1f, 0.01f, 0.01f, 1f);
+                }
+
+                yield return new WaitForSeconds(1.0f);
+            }
+
+
+            
+            
+            backgroundImage.color = Color.white;
+        }
+    }
 }
+
+
