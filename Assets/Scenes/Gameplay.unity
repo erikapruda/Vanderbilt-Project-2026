@@ -189,6 +189,11 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 577996752214724350, guid: 9546a94bf6a81254a905cf44d2e7d5ba, type: 3}
   m_PrefabInstance: {fileID: 25762523}
   m_PrefabAsset: {fileID: 0}
+--- !u!223 &25762525 stripped
+Canvas:
+  m_CorrespondingSourceObject: {fileID: 9050706925469291604, guid: 9546a94bf6a81254a905cf44d2e7d5ba, type: 3}
+  m_PrefabInstance: {fileID: 25762523}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &28977239
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -675,6 +680,11 @@ PrefabInstance:
 --- !u!1 &94848482 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 2857246336606269957, guid: f1aa86e319d124dd6af64b31cdcd645b, type: 3}
+  m_PrefabInstance: {fileID: 94848481}
+  m_PrefabAsset: {fileID: 0}
+--- !u!223 &94848483 stripped
+Canvas:
+  m_CorrespondingSourceObject: {fileID: 1235574651822250680, guid: f1aa86e319d124dd6af64b31cdcd645b, type: 3}
   m_PrefabInstance: {fileID: 94848481}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &113910335
@@ -2753,6 +2763,11 @@ PrefabInstance:
 --- !u!1 &891852864 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3692707742906263093, guid: d9c83dee3f5cdd046a4e770a59e30b7f, type: 3}
+  m_PrefabInstance: {fileID: 891852863}
+  m_PrefabAsset: {fileID: 0}
+--- !u!223 &891852865 stripped
+Canvas:
+  m_CorrespondingSourceObject: {fileID: 183092407605332282, guid: d9c83dee3f5cdd046a4e770a59e30b7f, type: 3}
   m_PrefabInstance: {fileID: 891852863}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &901164876
@@ -5112,6 +5127,11 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 4874160846110375631, guid: 31f0172e5540648bf87b8a0681699bce, type: 3}
   m_PrefabInstance: {fileID: 1788901207}
   m_PrefabAsset: {fileID: 0}
+--- !u!223 &1788901209 stripped
+Canvas:
+  m_CorrespondingSourceObject: {fileID: 5625121533798166502, guid: 31f0172e5540648bf87b8a0681699bce, type: 3}
+  m_PrefabInstance: {fileID: 1788901207}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1812998884
 GameObject:
   m_ObjectHideFlags: 0
@@ -5546,6 +5566,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PauseManager
   pauseMenuUI: {fileID: 1750702202}
   optionsMenuUI: {fileID: 1697165004}
+  stroopCanvas: {fileID: 1788901209}
+  nBackCanvas: {fileID: 94848483}
+  emotionCanvas: {fileID: 25762525}
+  arithmeticCanvas: {fileID: 891852865}
   mainMenuScene: MainMenu
 --- !u!4 &1916223787
 Transform:
