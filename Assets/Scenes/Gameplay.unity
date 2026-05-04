@@ -590,19 +590,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2457955082263382441, guid: f1aa86e319d124dd6af64b31cdcd645b, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 456
+      value: 954.26
       objectReference: {fileID: 0}
     - target: {fileID: 2457955082263382441, guid: f1aa86e319d124dd6af64b31cdcd645b, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 692
+      value: 1440
       objectReference: {fileID: 0}
     - target: {fileID: 2457955082263382441, guid: f1aa86e319d124dd6af64b31cdcd645b, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 379.3181
+      value: 802
       objectReference: {fileID: 0}
     - target: {fileID: 2457955082263382441, guid: f1aa86e319d124dd6af64b31cdcd645b, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 4
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 2857246336606269957, guid: f1aa86e319d124dd6af64b31cdcd645b, type: 3}
       propertyPath: m_Name
@@ -613,12 +613,36 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3546601340210447694, guid: f1aa86e319d124dd6af64b31cdcd645b, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: -131.903
+      objectReference: {fileID: 0}
+    - target: {fileID: 3546601340210447694, guid: f1aa86e319d124dd6af64b31cdcd645b, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: -33.125
+      objectReference: {fileID: 0}
+    - target: {fileID: 3546601340210447694, guid: f1aa86e319d124dd6af64b31cdcd645b, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 371.1
+      value: 765
       objectReference: {fileID: 0}
     - target: {fileID: 3546601340210447694, guid: f1aa86e319d124dd6af64b31cdcd645b, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 15.372
+      value: 33.941
+      objectReference: {fileID: 0}
+    - target: {fileID: 3549851820253248691, guid: f1aa86e319d124dd6af64b31cdcd645b, type: 3}
+      propertyPath: m_UiScaleMode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3549851820253248691, guid: f1aa86e319d124dd6af64b31cdcd645b, type: 3}
+      propertyPath: m_MatchWidthOrHeight
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3549851820253248691, guid: f1aa86e319d124dd6af64b31cdcd645b, type: 3}
+      propertyPath: m_ReferenceResolution.x
+      value: 2560
+      objectReference: {fileID: 0}
+    - target: {fileID: 3549851820253248691, guid: f1aa86e319d124dd6af64b31cdcd645b, type: 3}
+      propertyPath: m_ReferenceResolution.y
+      value: 1440
       objectReference: {fileID: 0}
     - target: {fileID: 3977476292460043164, guid: f1aa86e319d124dd6af64b31cdcd645b, type: 3}
       propertyPath: m_Name
@@ -666,13 +690,26 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5334718056281326772, guid: f1aa86e319d124dd6af64b31cdcd645b, type: 3}
       propertyPath: m_fontSize
-      value: 60
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 5334718056281326772, guid: f1aa86e319d124dd6af64b31cdcd645b, type: 3}
+      propertyPath: m_fontAsset
+      value: 
+      objectReference: {fileID: 11400000, guid: 52a82de6290eb2d4ab86f2d23bbf06aa, type: 2}
+    - target: {fileID: 5334718056281326772, guid: f1aa86e319d124dd6af64b31cdcd645b, type: 3}
       propertyPath: m_fontSizeBase
-      value: 60
+      value: 100
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    - target: {fileID: 5334718056281326772, guid: f1aa86e319d124dd6af64b31cdcd645b, type: 3}
+      propertyPath: m_sharedMaterial
+      value: 
+      objectReference: {fileID: 935324899927066414, guid: 52a82de6290eb2d4ab86f2d23bbf06aa, type: 2}
+    - target: {fileID: 5334718056281326772, guid: f1aa86e319d124dd6af64b31cdcd645b, type: 3}
+      propertyPath: m_hasFontAssetChanged
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 1426115682776604211, guid: f1aa86e319d124dd6af64b31cdcd645b, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
