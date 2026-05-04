@@ -21,6 +21,7 @@ public class generator_emotion : MonoBehaviour
     public TextMeshProUGUI good_textbox;
     public TextMeshProUGUI bad_textbox;
     public emotionVerification emotionVerifier;
+    public GameTimer gameTimer;
     
     private string[] words = { 
        "Horrendous", "Happy", "Joy", "Malicious", "Dismay", "Punishment", "Excitement", "Disaster", "Hope",
@@ -46,6 +47,9 @@ public class generator_emotion : MonoBehaviour
 
     void Start()
     {
+        ROUND_BASED = PlayerPrefs.GetInt("UsingPromptCount", 0) == 1;
+        ROUND_NUM = PlayerPrefs.GetInt("PromptCount", 5);
+
         results_array.Clear();
         emotion_background.color = Color.white;
         StartCoroutine(Change_Text());
@@ -75,12 +79,22 @@ public class generator_emotion : MonoBehaviour
             textbox.text = "";
             good_textbox.text = "";
             bad_textbox.text = "";
+            
+            if (gameTimer != null)
+            {
+                gameTimer.EndGame();
+            }
         }
     }
 
     IEnumerator emotion_test()
     {
         emotion_background.color = Color.white;
+
+        if (emotionVerifier != null)
+        {
+            emotionVerifier.ResetAnswer();
+        }
 
         newWordIndex = Random.Range(0, words.Length);
 
@@ -91,27 +105,39 @@ public class generator_emotion : MonoBehaviour
 
         wordIndex = newWordIndex;
 
-        if (wordsDict[words[newWordIndex]] == 0){
+        if (wordsDict[words[newWordIndex]] == 0)
+        {
             wordType = "bad";
         }
-        else{
+        else
+        {
             wordType = "good";
         }
 
         textbox.text = words[wordIndex];
         WORD_START_TIME = Time.realtimeSinceStartup;
 
-        yield return new WaitForSeconds(2.5f);
+        // Prompt-based mode waits for a voice answer.
+        // Minute-based mode keeps the original timed behavior.
+        if (ROUND_BASED)
+        {
+            yield return new WaitUntil(() => emotionVerifier != null && emotionVerifier.HasAnswered);
+        }
+        else
+        {
+            yield return new WaitForSeconds(2.5f);
+        }
+
         emotion_background.color = Color.white;
-        
+
         if (wordType != null)
-        { 
+        {
             results temp_results = new results();
             bool emotion_correctness = emotionVerifier.CompareWords();
 
-            if(SHOW_COLOR_RESPONSE == true)
+            if (SHOW_COLOR_RESPONSE == true)
             {
-                if(emotion_correctness == true)
+                if (emotion_correctness == true)
                 {
                     emotion_background.color = new Color(0.01f, 1f, 0.01f, 1f);
                 }
@@ -128,9 +154,9 @@ public class generator_emotion : MonoBehaviour
             temp_results.word = words[wordIndex];
             temp_results.emotion = wordsDict[words[newWordIndex]];
 
-            results_array.Add(temp_results);       
+            results_array.Add(temp_results);
         }
-        
+
         emotion_background.color = Color.white;
     }
 }

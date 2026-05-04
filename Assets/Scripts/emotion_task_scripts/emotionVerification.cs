@@ -9,6 +9,7 @@ public class emotionVerification : MonoBehaviour
     private System.DateTime refDateTime;
     private float refUnityTime;
     public float reactionTime = 0f;
+    public bool HasAnswered { get; private set; } = false;
 
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -30,8 +31,16 @@ public class emotionVerification : MonoBehaviour
 
     private void OnPhraseRecognized(PhraseRecognizedEventArgs args)
     {
-        lastSpokenWord = args.text.ToLower(); // Each time a word is spoken, lastSpokenWord stores that value.
-        reactionTime = (refUnityTime + (float)(args.phraseStartTime - refDateTime).TotalSeconds) - generator_emotion.WORD_START_TIME; // Convert to float to use with Unity's time system.
+        lastSpokenWord = args.text.ToLower();
+
+        reactionTime =
+            refUnityTime + (float)(args.phraseStartTime - refDateTime).TotalSeconds
+            - generator_emotion.WORD_START_TIME;
+
+        HasAnswered = true;
+
+        Debug.Log("Heard: " + lastSpokenWord);
+        Debug.Log("Reaction Time: " + reactionTime);
     }
 
     public bool CompareWords(){
@@ -52,5 +61,12 @@ public class emotionVerification : MonoBehaviour
             Debug.Log("Reaction Time: " + reactionTime);
             return false;
         }
+    }
+
+    public void ResetAnswer()
+    {
+        HasAnswered = false;
+        lastSpokenWord = null;
+        reactionTime = 0f;
     }
 }

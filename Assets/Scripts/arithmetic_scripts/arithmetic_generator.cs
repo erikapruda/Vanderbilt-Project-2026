@@ -19,6 +19,7 @@ public class arithmetic_generator : MonoBehaviour
     public TextMeshProUGUI numberText;
     public Image arithmetic_background;
     public arithmeticVerification arithmeticVerifier;
+    public GameTimer gameTimer;
     
     public int[] numbers_array = { 0, 0, 0, 0 };
     public int[] added_num_array = { 0, 0, 0, 0 };
@@ -42,6 +43,9 @@ public class arithmetic_generator : MonoBehaviour
 
     void Start()
     {
+        ROUND_BASED = PlayerPrefs.GetInt("UsingPromptCount", 0) == 1;
+        ROUND_NUM = PlayerPrefs.GetInt("PromptCount", 5);
+
         results_array.Clear();
         StartCoroutine(change_number());
     }
@@ -63,6 +67,11 @@ public class arithmetic_generator : MonoBehaviour
             }
 
             numberText.text = "";
+
+            if (gameTimer != null)
+            {
+                gameTimer.EndGame();
+            }
         }
     }
 
@@ -71,14 +80,15 @@ public class arithmetic_generator : MonoBehaviour
     IEnumerator arithmetic_test()
     {
         int adding_num = UnityEngine.Random.Range(1, 5);
+
         numberText.text = "Add " + adding_num + " to all numbers.";
         yield return new WaitForSeconds(3.0f);
 
-        for(int i = 0; i < numbers_array.Length; i++)
+        for (int i = 0; i < numbers_array.Length; i++)
         {
             numbers_array[i] = UnityEngine.Random.Range(0, 11);
 
-            if(i > 0)
+            if (i > 0)
             {
                 while (numbers_array[i] == numbers_array[i - 1])
                 {
@@ -87,9 +97,9 @@ public class arithmetic_generator : MonoBehaviour
             }
         }
 
-        for(int i = 0; i < added_num_array.Length; i++)
+        for (int i = 0; i < added_num_array.Length; i++)
         {
-            added_num_array[i] = (numbers_array[i] + adding_num);
+            added_num_array[i] = numbers_array[i] + adding_num;
         }
 
         for (int i = 0; i < numbers_array.Length; i++)
@@ -98,23 +108,40 @@ public class arithmetic_generator : MonoBehaviour
             yield return new WaitForSeconds(TIME_INTERVAL);
         }
 
-        for (int i = 0; i < correctAnswers.Length; i++) 
+        for (int i = 0; i < correctAnswers.Length; i++)
         {
             correctAnswers[i] = validWords[added_num_array[i]];
         }
 
-        Array.Fill(answerResults, false); 
+        Array.Fill(answerResults, false);
+
         for (int i = 0; i < correctAnswers.Length; i++)
         {
             correctNumber = correctAnswers[i];
             numberText.text = "What is the answer to number " + (i + 1) + "?";
-            ARITHMETIC_START_TIME = Time.realtimeSinceStartup; 
-            yield return new WaitForSeconds(VOICE_INTERVAL); 
+            ARITHMETIC_START_TIME = Time.realtimeSinceStartup;
+
+            if (arithmeticVerifier != null)
+            {
+                arithmeticVerifier.ResetAnswer();
+            }
+
+            // Prompt-based mode waits for a voice answer.
+            // Minute-based mode keeps the original timed behavior.
+            if (ROUND_BASED)
+            {
+                yield return new WaitUntil(() => arithmeticVerifier != null && arithmeticVerifier.HasAnswered);
+            }
+            else
+            {
+                yield return new WaitForSeconds(VOICE_INTERVAL);
+            }
+
             answerResults[i] = arithmeticVerifier.CompareWords();
 
-            if(SHOW_COLOR_RESPONSE == true)
+            if (SHOW_COLOR_RESPONSE == true)
             {
-                if(answerResults[i] == true)
+                if (answerResults[i] == true)
                 {
                     arithmetic_background.color = new Color(0.01f, 1f, 0.01f, 1f);
                 }
@@ -125,6 +152,7 @@ public class arithmetic_generator : MonoBehaviour
 
                 yield return new WaitForSeconds(1.0f);
             }
+
             arithmetic_background.color = Color.white;
 
             results newResult = new results();
@@ -139,12 +167,17 @@ public class arithmetic_generator : MonoBehaviour
             results_array.Add(newResult);
         }
 
-        numberText.text = "Correct Numbers: " + added_num_array[0] + ", " + added_num_array[1] + ", " + added_num_array[2] + ", " + added_num_array[3];
+        numberText.text = "Correct Numbers: " +
+            added_num_array[0] + ", " +
+            added_num_array[1] + ", " +
+            added_num_array[2] + ", " +
+            added_num_array[3];
 
         yield return new WaitForSeconds(TIME_INTERVAL);
 
         Array.Clear(added_num_array, 0, added_num_array.Length);
-        Array.Clear(numbers_array, 0, added_num_array.Length);
+        Array.Clear(numbers_array, 0, numbers_array.Length);
+
         adding_num = 0;
         num_index++;
     }

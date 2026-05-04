@@ -25,9 +25,23 @@ public class GameTimer : MonoBehaviour
 
     void Start()
     {
+        bool usingPromptCount = PlayerPrefs.GetInt("UsingPromptCount", 0) == 1;
+
+        if (usingPromptCount)
+        {
+            if (timerText != null)
+            {
+                timerText.gameObject.SetActive(false);
+            }
+
+            timerRunning = false;
+            timerFinished = false;
+            return;
+        }
+
         int gameDurationMinutes = PlayerPrefs.GetInt("GameDuration", 1);
         timeRemaining = gameDurationMinutes * 60f;
-        
+
         UpdateTimerDisplay();
 
         if (startTimerAuto)
@@ -92,16 +106,29 @@ public class GameTimer : MonoBehaviour
         timerText.text = string.Format("{0:00}:{1:00}", minutes, seconds);
     }
 
-    void EndGame()
+    public void EndGame()
     {
         Time.timeScale = 0f;
 
         HidePrefab();
 
-        string summary = "Times Up!\n\n" + 
-            "Duration: " + PlayerPrefs.GetInt("GameDuration", 0) + " min\n" +
-            "Mode: " + PlayerPrefs.GetString("GameModifier", "Unknown");
-        
+        bool usingPromptCount = PlayerPrefs.GetInt("UsingPromptCount", 0) == 1;
+
+        string summary;
+
+        if (usingPromptCount)
+        {
+            summary = "Prompts Complete!\n\n" +
+                "Prompts: " + PlayerPrefs.GetInt("PromptCount", 0) + "\n" +
+                "Mode: " + PlayerPrefs.GetString("GameModifier", "Unknown");
+        }
+        else
+        {
+            summary = "Times Up!\n\n" +
+                "Duration: " + PlayerPrefs.GetInt("GameDuration", 0) + " min\n" +
+                "Mode: " + PlayerPrefs.GetString("GameModifier", "Unknown");
+        }
+
         if (resultsCanvas != null)
         {
             resultsCanvas.ShowResults(summary);

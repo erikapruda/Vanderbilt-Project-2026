@@ -18,6 +18,7 @@ public class n_back_generator : MonoBehaviour
     public Image backgroundImage;               
     public nBackVerification nBackVerifier;   
     public static float N_BACK_START_TIME = 0f;
+    public GameTimer gameTimer;
 
     public struct results
     {
@@ -39,6 +40,9 @@ public class n_back_generator : MonoBehaviour
 
     void Start()
     {   
+        ROUND_BASED = PlayerPrefs.GetInt("UsingPromptCount", 0) == 1;
+        ROUND_NUM = PlayerPrefs.GetInt("PromptCount", 5);
+
         results_array.Clear();
         backgroundImage.color = Color.white;
         StartCoroutine(Change_n_back());
@@ -61,12 +65,22 @@ public class n_back_generator : MonoBehaviour
             }
 
             number_text.text = "";
+
+            if (gameTimer != null)
+            {
+                gameTimer.EndGame();
+            }
         }
     }
 
     IEnumerator n_back_test()
     {
         backgroundImage.color = Color.white;
+
+        if (nBackVerifier != null)
+        {
+            nBackVerifier.ResetAnswer();
+        }
 
         char nextLetter;
         int letterIndex;
@@ -80,44 +94,66 @@ public class n_back_generator : MonoBehaviour
             letterIndex = Random.Range(0, 26);
             nextLetter = all_letters[letterIndex];
         }
-        
-        N_BACK_START_TIME = Time.realtimeSinceStartup; 
-        
+
         number_text.text = nextLetter.ToString();
-        
         letters_list.Add(nextLetter);
         
-        yield return new WaitForSeconds(TIME_INTERVAL);
+        yield return StartCoroutine(NewPromptFlash());
 
-        if(letters_list.Count > AMOUNT_BACK)
+        // No valid n-back answer exists until enough letters have been shown.
+        if (letters_list.Count <= AMOUNT_BACK)
         {
-            correct_letter = letters_list[(letters_list.Count - 1) - AMOUNT_BACK]; 
-            bool correctness = nBackVerifier.CompareWords();
-            
-            if(SHOW_COLOR_RESPONSE == true)
-            {
-                if (correctness == true)
-                {
-                    backgroundImage.color = new Color(0.01f, 1f, 0.01f, 1f);
-                }
-                else
-                {
-                    backgroundImage.color = new Color(1f, 0.01f, 0.01f, 1f);
-                }
+            yield return new WaitForSeconds(TIME_INTERVAL);
+            backgroundImage.color = Color.white;
+            yield break;
+        }
 
-                yield return new WaitForSeconds(1.0f);
-                backgroundImage.color = Color.white;
+        correct_letter = letters_list[(letters_list.Count - 1) - AMOUNT_BACK];
+        N_BACK_START_TIME = Time.realtimeSinceStartup;
+
+        // Prompt-based mode waits for voice answer.
+        // Minute-based mode keeps original timed behavior.
+        if (ROUND_BASED)
+        {
+            yield return new WaitUntil(() => nBackVerifier != null && nBackVerifier.HasAnswered);
+        }
+        else
+        {
+            yield return new WaitForSeconds(TIME_INTERVAL);
+        }
+
+        bool correctness = nBackVerifier.CompareWords();
+
+        if (SHOW_COLOR_RESPONSE == true)
+        {
+            if (correctness == true)
+            {
+                backgroundImage.color = new Color(0.01f, 1f, 0.01f, 1f);
+            }
+            else
+            {
+                backgroundImage.color = new Color(1f, 0.01f, 0.01f, 1f);
             }
 
-            results newResult = new results();
-            newResult.reaction_time = nBackVerifier.reactionTime; 
-            newResult.correctness = correctness;
-            newResult.current_letter = nextLetter;
-            newResult.letter_n_back = correct_letter;
-
-            results_array.Add(newResult);
+            yield return new WaitForSeconds(1.0f);
+            backgroundImage.color = Color.white;
         }
-        
+
+        results newResult = new results();
+        newResult.reaction_time = nBackVerifier.reactionTime;
+        newResult.correctness = correctness;
+        newResult.current_letter = nextLetter;
+        newResult.letter_n_back = correct_letter;
+
+        results_array.Add(newResult);
+
+        backgroundImage.color = Color.white;
+    }
+
+    IEnumerator NewPromptFlash()
+    {
+        backgroundImage.color = new Color(1f, 1f, 0.75f, 1f);
+        yield return new WaitForSeconds(0.15f);
         backgroundImage.color = Color.white;
     }
 }

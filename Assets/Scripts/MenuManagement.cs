@@ -2,7 +2,6 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using TMPro;
-using System.Runtime.CompilerServices;
 
 public class MenuManagement : MonoBehaviour
 {
@@ -24,6 +23,15 @@ public class MenuManagement : MonoBehaviour
 
     private Button currentDurationButton = null;
     private Button currentModifierButton = null;
+
+    [Header("Prompt Count Buttons")]
+    public GameObject minuteButtonGroup;
+    public GameObject promptButtonGroup;
+    public Button[] promptButtons;
+
+    private int selectedPromptCount = 0;
+    private Button currentPromptButton = null;
+    private bool usingPromptCount = false;
 
     [Header("Test Options")]
     public Button colorToggle;
@@ -63,6 +71,14 @@ public class MenuManagement : MonoBehaviour
         modifierButtons[1].onClick.AddListener(() => SelectModifier("N-back", modifierButtons[1]));
         modifierButtons[2].onClick.AddListener(() => SelectModifier("Emotion", modifierButtons[2]));
         modifierButtons[3].onClick.AddListener(() => SelectModifier("Arithmetic", modifierButtons[3]));
+
+        promptButtons[0].onClick.AddListener(() => SelectPromptCount(10, promptButtons[0]));
+        promptButtons[1].onClick.AddListener(() => SelectPromptCount(15, promptButtons[1]));
+        promptButtons[2].onClick.AddListener(() => SelectPromptCount(20, promptButtons[2]));
+        promptButtons[3].onClick.AddListener(() => SelectPromptCount(25, promptButtons[3]));
+
+        promptButtonGroup.SetActive(false);
+        minuteButtonGroup.SetActive(true);
 
         easyButton.onClick.AddListener(() => SetDifficulty(1, easyButton, mediumButton, hardButton));
         mediumButton.onClick.AddListener(() => SetDifficulty(2, mediumButton, easyButton, hardButton));
@@ -117,6 +133,10 @@ public class MenuManagement : MonoBehaviour
     
     void Start()
     {
+        if (MusicManager.Instance != null)
+        {
+            MusicManager.Instance.PlayMenuMusic();
+        }
         SetDropdownToCurrentMode();
 
         if (displayModeDropdown != null)
@@ -179,6 +199,21 @@ public class MenuManagement : MonoBehaviour
         UpdateStartButtonState();
     }
 
+    void SelectPromptCount(int promptCount, Button clickedButton)
+    {
+    selectedPromptCount = promptCount;
+
+    if (currentPromptButton != null && currentPromptButton != clickedButton)
+    {
+        SetButtonVisual(currentPromptButton, false);
+    }
+
+    currentPromptButton = clickedButton;
+    SetButtonVisual(currentPromptButton, true);
+
+    UpdateStartButtonState();
+    }
+
     void SelectColorToggle()
     {
         generator.SHOW_COLOR_RESPONSE = !generator.SHOW_COLOR_RESPONSE;
@@ -189,10 +224,29 @@ public class MenuManagement : MonoBehaviour
 
     void SelectTimeTypeToggle()
     {
-        generator.ROUND_BASED = !generator.ROUND_BASED; 
-        generator_emotion.ROUND_BASED = !generator_emotion.ROUND_BASED;
-        arithmetic_generator.ROUND_BASED = !arithmetic_generator.ROUND_BASED;
-        n_back_generator.ROUND_BASED = !n_back_generator.ROUND_BASED;
+    usingPromptCount = !usingPromptCount;
+
+    generator.ROUND_BASED = usingPromptCount;
+    generator_emotion.ROUND_BASED = usingPromptCount;
+    arithmetic_generator.ROUND_BASED = usingPromptCount;
+    n_back_generator.ROUND_BASED = usingPromptCount;
+
+    minuteButtonGroup.SetActive(!usingPromptCount);
+    promptButtonGroup.SetActive(usingPromptCount);
+
+    selectedDuration = 0;
+    selectedPromptCount = 0;
+
+    if (currentDurationButton != null)
+        SetButtonVisual(currentDurationButton, false);
+
+    if (currentPromptButton != null)
+        SetButtonVisual(currentPromptButton, false);
+
+    currentDurationButton = null;
+    currentPromptButton = null;
+
+    UpdateStartButtonState();
     }
 
     void SelectDebtToggle()
@@ -235,7 +289,8 @@ public class MenuManagement : MonoBehaviour
 
     void UpdateStartButtonState()
     {
-        bool hasModeSelection = selectedDuration > 0 && !string.IsNullOrEmpty(selectedModifier);
+        bool hasTimeSelection = usingPromptCount ? selectedPromptCount > 0 : selectedDuration > 0;
+        bool hasModeSelection = hasTimeSelection && !string.IsNullOrEmpty(selectedModifier);
         bool hasSeedEntry = seedInput != null && !string.IsNullOrEmpty(seedInput.text);
 
         startButton.interactable = hasModeSelection || hasSeedEntry;
@@ -260,7 +315,37 @@ public class MenuManagement : MonoBehaviour
         int savedDuration = PlayerPrefs.GetInt($"Seed_{seedValue}_Duration", 0);
         string savedModifier = PlayerPrefs.GetString($"Seed_{seedValue}_Modifier", "");
 
-        if (savedDuration > 0)
+        int savedUsingPrompt = PlayerPrefs.GetInt($"Seed_{seedValue}_UsingPrompt", 0);
+        int savedPromptCount = PlayerPrefs.GetInt($"Seed_{seedValue}_PromptCount", 0);
+
+        usingPromptCount = (savedUsingPrompt == 1);
+
+        generator.ROUND_BASED = usingPromptCount;
+        generator_emotion.ROUND_BASED = usingPromptCount;
+        arithmetic_generator.ROUND_BASED = usingPromptCount;
+        n_back_generator.ROUND_BASED = usingPromptCount;
+
+        minuteButtonGroup.SetActive(!usingPromptCount);
+        promptButtonGroup.SetActive(usingPromptCount);
+
+        if (currentDurationButton != null)
+            SetButtonVisual(currentDurationButton, false);
+
+        if (currentPromptButton != null)
+            SetButtonVisual(currentPromptButton, false);
+
+        currentDurationButton = null;
+        currentPromptButton = null;
+
+        selectedDuration = 0;
+        selectedPromptCount = 0;
+
+        if (usingPromptCount)
+        {
+            selectedPromptCount = savedPromptCount;
+            RestorePromptButton(savedPromptCount);
+        }
+        else
         {
             selectedDuration = savedDuration;
             RestoreDurationButton(savedDuration);
@@ -296,6 +381,30 @@ public class MenuManagement : MonoBehaviour
         {
             currentDurationButton = targetButton;
             SetButtonVisual(currentDurationButton, true);
+        }
+    }
+
+    void RestorePromptButton(int promptCount)
+    {
+        if (currentPromptButton != null)
+        {
+            SetButtonVisual(currentPromptButton, false);
+        }
+
+        Button targetButton = null;
+
+        switch (promptCount)
+        {
+            case 10: targetButton = promptButtons[0]; break;
+            case 15: targetButton = promptButtons[1]; break;
+            case 20: targetButton = promptButtons[2]; break;
+            case 25: targetButton = promptButtons[3]; break;
+        }
+
+        if (targetButton != null)
+        {
+            currentPromptButton = targetButton;
+            SetButtonVisual(currentPromptButton, true);
         }
     }
 
@@ -337,6 +446,17 @@ public class MenuManagement : MonoBehaviour
             finalSeed = StringToSeed(seedText);
         }
 
+        PlayerPrefs.SetInt("UsingPromptCount", usingPromptCount ? 1 : 0);
+        PlayerPrefs.SetInt("PromptCount", selectedPromptCount);
+
+        if (usingPromptCount)
+        {
+            generator.ROUND_NUM = selectedPromptCount;
+            generator_emotion.ROUND_NUM = selectedPromptCount;
+            arithmetic_generator.ROUND_NUM = selectedPromptCount;
+            n_back_generator.ROUND_NUM = selectedPromptCount;
+        }
+
         PlayerPrefs.SetInt("UseSeed", 1);
         PlayerPrefs.SetInt("RequestedSeed", finalSeed);
 
@@ -346,9 +466,17 @@ public class MenuManagement : MonoBehaviour
         PlayerPrefs.SetInt($"Seed_{finalSeed}_Duration", selectedDuration);
         PlayerPrefs.SetString($"Seed_{finalSeed}_Modifier", selectedModifier);
 
+        PlayerPrefs.SetInt($"Seed_{finalSeed}_UsingPrompt", usingPromptCount ? 1 : 0);
+        PlayerPrefs.SetInt($"Seed_{finalSeed}_PromptCount", selectedPromptCount);
+
         PlayerPrefs.Save();
 
         Random.InitState(PlayerPrefs.GetInt("RequestedSeed", 1));
+
+        if (MusicManager.Instance != null)
+        {
+            MusicManager.Instance.PlayGameplayMusic();
+        }
 
         SceneManager.LoadScene(1);
     }

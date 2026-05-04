@@ -15,6 +15,7 @@ public class nBackVerification : MonoBehaviour
     public float reactionTime = 0f;
     private System.DateTime refDateTime;
     private float refUnityTime;
+    public bool HasAnswered { get; private set; } = false;
 
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -37,9 +38,16 @@ public class nBackVerification : MonoBehaviour
 
     private void OnPhraseRecognized(PhraseRecognizedEventArgs args)
     {
-        lastSpokenWord = args.text.ToUpper(); // Each time a letter is spoken, lastSpokenWord stores that value in uppercase.
-        lastSpokenChar = lastSpokenWord[0]; // Convert the recognized word to a char for comparison.
-        reactionTime = (refUnityTime + (float)(args.phraseStartTime - refDateTime).TotalSeconds) - n_back_generator.N_BACK_START_TIME; // Convert to float to use with Unity's time system.
+        lastSpokenWord = args.text.ToUpper();
+        lastSpokenChar = lastSpokenWord[0];
+
+        reactionTime =
+            (refUnityTime + (float)(args.phraseStartTime - refDateTime).TotalSeconds)
+            - n_back_generator.N_BACK_START_TIME;
+
+        HasAnswered = true;
+
+        Debug.Log("Heard: " + lastSpokenWord);
         Debug.Log("Reaction Time: " + reactionTime);
     }
 
@@ -64,5 +72,13 @@ public class nBackVerification : MonoBehaviour
             Debug.Log("Reaction Time: " + reactionTime);
             return false;
         }
+    }
+
+    public void ResetAnswer()
+    {
+        HasAnswered = false;
+        lastSpokenWord = null;
+        lastSpokenChar = '\0';
+        reactionTime = 0f;
     }
 }
